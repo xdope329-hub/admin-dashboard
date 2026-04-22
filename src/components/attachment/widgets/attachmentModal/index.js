@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RiUploadCloud2Line } from "react-icons/ri";
 import { Row, TabContent, TabPane } from "reactstrap";
@@ -31,6 +31,20 @@ const AttachmentModal = (props) => {
     const [sorting, setSorting] = useState("");
     const router = useRouter()
     const [state, dispatch] = useReducer(selectImageReducer, { selectedImage: [], isModalOpen: "", setBrowserImage: '' });
+    const dropZoneRef = useRef(null);
+    const formikSetFieldRef = useRef(null);
+
+    const handleZoneDragOver = (e) => { e.preventDefault(); e.stopPropagation(); dropZoneRef.current?.classList.add('drag-over'); };
+    const handleZoneDragLeave = (e) => { e.preventDefault(); e.stopPropagation(); dropZoneRef.current?.classList.remove('drag-over'); };
+    const handleZoneDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZoneRef.current?.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files?.length && formikSetFieldRef.current) {
+            formikSetFieldRef.current('attachments', files);
+        }
+    };
     const { data: attachmentsData, refetch } = useCustomQuery([attachment], () => request({ url: attachment, params: {  search, sort: sorting, paginate: paginate, page ,...paramsProps } },router), { enabled: false, refetchOnWindowFocus: false, select: (data) => data?.data });
     const { mutate, isLoading } = useCreate(createAttachment, false, !redirectToTabs && "/attachment", redirectToTabs ? "No" : false, () => {
         refetch();
@@ -60,7 +74,13 @@ const AttachmentModal = (props) => {
                     </div>}
                 </TabPane>}
                 {create && <TabPane className={tabNav == 2 ? "fade active show" : ""} id="select">
-                    {<div className="content-section drop-files-sec">
+                    {<div ref={dropZoneRef} className="content-section drop-files-sec" onDragOver={handleZoneDragOver} onDragLeave={handleZoneDragLeave} onDrop={handleZoneDrop} style={{ position: 'relative' }}>
+                        {isLoading && (
+                            <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.75)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 10, borderRadius: 'inherit' }}>
+                                <div className="spinner-border text-primary" role="status" style={{ width: '2.5rem', height: '2.5rem' }} />
+                                <p className="mt-2 mb-0 fw-semibold">{t("Uploading")}...</p>
+                            </div>
+                        )}
                         <div>
                             <RiUploadCloud2Line />
                             <Formik
@@ -71,16 +91,17 @@ const AttachmentModal = (props) => {
                                     Object.values(values.attachments).forEach((el, i) => {
                                         formData.append(`attachments[${i}]`, el);
                                     });
-                                    !redirectToTabs && setModal(false)
-                                    redirectToTabs && setTabNav(1)
-                                    // Put Add Or Update Logic HereresetForm()
+                                    mutate(formData);
+                                    resetForm();
                                 }}>
-                                {({ values, setFieldValue, errors }) => (
+                                {({ values, setFieldValue, errors }) => {
+                                    formikSetFieldRef.current = setFieldValue;
+                                    return (
                                     <Form className="theme-form theme-form-2 mega-form">
                                         <div>
                                             <div className="dflex-wgap justify-content-center ms-auto save-back-button">
                                                 <h2>{t("Dropfilesherepaste")} <span>{t("or")}</span>
-                                                    <FileUploadBrowser errors={errors} id="attachments" name="attachments" type="file" multiple={true} values={values} setFieldValue={setFieldValue} dispatch={dispatch} accept="*/*" />
+                                                    <FileUploadBrowser errors={errors} id="attachments" name="attachments" type="file" multiple={true} values={values} setFieldValue={setFieldValue} dispatch={dispatch} />
                                                 </h2>
                                             </div>
                                         </div>
@@ -91,7 +112,8 @@ const AttachmentModal = (props) => {
                                             <Btn type="submit" className="ms-auto" title="Insert Media" loading={Number(isLoading)} />
                                         </div>
                                     </Form>
-                                )}
+                                    );
+                                }}
                             </Formik>
                         </div>
                     </div>}

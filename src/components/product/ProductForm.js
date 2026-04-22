@@ -16,7 +16,7 @@ import { ProductInitValues, ProductValidationSchema } from "./widgets/ProductObj
 import ProductSubmitFunction from "./widgets/ProductSubmitFunction";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
 
-const ProductForm = ({ updateId, title, buttonName, saveButton, setSaveButton }) => {
+const ProductForm = ({ updateId, title, buttonName, saveButton, setSaveButton, mutate }) => {
   const router = useRouter();
   const { t } = useTranslation("common");
   const [activeTab, setActiveTab] = useState("1");
@@ -47,9 +47,7 @@ const ProductForm = ({ updateId, title, buttonName, saveButton, setSaveButton })
         if (updateId) {
           values["_method"] = "put";
         }
-        ProductSubmitFunction(null, values, updateId);
-        // setResetKey(true);
-        router.push(`/product`);
+        ProductSubmitFunction(mutate, values, updateId);
         
       }}
     >

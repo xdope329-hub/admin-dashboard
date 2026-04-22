@@ -12,7 +12,7 @@ import SimpleInputField from "../inputFields/SimpleInputField";
 import CreateAttributes from "./widgets/CreateAttributes";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
 
-const AttributeForm = ({ updateId, buttonName }) => {
+const AttributeForm = ({ updateId, buttonName, mutate }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
   const {
@@ -44,8 +44,7 @@ const AttributeForm = ({ updateId, buttonName }) => {
       })}
       onSubmit={(values) => {
         values["status"] = 1;
-        router.push(`/attribute`);
-        // Put Add Or Update Logic Here
+        if (mutate) mutate(values);
       }}
     >
       {({ values }) => (

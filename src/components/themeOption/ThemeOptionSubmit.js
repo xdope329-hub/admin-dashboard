@@ -140,7 +140,7 @@ const ThemeOptionSubmit = (values, mutate) => {
   delete values?.options?.logo?.header_logo;
   delete values?.options?.seo?.og_image;
   values["_method"] = "put";
-  // Put Your Logic Here
+  mutate(values);
 };
 
 export default ThemeOptionSubmit;

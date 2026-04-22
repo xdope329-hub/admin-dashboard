@@ -157,6 +157,6 @@ const FashionOneSubmit = (values, mutate) => {
       products_ids: Array.from(new Set(concatDynamicProductKeys(values))),
     },
   };
-  // Put Add Or Update Logic Here;
+  if (mutate) mutate(updatedValues);
 };
 export default FashionOneSubmit;

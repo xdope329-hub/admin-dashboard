@@ -15,7 +15,7 @@ import SimpleInputField from "../inputFields/SimpleInputField";
 const ProfileSettingTab = () => {
   const { t } = useTranslation("common");
   const { accountData, setAccountContextData } = useContext(AccountContext);
-  const { isLoading } = useCreate(updateProfile, false, "/account", false);
+  const { mutate, isLoading } = useCreate(updateProfile, false, "/account", false);
   return (
     <Formik
       enableReinitialize
@@ -38,7 +38,7 @@ const ProfileSettingTab = () => {
           values["profile_image_id"] = null;
         }
         setAccountContextData({ name: values["name"], image: values["profile_image"] });
-        // Put Add Or Update Logic Here
+        mutate(values);
       }}
     >
       {({ values, setFieldValue, errors }) => (

@@ -12,7 +12,7 @@ const ModalButton = ({ setModal, attachmentsData, dispatch, state, name, setSele
                 Object.values(state.setBrowserImage.attachments).forEach((el, i) => {
                     formData.append(`attachments[${i}]`, el);
                 });
-                // Put Add Or Update Logic Here
+                mutate(formData);
             }
         } else {
             if (multiple) {

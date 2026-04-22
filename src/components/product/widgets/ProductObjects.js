@@ -26,21 +26,10 @@ export function ProductInitValues(oldData, updateId) {
   } else if(oldData?.separator == 'pipe') {
     separator = "|";
   }
-  const attr_combination = () => {
-    let attributes = oldData?.attributes?.map((value) => value?.id);
-    let variants = attributes?.map((attr, i) => {
-      let matchingVariations = oldData?.variations.filter((variation) => {
-        return variation.attribute_values.some((attrVal) => attrVal?.attribute_id == attr);
-      });
-
-      let attributeValues = matchingVariations?.reduce((acc, variation) => {
-        let values = variation.attribute_values.filter((attrVal) => attrVal?.attribute_id == attr).map((attrVal) => attrVal?.id);
-        return values ? [...new Set([...acc, ...values])] : acc;
-      }, []);
-      return oldData?.attributes[i] && attributeValues.length > 0 ? { name: oldData?.attributes[i], values: attributeValues } : false;
-    });
-    return variants?.filter((elem) => elem !== false);
-  };
+  // variation_options derived directly from saved attribute_values
+  const savedVariationOptions = oldData?.variations
+    ?.map((v) => v?.attribute_values)
+    ?.filter((av) => Array.isArray(av) && av.length > 0) || [];
   return {
     // General
     product_type:updateId ? oldData?.product_type || "" : "physical",
@@ -48,7 +37,7 @@ export function ProductInitValues(oldData, updateId) {
     name: updateId ? oldData?.name || "" : "",
     short_description: updateId ? oldData?.short_description || "" : "",
     description: updateId ? oldData?.description || "" : "",
-    tax_id :updateId ? Number(oldData?.tax_id) || "" : "",
+    tax_id: updateId ? oldData?.tax_id?.id || oldData?.tax_id || "" : "",
 
     // Product Images
     product_thumbnail: updateId ? oldData?.product_thumbnail || "" : "",
@@ -74,9 +63,10 @@ export function ProductInitValues(oldData, updateId) {
     external_button_text :updateId ? oldData?.external_button_text || "" : "",
    
     // Variation
-    variations: updateId ? oldData?.variations : [],
-    combination: updateId ? attr_combination() : [{}],
-    attributes_ids: updateId ? oldData?.attributes?.map((elem) => elem.id) : [],
+    variations: updateId ? oldData?.variations || [] : [],
+    variation_options: updateId ? savedVariationOptions : [],
+    combination: updateId ? [] : [{}],
+    attributes_ids: [],
     external_button_text: updateId ? oldData?.external_button_text : '',
     external_url: updateId ? oldData?.external_url ?oldData?.external_url :"" : "",
     variation_image_id: "",

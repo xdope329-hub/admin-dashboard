@@ -5,7 +5,7 @@ import { Container } from "reactstrap";
 import ConvertPermissionArr from "../utils/customFunctions/ConvertPermissionArr";
 import { replacePath } from "../utils/customFunctions/ReplacePath";
 import Footer from "./footer";
-import Header from "./ header";
+import Header from "./header";
 import Sidebar from "./sidebar";
 
 const Layout = (props) => {

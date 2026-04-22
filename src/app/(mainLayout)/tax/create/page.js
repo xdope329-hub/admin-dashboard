@@ -1,15 +1,14 @@
 "use client";
 import FormWrapper from "@/utils/hoc/FormWrapper";
-import dynamic from "next/dynamic";
+import TaxForm from "@/components/tax/TaxForm";
+import useCreate from "@/utils/hooks/useCreate";
+import { tax } from "@/utils/axiosUtils/API";
 
 const TaxCreate = () => {
-    const TaxForm = dynamic(() => import("@/components/tax/TaxForm").then((mod) => mod.default), {
-      // loading: () => <Loader />,
-      ssr: false,
-    });
+  const { mutate, isLoading } = useCreate(tax, false, "/tax");
   return (
     <FormWrapper title="AddTax">
-      <TaxForm buttonName="Save" />
+      <TaxForm buttonName="Save" mutate={mutate} />
     </FormWrapper>
   );
 };

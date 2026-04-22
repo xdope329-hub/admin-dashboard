@@ -137,6 +137,6 @@ const GameHomePageSubmit = (values, mutate) => {
     },
   };
 
-  // Put Add Or Update Logic Here;
+  if (mutate) mutate(updatedValues);
 };
 export default GameHomePageSubmit;

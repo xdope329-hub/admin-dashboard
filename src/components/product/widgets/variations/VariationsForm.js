@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { RiArrowDownSLine } from "react-icons/ri";
+import { RiArrowDownSLine, RiFileCopyLine } from "react-icons/ri";
 import allPossibleCases from "../../../../utils/customFunctions/AllPossibleCases";
 import CheckBoxField from "../../../inputFields/CheckBoxField";
 import FileUploadField from "../../../inputFields/FileUploadField";
 import SearchableSelectInput from "../../../inputFields/SearchableSelectInput";
 import SimpleInputField from "../../../inputFields/SimpleInputField";
+
+const SHAREABLE_FIELDS = [
+  { key: "price",        label: "Price" },
+  { key: "discount",     label: "Discount" },
+  { key: "quantity",     label: "Quantity" },
+  { key: "sku",          label: "SKU" },
+  { key: "stock_status", label: "Stock Status" },
+];
 
 const VariationsForm = ({ values, setFieldValue, newId, index, elem, errors, updateId }) => {
   useEffect(() => {
@@ -16,6 +24,9 @@ const VariationsForm = ({ values, setFieldValue, newId, index, elem, errors, upd
 
   const { t } = useTranslation("common");
   const [active, setActive] = useState(false);
+  const [applyOpen, setApplyOpen] = useState(false);
+  const [selectedFields, setSelectedFields] = useState({});
+
   useEffect(() => {
     setFieldValue(
       `variations[${index}][attribute_values]`,
@@ -23,14 +34,13 @@ const VariationsForm = ({ values, setFieldValue, newId, index, elem, errors, upd
         values["combination"]?.map((item) =>
           item?.values?.map((elem) => ({
             name: item.name?.name,
-            value: item.name.attribute_values?.find((attr) => {
-              attr.id == elem;
-            })?.value,
+            value: item.name.attribute_values?.find((attr) => attr.id == elem)?.value,
           }))
         )
       )
     );
   }, [values["variation_options"]]);
+
   useEffect(() => {
     let priceValue, discountValue, salePriceValue;
     priceValue = values[`variations`][index]?.price || 0.0;
@@ -38,13 +48,33 @@ const VariationsForm = ({ values, setFieldValue, newId, index, elem, errors, upd
     salePriceValue = priceValue - (priceValue * discountValue) / 100;
     setFieldValue(`variations[${index}][sale_price]`, salePriceValue);
   }, [values[`variations`][index]?.price, values[`variations`][index]?.discount]);
+
+  const toggleField = (key) => {
+    setSelectedFields((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const applyToAll = () => {
+    const source = values["variations"][index];
+    const updated = values["variations"].map((v, i) => {
+      if (i === index) return v;
+      const patch = {};
+      SHAREABLE_FIELDS.forEach(({ key }) => {
+        if (selectedFields[key]) patch[key] = source[key];
+      });
+      return { ...v, ...patch };
+    });
+    setFieldValue("variations", updated);
+    setApplyOpen(false);
+    setSelectedFields({});
+  };
+
   return (
     <div className="shipping-accordion-custom" key={index}>
-      <div className="p-3 rule-dropdown d-flex justify-content-between" onClick={() => setActive((prev) => prev !== elem.id && elem.id)}>
+      <div className="p-3 rule-dropdown d-flex justify-content-between" onClick={() => setActive((prev) => prev !== index ? index : null)}>
         {newId}
         <RiArrowDownSLine />
       </div>
-      {active === elem.id && (
+      {active === index && (
         <div className="rule-edit-form">
           <SimpleInputField
             nameList={[
@@ -74,7 +104,7 @@ const VariationsForm = ({ values, setFieldValue, newId, index, elem, errors, upd
             ]}
           />
 
-          <FileUploadField name={`variations[${index}][variation_image_id]`} id={`variations[${index}][variation_image_id]`} uniquename={values[`variations`][index]["variation_image"]} type="file" values={values} setFieldValue={setFieldValue} title="image" />
+          <FileUploadField multiple={true} name={`variations[${index}][variation_images_id]`} id={`variations[${index}][variation_images_id]`} uniquename={values[`variations`][index]["variation_images"]?.length ? values[`variations`][index]["variation_images"] : undefined} type="file" values={values} setFieldValue={setFieldValue} title="Images" />
 
           {values.product_type == "digital" ? (
             <>
@@ -90,7 +120,6 @@ const VariationsForm = ({ values, setFieldValue, newId, index, elem, errors, upd
                           {
                             name: `variations[${index}][separator]`,
                             title: "Separator",
-                            // require: 'true',
                             inputprops: {
                               name: `variations[${index}][separator]`,
                               id: "separator",
@@ -110,7 +139,57 @@ const VariationsForm = ({ values, setFieldValue, newId, index, elem, errors, upd
               ) : null}
             </>
           ) : null}
+
           <CheckBoxField name={`variations[${index}][status]`} title="status" require="true" />
+
+          {/* Apply to all panel — only shown when there are multiple variations */}
+          {values["variations"]?.length > 1 && (
+            <div className="mt-3 pt-3" style={{ borderTop: '1px dashed #dee2e6' }}>
+              <button
+                type="button"
+                className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
+                onClick={() => setApplyOpen((p) => !p)}
+              >
+                <RiFileCopyLine /> {t("ApplyToAll") || "Apply to all variations"}
+              </button>
+
+              {applyOpen && (
+                <div className="mt-2 p-3 rounded" style={{ background: '#f8f9fa', border: '1px solid #dee2e6' }}>
+                  <p className="mb-2 fw-semibold" style={{ fontSize: '0.85rem' }}>
+                    {t("SelectFieldsToCopy") || "Select fields to copy from this variation:"}
+                  </p>
+                  <div className="d-flex flex-wrap gap-3 mb-3">
+                    {SHAREABLE_FIELDS.map(({ key, label }) => (
+                      <label key={key} className="d-flex align-items-center gap-1" style={{ cursor: 'pointer', fontSize: '0.85rem' }}>
+                        <input
+                          type="checkbox"
+                          checked={!!selectedFields[key]}
+                          onChange={() => toggleField(key)}
+                        />
+                        {t(label) || label}
+                        <span className="text-muted ms-1">
+                          ({values["variations"][index]?.[key] ?? "—"})
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                  <div className="d-flex gap-2">
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-primary"
+                      disabled={!Object.values(selectedFields).some(Boolean)}
+                      onClick={applyToAll}
+                    >
+                      {t("Apply") || "Apply"}
+                    </button>
+                    <button type="button" className="btn btn-sm btn-light" onClick={() => setApplyOpen(false)}>
+                      {t("Cancel") || "Cancel"}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>

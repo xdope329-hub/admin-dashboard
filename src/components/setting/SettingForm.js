@@ -82,7 +82,7 @@ const SettingForm = ({ mutate, loading, title }) => {
         values["values"]["general"]["dark_logo_image_id"] = values["dark_logo_image_id"] ? values["dark_logo_image_id"] : "";
         values["values"]["general"]["tiny_logo_image_id"] = values["tiny_logo_image_id"] ? values["tiny_logo_image_id"] : "";
         values["values"]["maintenance"]["maintenance_image_id"] = values["maintenance_image_id"] ? values["maintenance_image_id"] : "";
-        // Put Your Logic Here  
+        if (mutate) mutate(values);
       }}
     >
       {({ values, errors, touched, setFieldValue }) => (

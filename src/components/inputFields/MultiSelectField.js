@@ -10,7 +10,7 @@ const MultiSelectField = ({ setFieldValue, values, name, getValuesKey = "id", da
 
   const SelectedItemFunction = (data) => {
     for (let i = 0; i < data?.length; i++) {
-      if (data[i][getValuesKey] == values[name] || (Array.isArray(values[name]) && values[name].includes(data[i][getValuesKey])) || (Array.isArray(values[name]) && values[name].some(value => value?.id == data[i][getValuesKey]))) {
+      if (data[i][getValuesKey] == values[name] || (Array.isArray(values[name]) && values[name].includes(data[i][getValuesKey])) || (Array.isArray(values[name]) && data[i][getValuesKey] != null && values[name].some(value => value?.id != null && value?.id == data[i][getValuesKey]))) {
         setSelectedItems((p) => (p ? [...p, data[i]] : [data[i]]));
       }
       if (data[i].subcategories?.length > 0) {

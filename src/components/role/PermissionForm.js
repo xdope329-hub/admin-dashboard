@@ -4,23 +4,23 @@ import request from "@/utils/axiosUtils";
 import { YupObject, nameSchema, permissionsSchema } from "@/utils/validation/ValidationSchemas";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import SimpleInputField from "../inputFields/SimpleInputField";
 import PermissionsCheckBoxForm from "./widgets/PermissionsCheckBoxForm";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
 
-const PermissionForm = ({ updateId, buttonName }) => {
+const PermissionForm = ({ updateId, buttonName, mutate }) => {
   const router = useRouter();
   const { t } = useTranslation("common");
-  const getPermissionsIdsArray = (data) => {
-    const { permissions, name, errors } = data;
-    return permissions ? { name, permissions: permissions?.map((permissionsData) => permissionsData.id) } : console.log(errors[0]?.message);
-  };
-  const { data: oldData, isLoading, refetch } = useCustomQuery(["role/id"], () => request({ url: `role/${updateId}` }, router), { refetchOnMount: false, enabled: false, select: (data) => getPermissionsIdsArray(data?.data) });
-  useEffect(() => {
-    updateId && refetch();
-  }, [updateId]);
+  const { data: oldData, isLoading } = useCustomQuery(
+    [updateId ? `role/${updateId}` : null],
+    () => request({ url: `role/${updateId}` }, router),
+    {
+      enabled: !!updateId,
+      refetchOnWindowFocus: false,
+      select: (data) => ({ name: data?.data?.name || "", permissions: data?.data?.permissions || [] }),
+    }
+  );
 
   if (updateId && isLoading) return <Loader />;
 
@@ -36,9 +36,9 @@ const PermissionForm = ({ updateId, buttonName }) => {
           name: nameSchema,
           permissions: permissionsSchema,
         })}
-        onSubmit={(
-          values // Put Add Or Update Logic Here
-        ) => router.push(`/role`)}
+        onSubmit={(values) => {
+          if (mutate) mutate(values);
+        }}
       >
         {({ values, setFieldValue, errors, touched }) => (
           <Form>

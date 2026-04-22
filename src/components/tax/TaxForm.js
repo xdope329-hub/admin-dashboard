@@ -11,7 +11,7 @@ import CheckBoxField from "../inputFields/CheckBoxField";
 import SimpleInputField from "../inputFields/SimpleInputField";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
 
-const TaxForm = ({ updateId, buttonName }) => {
+const TaxForm = ({ updateId, buttonName, mutate }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
   const { data: oldData, isLoading, refetch } = useCustomQuery([updateId], () => request({ url: tax + "/" + updateId }, router), { refetchOnMount: false, enabled: false });
@@ -33,8 +33,7 @@ const TaxForm = ({ updateId, buttonName }) => {
         rate: roleIdSchema,
       })}
       onSubmit={(values) => {
-        router.push("/tax");
-        // Put your logic here
+        if (mutate) mutate(values);
       }}
     >
       {({ values }) => (

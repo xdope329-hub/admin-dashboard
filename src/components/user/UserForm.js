@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Form, Formik } from "formik";
 import { Row } from "reactstrap";
 import FormBtn from "../../elements/buttons/FormBtn";
@@ -15,22 +15,17 @@ const UserForm = ({ mutate, loading, updateId, fixedRole, noRoleField, addAddres
   const {
     data: rolesData,
     isLoading: roleLoading,
-    refetch: RoleRefetch,
   } = useCustomQuery(["/role"], () => request({ url: "/role" }, router), {
-    refetchOnMount: false,
-    enabled: false,
-    select: (data) => data?.data?.data?.filter((elem) => elem.id !== 1 && elem.id !== 3),
+    refetchOnWindowFocus: false,
+    enabled: !fixedRole,
+    select: (data) => data?.data?.data,
   });
 
-  const { data: oldData, isLoading: oldDataLoading, refetch } = useCustomQuery([updateId], () => request({ url: `/user/${updateId}` }, router), { enabled: false, refetchOnWindowFocus: false });
-  useEffect(() => {
-    if (updateId) {
-      refetch();
-    }
-  }, [updateId]);
-  useEffect(() => {
-    !fixedRole && RoleRefetch();
-  }, []);
+  const { data: oldData, isLoading: oldDataLoading } = useCustomQuery(
+    [updateId ? `/user/${updateId}` : null],
+    () => request({ url: `/user/${updateId}` }, router),
+    { enabled: !!updateId, refetchOnWindowFocus: false }
+  );
   if (roleLoading && updateId && oldDataLoading) return <Loader />;
   return (
     <Formik
@@ -41,7 +36,7 @@ const UserForm = ({ mutate, loading, updateId, fixedRole, noRoleField, addAddres
         phone: updateId ? Number(oldData?.data?.phone) || "" : "",
         password: "",
         password_confirmation: "",
-        role_id: updateId ? Number(oldData?.data?.role?.id) || "" : fixedRole ? 2 : "",
+        role_id: updateId ? oldData?.data?.role?.id || "" : fixedRole ? 2 : "",
         status: updateId ? Boolean(Number(oldData?.data?.status)) : true,
         address: [],
         country_code: updateId ? oldData?.data?.country_code || "" : "91",
@@ -55,8 +50,7 @@ const UserForm = ({ mutate, loading, updateId, fixedRole, noRoleField, addAddres
         role_id: noRoleField ? null : nameSchema,
       })}
       onSubmit={(values) => {
-        // Put Add Or Update Logic Here
-        router.push(`/user`);
+        if (mutate) mutate(values);
       }}
     >
       {({ values }) => (

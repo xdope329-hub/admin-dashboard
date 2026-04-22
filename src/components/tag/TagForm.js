@@ -1,5 +1,4 @@
 import { Form, Formik } from "formik";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Row } from "reactstrap";
@@ -11,7 +10,7 @@ import CheckBoxField from "../inputFields/CheckBoxField";
 import SimpleInputField from "../inputFields/SimpleInputField";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
 
-const TagForm = ({  updateId, type, buttonName }) => {
+const TagForm = ({ updateId, type, buttonName, mutate }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
   const { data: oldData, isLoading, refetch } = useCustomQuery(["role/id"], () => request({ url: `tag/${updateId}` }, router), { refetchOnMount: false, enabled: false });
@@ -31,8 +30,7 @@ const TagForm = ({  updateId, type, buttonName }) => {
       }}
       validationSchema={YupObject({ name: nameSchema })}
       onSubmit={(values) => {
-        router.push("/tag");
-        // Put Add Or Update Logic Here
+        if (mutate) mutate(values);
       }}
     >
       {() => (

@@ -28,7 +28,7 @@ const TableWrapper = (WrappedComponent) => {
           },
           router
         ),
-      { refetchOnWindowFocus: false, refetchOnMount: false, cacheTime: 0 }
+      { refetchOnWindowFocus: false, gcTime: 0 }
     );
 
     // To use this function in parent

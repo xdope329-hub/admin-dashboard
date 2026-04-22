@@ -13,9 +13,16 @@ const VariationsTab = ({ values, setFieldValue, errors, updateId }) => {
   const router = useRouter();
   const { data } = useCustomQuery([attribute], () => request({ url: attribute }, router), { refetchOnWindowFocus: false, select: (data) => data.data.data });
   useEffect(() => {
-    setFieldValue("attribute_values", values["options"]?.map((item) => item.values).flat(Infinity));
-    // set our combination in values obj
-    setFieldValue("variation_options", allPossibleCases(values["combination"]?.map((item) => item?.values?.map((elem) => ({ name: item.name?.name, value: item.name.attribute_values?.find((attr) => attr.id == elem)?.value })))))
+    // Only recompute variation_options when combination has actual selections
+    const hasSelections = values["combination"]?.some((item) => item?.name && item?.values?.length > 0);
+    if (!hasSelections) return;
+    setFieldValue("attributes_ids", values["combination"]?.map((el) => el?.name?.id).filter(Boolean));
+    setFieldValue("variation_options", allPossibleCases(values["combination"]?.map((item) =>
+      item?.values?.map((elem) => {
+        const av = item.name.attribute_values?.find((attr) => attr.id == elem);
+        return { name: item.name?.name, value: av?.value, id: av?.id, attribute_id: item.name?.id };
+      })
+    )));
   }, [values["combination"]]);
 
   useEffect(() => {
@@ -70,7 +77,7 @@ const VariationsTab = ({ values, setFieldValue, errors, updateId }) => {
         <VariationTop key={i} index={i} data={data} setFieldValue={setFieldValue} values={values} />
       ))}
       <div className="save-back-button">
-        <Btn className="btn-primary mb-4" title="AddVariation" onClick={() => setFieldValue("combination", [...values["combination"], {}])} />
+        <Btn className="btn-primary mb-4" title="AddVariation" onClick={() => setFieldValue("combination", [...(values["combination"] || []), {}])} />
       </div>
       {values["variation_options"]?.length >= 1 && <h3 className="form-label-title mb-2">Variants</h3>}
       {values["variation_options"]?.map((elem, i) => (

@@ -13,10 +13,9 @@ const PermissionTable = ({ values, errors, touched, setFieldValue }) => {
   const [checked, setChecked] = useState();
   const router = useRouter();
   const { data, isLoading } = useCustomQuery(["module"], () => request({ url: "module" }, router), {
-    refetchOnMount: false,
     staleTime: 5 * 60 * 1000,
     select: (data) => {
-      return data?.data?.map((role) => {
+      return data?.data?.data?.map((role) => {
         return {
           name: role.name,
           module_permissions: role.module_permissions.map((permission) => {

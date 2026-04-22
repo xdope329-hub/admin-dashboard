@@ -1,5 +1,3 @@
-import allPossibleCases from "../../../utils/customFunctions/AllPossibleCases";
-
 const ProductSubmitFunction = (mutate, value, updateId) => {
   if (value["type"] == "classified") {
     delete value["quantity"];
@@ -26,18 +24,16 @@ const ProductSubmitFunction = (mutate, value, updateId) => {
   value["variations"] = value?.variations?.map((elem, ind) => {
     return {
       ...elem,
-      discount: null,
       is_licensable: Number(elem["is_licensable"]),
       is_licensekey_auto: Number(elem["is_licensekey_auto"]),
       status: Number(elem["status"]),
       digital_file_ids: elem?.digital_file_ids ? elem?.digital_file_ids : null,
       separator: elem.separator ? elem.separator : "",
       license_key: elem.license_key ? elem.license_key : "",
-      variation_image_id: elem.variation_image_id ? elem.variation_image_id : null,
-      attribute_values: allPossibleCases(value["combination"]?.map((item) => item?.values?.map((elem) => elem)))[ind],
+      attribute_values: value["variation_options"]?.[ind] || elem.attribute_values || [],
     };
   });
-  // Put Your Logic Here
+  if (mutate) mutate(value);
 };
 
 export default ProductSubmitFunction;

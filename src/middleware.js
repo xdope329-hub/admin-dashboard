@@ -1,5 +1,23 @@
+import { NextResponse } from 'next/server';
+
 export async function middleware(request) {
-  // Put Your Logic Here
+  const { pathname } = request.nextUrl;
+  const token = request.cookies.get('uat')?.value;
+
+  // Auth pages: redirect to dashboard if already logged in
+  if (pathname.startsWith('/auth/')) {
+    if (token) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+    return NextResponse.next();
+  }
+
+  // Protected pages: redirect to login if not authenticated
+  if (!token) {
+    return NextResponse.redirect(new URL('/auth/login', request.url));
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
@@ -42,5 +60,6 @@ export const config = {
     "/theme/denver",
     "/notifications",
     "/qna",
+    "/brand/:path*",
   ],
 };

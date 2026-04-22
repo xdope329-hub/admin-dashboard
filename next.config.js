@@ -3,16 +3,17 @@ const nextConfig = {
   crossOrigin: 'anonymous',
   reactStrictMode: false,
   env: {
-    // Replace below URL with your current Domain 
-    API_PROD_URL: "http://localhost:3000/api/",
-    storageURL: "http://localhost:3000/assets", 
+    // Replace below URL with your current Domain
+    API_PROD_URL: "http://localhost:5000",
+    NEXT_PUBLIC_API_URL: "http://localhost:5000",
+    storageURL: "http://localhost:5000/uploads",
   },
   redirects: async () => {
     return [
       {
         source: "/",
         destination: "/dashboard",
-        permanent: true,  
+        permanent: true,
       },
       {
         source: "/en",
@@ -29,7 +30,19 @@ const nextConfig = {
       },
       {
         protocol: "http",
-        hostname: "127.0.0.1:3000",
+        hostname: "127.0.0.1",
+      },
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
+      },
+      {
+        protocol: "https",
+        hostname: "*.picsum.photos",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
       },
     ],
   }
