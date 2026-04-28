@@ -18,17 +18,17 @@ const ModalButton = ({ setModal, attachmentsData, dispatch, state, name, setSele
             if (multiple) {
                 value && value.map((element) => {
                     state.selectedImage && setSelectedImage([...state.selectedImage]);
-                    state.selectedImage && setFieldValue(name, state.selectedImage.map((elemmm) => elemmm.id));
+                    state.selectedImage && setFieldValue && setFieldValue(name, state.selectedImage.map((elemmm) => elemmm.id));
                 });
             } else {
                 if (state?.selectedImage?.length > 0) {
                     if (showImage) {
-                        setFieldValue(name, value[0]);
+                        setFieldValue && setFieldValue(name, value[0]);
                     } else {
-                        setFieldValue(name, attachmentsData?.find((item) => {
+                        setFieldValue && setFieldValue(name, attachmentsData?.find((item) => {
                             return item.id == value[0]?.id;
                         }).id);
-                        storeImageObject && setFieldValue(storeImageObject, attachmentsData?.find((item) => {
+                        storeImageObject && setFieldValue && setFieldValue(storeImageObject, attachmentsData?.find((item) => {
                             return item.id == value[0]?.id;
                         }));
                         setSelectedImage([attachmentsData?.find((item) => {

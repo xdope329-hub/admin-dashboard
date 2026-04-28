@@ -6,8 +6,16 @@ import Btn from "@/elements/buttons/Btn";
 import { getHelperText } from "@/utils/customFunctions/getHelperText";
 import CheckBoxField from "@/components/inputFields/CheckBoxField";
 import FileUploadField from "@/components/inputFields/FileUploadField";
+import SimpleInputField from "@/components/inputFields/SimpleInputField";
+import SearchableSelectInput from "@/components/inputFields/SearchableSelectInput";
 import CommonRedirect from "../../CommonRedirect";
 import { mediaConfig } from "@/data/MediaConfig";
+
+const textPositionOptions = [
+  { id: "left", name: "Left (default)" },
+  { id: "center", name: "Center" },
+  { id: "right", name: "Right" },
+];
 
 const HomeBannerTab = ({ values, setFieldValue, productData, categoryData, setSearch }) => {
   
@@ -40,6 +48,24 @@ const HomeBannerTab = ({ values, setFieldValue, productData, categoryData, setSe
                 {active == index && (
                   <div className="rule-edit-form">
                     <FileUploadField paramsProps={{ mime_type: mediaConfig.image.join(",") }} name={`homeBannerImage${index}`} title="Image" id={`homeBannerImage${index}`} type="file" values={values} setFieldValue={setFieldValue} showImage={values[`homeBannerImage${index}`]} helpertext={getHelperText("376x231px")} />
+                    <SimpleInputField nameList={[
+                      { name: `[content][home_banner][banners][${index}][subtitle]`, title: "Subtitle", placeholder: "Subtitle" },
+                      { name: `[content][home_banner][banners][${index}][title]`, title: "Title", placeholder: "Title" },
+                      { name: `[content][home_banner][banners][${index}][button_text]`, title: "Button Text", placeholder: "Shop Now" },
+                    ]} />
+                    <SearchableSelectInput nameList={[{
+                      name: `[content][home_banner][banners][${index}][text_position]`,
+                      title: "Text Position",
+                      inputprops: {
+                        name: `[content][home_banner][banners][${index}][text_position]`,
+                        id: `homeBannerTextPosition${index}`,
+                        options: textPositionOptions,
+                        value: textPositionOptions.find(o => o.id === values?.content?.home_banner?.banners?.[index]?.text_position)?.name || "",
+                        close: true,
+                      },
+                      store: "obj",
+                      setvalue: (name, value) => setFieldValue(`[content][home_banner][banners][${index}][text_position]`, value?.id ?? ""),
+                    }]} />
                     <CommonRedirect values={values} setFieldValue={setFieldValue} productData={productData} categoryData={categoryData} nameList={{ selectNameKey: `homeRedirectLinkType${index}`, multipleNameKey: `homeRedirectLink${index}` }} setSearch={setSearch} />
                     <CheckBoxField name={`[content][home_banner][banners][${index}][status]`} title="Status" />
                   </div>
