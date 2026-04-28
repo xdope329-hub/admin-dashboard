@@ -21,7 +21,7 @@ import MenuPath from "./MenuPath";
 import { useRouter } from "next/navigation";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
 
-const MenuForm = ({ updateId, loading }) => {
+const MenuForm = ({ updateId, loading, mutate }) => {
   
   const { t } = useTranslation("common");
   const { menuState } = useContext(MenuContext);
@@ -82,7 +82,7 @@ const MenuForm = ({ updateId, loading }) => {
         if (values["item_image_id"]) {
           delete values["item_image"];
         }
-        // Put your logic here
+        mutate && mutate(values);
       }}
     >
       {({ setFieldValue, values, errors }) => (

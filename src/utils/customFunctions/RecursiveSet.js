@@ -6,7 +6,7 @@ export const RecursiveSet = ({ data, IncludeList }) => {
             } else if (data[key] == 1 && IncludeList?.includes(key)) {
                 data[key] = true
             } else {
-                RecursiveSet({ data: data[key] });
+                RecursiveSet({ data: data[key], IncludeList });
             }
         })
     }

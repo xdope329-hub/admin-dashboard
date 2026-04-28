@@ -26,6 +26,14 @@ export const ThemeOptionInitialValue = (NewSettingsData) => {
   return {
     options: NewSettingsData || {},
 
+    // Logo IDs and objects — preserved so they are never wiped on submit
+    header_logo_id: NewSettingsData?.logo?.header_logo_id || null,
+    header_logo: NewSettingsData?.logo?.header_logo || null,
+    footer_logo_id: NewSettingsData?.logo?.footer_logo_id || null,
+    footer_logo: NewSettingsData?.logo?.footer_logo || null,
+    favicon_icon_id: NewSettingsData?.logo?.favicon_icon_id || null,
+    favicon_icon: NewSettingsData?.logo?.favicon_icon || null,
+
     authImage: NewSettingsData?.popup?.auth?.image_url ? { original_url: NewSettingsData?.popup?.auth?.image_url } : "",
 
     paymentOptionImage: NewSettingsData?.footer?.payment_option_image_url ? { original_url: NewSettingsData?.footer?.payment_option_image_url } : "",
@@ -56,7 +64,7 @@ export const ThemeOptionInitialValue = (NewSettingsData) => {
     // About Us
     content_left_image_url: NewSettingsData?.about_us?.about?.content_left_image_url ? { original_url: NewSettingsData?.about_us?.about?.content_left_image_url } : "",
     content_right_image_url: NewSettingsData?.about_us?.about?.content_right_image_url ? { original_url: NewSettingsData?.about_us?.about?.content_right_image_url } : "",
-    aboutUsBlog: NewSettingsData?.about_us?.blog?.blog_ids.length > 0 ? NewSettingsData?.about_us?.blog?.blog_ids : [],
+    aboutUsBlog: NewSettingsData?.about_us?.blog?.blog_ids?.length > 0 ? NewSettingsData?.about_us?.blog?.blog_ids : [],
     ...obj,
     ...obj1,
     ...obj2,

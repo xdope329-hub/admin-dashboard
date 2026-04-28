@@ -8,7 +8,7 @@ import Loader from "../commonComponent/Loader";
 import SearchCategory from "./widgets/SearchCategory";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
 
-const FrontMenuForm = forwardRef((ref) => {
+const FrontMenuForm = forwardRef((props, ref) => {
   const [search, setSearch] = useState("");
   const [active, setActive] = useState([]);
   const { setMenuState } = useContext(MenuContext);

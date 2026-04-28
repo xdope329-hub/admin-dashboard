@@ -5,7 +5,7 @@ import { ThemeOptions } from "@/utils/axiosUtils/API";
 import useCreate from "@/utils/hooks/useCreate";
 
 const ThemeOption = () => {
-    const { mutate, isLoading } = useCreate(ThemeOptions, false, '/theme_option');
+    const { mutate, isLoading } = useCreate(ThemeOptions, false, false);
     return <ThemeOptionForm mutate={mutate} loading={isLoading} title={"ThemeOption"} />;
 }
 

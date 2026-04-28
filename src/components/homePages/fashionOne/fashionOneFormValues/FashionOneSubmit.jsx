@@ -64,6 +64,16 @@ const FashionOneSubmit = (values, mutate) => {
 
   // =============================================================================================================
 
+  // Ensure nested objects exist before writing to them
+  if (!values["content"]["offer_banner"]) values["content"]["offer_banner"] = {};
+  if (!values["content"]["offer_banner"]["banner_1"]) values["content"]["offer_banner"]["banner_1"] = {};
+  if (!values["content"]["offer_banner"]["banner_1"]["redirect_link"]) values["content"]["offer_banner"]["banner_1"]["redirect_link"] = {};
+  if (!values["content"]["offer_banner"]["banner_2"]) values["content"]["offer_banner"]["banner_2"] = {};
+  if (!values["content"]["offer_banner"]["banner_2"]["redirect_link"]) values["content"]["offer_banner"]["banner_2"]["redirect_link"] = {};
+  if (!values["content"]["banner"]) values["content"]["banner"] = { redirect_link: {} };
+  if (!values["content"]["banner"]["redirect_link"]) values["content"]["banner"]["redirect_link"] = {};
+  if (!values["content"]["featured_blogs"]) values["content"]["featured_blogs"] = {};
+
   // Images
   if (values["offerBanner1Image"]) {
     values["content"]["offer_banner"]["banner_1"]["image_url"] = values["offerBanner1Image"].original_url;

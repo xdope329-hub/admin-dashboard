@@ -15,16 +15,18 @@ import { ThemeOptionInitialValue } from './ThemeOptionInitialValue';
 import ThemeOptionSubmit from './ThemeOptionSubmit';
 import { useTranslation } from "react-i18next";
 import useCustomQuery from '@/utils/hooks/useCustomQuery';
+import { useQueryClient } from '@tanstack/react-query';
 
 const ThemeOptionForm = ({ mutate, loading, title }) => {
-    
+
     const { t } = useTranslation( 'common');
     const [activeTab, setActiveTab] = useState("1");
     const [edit] = usePermissionCheck(["edit"]);
     const router = useRouter();
+    const queryClient = useQueryClient();
     const { data, isLoading, refetch } = useCustomQuery([ThemeOptions], () => request({ url: ThemeOptions },router), { refetchOnWindowFocus: false, enabled: true, select: (res) => { return res?.data } });
     let NewSettingsData = data?.options || {};
-    let IncludeList = ['status', "cookie_enable", "back_to_top_enable", 'footer_copyright', 'payment_enable', 'social_media_enable', "sticky_header_enable", "page_top_bar_enable", "blog_author_enable", "read_more_enable", "back_button_enable", "page_top_bar_dark", "sticky_cart_enable"]
+    let IncludeList = ['status', "cookie_enable", "back_to_top_enable", 'footer_copyright', 'payment_enable', 'social_media_enable', "sticky_header_enable", "page_top_bar_enable", "blog_author_enable", "read_more_enable", "back_button_enable", "page_top_bar_dark", "sticky_cart_enable", "celebration_effect", "exit_tagline_enable", "is_trending_product", "safe_checkout", "secure_checkout", "encourage_order", "encourage_view", "sticky_checkout", "sticky_product", "social_share", "is_enable"]
     RecursiveSet({ data: NewSettingsData, IncludeList })
     if (isLoading) return <Loader />
     return (
@@ -32,7 +34,9 @@ const ThemeOptionForm = ({ mutate, loading, title }) => {
             enableReinitialize
             initialValues={{ ...ThemeOptionInitialValue(NewSettingsData) }}
             onSubmit={(values) => {
-                ThemeOptionSubmit(values, mutate)
+                ThemeOptionSubmit(values, (data) => mutate(data, {
+                    onSuccess: () => queryClient.invalidateQueries({ queryKey: [ThemeOptions] })
+                }))
             }}>
             {({ values, errors, touched, setFieldValue }) => (
                 <Form className="theme-form theme-form-2 mega-form vertical-tabs">

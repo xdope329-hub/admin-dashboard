@@ -4,6 +4,7 @@ import { RiQuestionLine } from "react-icons/ri";
 import { FormGroup, Input, Label } from "reactstrap";
 import ShowModal from "../../elements/alerts&Modals/Modal";
 import Btn from "../../elements/buttons/Btn";
+import request from "../../utils/axiosUtils";
 
 const Status = ({ url, data, disabled, apiKey }) => {
   const { t } = useTranslation("common");
@@ -13,7 +14,10 @@ const Status = ({ url, data, disabled, apiKey }) => {
     setStatus(Boolean(Number(apiKey ? data[apiKey] : data.status)));
   }, [data, disabled]);
 
-  const handleClick = (value) => {
+  const handleClick = async (value) => {
+    try {
+      await request({ url: `${url}/${data.id}`, method: "put", data: { [apiKey || "status"]: Number(value) } });
+    } catch (_) {}
     setStatus(value);
     setModal(false);
   };

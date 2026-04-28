@@ -1,18 +1,50 @@
 const ThemeOptionSubmit = (values, mutate) => {
-  if (values["header_logo_id"]) {
+  // Initialize nested option objects to avoid "Cannot set properties of undefined" errors
+  const o = values["options"];
+  if (!o["logo"]) o["logo"] = {};
+  if (!o["seo"]) o["seo"] = {};
+  if (!o["header"]) o["header"] = {};
+  if (!o["footer"]) o["footer"] = {};
+  if (!o["seller"]) o["seller"] = {};
+  if (!o["seller"]["services"]) o["seller"]["services"] = {};
+  if (!o["seller"]["services"]["service_1"]) o["seller"]["services"]["service_1"] = {};
+  if (!o["seller"]["services"]["service_2"]) o["seller"]["services"]["service_2"] = {};
+  if (!o["seller"]["services"]["service_3"]) o["seller"]["services"]["service_3"] = {};
+  if (!o["seller"]["services"]["service_4"]) o["seller"]["services"]["service_4"] = {};
+  if (!o["seller"]["about"]) o["seller"]["about"] = {};
+  if (!o["popup"]) o["popup"] = {};
+  if (!o["popup"]["news_letter"]) o["popup"]["news_letter"] = {};
+  if (!o["popup"]["exit"]) o["popup"]["exit"] = {};
+  if (!o["popup"]["auth"]) o["popup"]["auth"] = {};
+  if (!o["contact_us"]) o["contact_us"] = {};
+  if (!o["collection"]) o["collection"] = {};
+  if (!o["product"]) o["product"] = {};
+  if (!o["about_us"]) o["about_us"] = {};
+  if (!o["about_us"]["about"]) o["about_us"]["about"] = {};
+  if (!o["about_us"]["team"]) o["about_us"]["team"] = {};
+  if (!o["about_us"]["testimonial"]) o["about_us"]["testimonial"] = {};
+
+  // Header logo: if a new image was selected via modal, update both object and ID;
+  // otherwise keep existing values (never wipe to null)
+  if (values["header_logo"]) {
+    values["options"]["logo"]["header_logo"] = values["header_logo"];
+    values["options"]["logo"]["header_logo_id"] = values["header_logo"].id;
+  } else if (values["header_logo_id"]) {
     values["options"]["logo"]["header_logo_id"] = values["header_logo_id"];
-  } else {
-    values["options"]["logo"]["header_logo_id"] = null;
   }
-  if (values["footer_logo_id"]) {
+  // Footer logo
+  if (values["footer_logo"]) {
+    values["options"]["logo"]["footer_logo"] = values["footer_logo"];
+    values["options"]["logo"]["footer_logo_id"] = values["footer_logo"].id;
+  } else if (values["footer_logo_id"]) {
     values["options"]["logo"]["footer_logo_id"] = values["footer_logo_id"];
-  } else {
-    values["options"]["logo"]["footer_logo_id"] = null;
   }
-  if (values["favicon_icon_id"]) {
+  // Favicon icon
+  if (values["favicon_icon"]) {
+    values["options"]["logo"]["favicon_icon"] = values["favicon_icon"];
+    values["options"]["logo"]["favicon_icon_id"] = values["favicon_icon"].id;
+  } else if (values["favicon_icon_id"]) {
     values["options"]["logo"]["favicon_icon_id"] = values["favicon_icon_id"];
-  } else {
-    values["options"]["logo"]["favicon_icon_id"] = null;
   }
   if (values["og_image_id"]) {
     values["options"]["seo"]["og_image_id"] = values["og_image_id"];
@@ -135,9 +167,6 @@ const ThemeOptionSubmit = (values, mutate) => {
     }
   });
 
-  delete values?.options?.logo?.favicon_icon;
-  delete values?.options?.logo?.footer_logo;
-  delete values?.options?.logo?.header_logo;
   delete values?.options?.seo?.og_image;
   values["_method"] = "put";
   mutate(values);

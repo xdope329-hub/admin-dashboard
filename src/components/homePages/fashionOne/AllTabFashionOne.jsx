@@ -30,7 +30,7 @@ const AllTabsFashionOne = forwardRef(({ activeTab, values, setFieldValue, apiDat
           status: 1,
           search: customSearch ? customSearch : "",
           paginate: values["content"]?.["products_ids"]?.length > 15 ? values["content"]?.["products_ids"]?.length : 15,
-          ids: customSearch ? null : values["content"]["products_ids"].join() || null,
+          ids: customSearch ? null : values["content"]?.["products_ids"]?.join() || null,
           with_union_products: values["content"]?.["products_ids"]?.length ? (values["content"]?.["products_ids"]?.length >= 15 ? 0 : 1) : 0,
         },
       }),
