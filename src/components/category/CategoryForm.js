@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
 
-const CategoryForm = ({ setResetData, updateId, loading, type, buttonName }) => {
+const CategoryForm = ({ setResetData, updateId, loading, type, buttonName, mutate }) => {
   const { t } = useTranslation("common");
   const { categoryState } = useContext(CategoryContext);
   const router = useRouter();
@@ -53,8 +53,26 @@ const CategoryForm = ({ setResetData, updateId, loading, type, buttonName }) => 
         name: nameSchema,
       })}
       onSubmit={(values, helpers) => {
-        setResetData && setResetData(true);
-        router.push(`/category`);
+        const payload = {
+          ...values, //Copies all the existing form fields into the new payload.
+          status: values.status ? 1 : 0,
+          parent_id: values.parent_id || null, // If `parent_id` is undefined or null, it will be set to null.
+          commission_rate: values.commission_rate === "" ? null : values.commission_rate, // If `commission_rate` is empty, it will be set to null.
+        };
+        if (mutate) {
+          mutate(payload, {
+            onSuccess: () => {
+              // Triggers a state update elsewhere in the app to refresh  the categories
+              setResetData && setResetData(true);
+              // If `updateId` is not present (which means the user is creating a new category), it clears
+              // out all the form fields so they can add another category.
+              if (!updateId) helpers.resetForm();
+            },
+          });
+        } else {
+          setResetData && setResetData(true);
+          router.push(`/category`);
+        }
       }}
     >
       {({ setFieldValue, values, errors }) => (

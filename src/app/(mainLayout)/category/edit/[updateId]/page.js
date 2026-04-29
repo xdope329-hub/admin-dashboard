@@ -5,7 +5,7 @@ import { Category, CategoryExportAPI, CategoryImportAPI } from "@/utils/axiosUti
 import CategoryForm from "@/components/category/CategoryForm";
 import TreeForm from "@/components/category/TreeForm";
 import usePermissionCheck from "@/utils/hooks/usePermissionCheck";
-import useCreate from "@/utils/hooks/useCreate";
+import useUpdate from "@/utils/hooks/useUpdate";
 import TitleWithDropDown from "@/components/common/TitleWithDropDown";
 import { useParams } from "next/navigation";
 
@@ -15,7 +15,7 @@ const CategoryUpdate = () => {
     ssr: false,
   });
   const [edit] = usePermissionCheck(["edit"]);
-  const { mutate, isLoading } = useCreate(`${Category}/${params?.updateId}`, false, "/category", false);
+  const { mutate, isLoading } = useUpdate(Category, params?.updateId, "/category");
   return (
     <>
       <Container fluid={true}>

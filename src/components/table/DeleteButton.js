@@ -9,7 +9,7 @@ const DeleteButton = ({ id, mutate, noImage }) => {
   const [modal, setModal] = useState(false);
   return (
     <>
-      {id  && (
+      {id && (
         <>
           {noImage ? (
             <Btn
@@ -47,6 +47,8 @@ const DeleteButton = ({ id, mutate, noImage }) => {
             <Btn
               title="Yes"
               onClick={() => {
+                // This triggers the delete mutation.
+                mutate && mutate(id);
                 setModal(false);
               }}
               className="btn-theme btn-md fw-bold"
