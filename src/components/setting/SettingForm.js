@@ -18,7 +18,7 @@ const SettingForm = ({ mutate, loading, title }) => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("1");
   const { data, isLoading, refetch } = useCustomQuery([setting], () => request({ url: setting }, router), { enabled: false, refetchOnWindowFocus: false, select: (res) => res.data });
-  let IncludeList = ["status", "coupon_enable", "point_enable", "product_auto_approve", "stock_product_hide", "wallet_enable", "same_day_delivery", "is_category_based_commission", "multivendor", "sandbox_mode", "store_auto_approve", "maintenance_mode"];
+  let IncludeList = ["status", "coupon_enable", "point_enable", "product_auto_approve", "stock_product_hide", "wallet_enable", "same_day_delivery", "is_category_based_commission", "multivendor", "sandbox_mode", "store_auto_approve", "maintenance_mode", "use_custom_loader"];
   const RecursiveSet = ({ data }) => {
     if (data && typeof data == "object") {
       Object.keys(data).forEach((key) => {
@@ -68,6 +68,8 @@ const SettingForm = ({ mutate, loading, title }) => {
         mail_mailer: NewSettingsData?.email?.mail_mailer || "smtp",
         maintenance_image: "",
         maintenance_image_id: "",
+        loader_gif_image: "",
+        loader_gif_image_id: "",
         mail_encryption: NewSettingsData?.email?.mail_encryption || "",
       }}
       onSubmit={(values) => {
@@ -82,6 +84,8 @@ const SettingForm = ({ mutate, loading, title }) => {
         values["values"]["general"]["dark_logo_image_id"] = values["dark_logo_image_id"] ? values["dark_logo_image_id"] : "";
         values["values"]["general"]["tiny_logo_image_id"] = values["tiny_logo_image_id"] ? values["tiny_logo_image_id"] : "";
         values["values"]["maintenance"]["maintenance_image_id"] = values["maintenance_image_id"] ? values["maintenance_image_id"] : "";
+        values["values"]["general"]["loader_gif_image_id"] = values["loader_gif_image_id"] || "";
+        values["values"]["general"]["loader_gif_image"] = values["loader_gif_image"] || null;
         if (mutate) mutate(values);
       }}
     >

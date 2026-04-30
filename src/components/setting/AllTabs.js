@@ -4,6 +4,7 @@ import DeliveryTab from './DeliveryTab'
 import EmailTab from './EmailTab'
 import GeneralTab from './GeneralTab'
 import GoogleReCaptcha from './GoogleReCaptcha'
+import LoaderTab from './LoaderTab'
 import MaintenanceTab from './MaintenanceTab'
 import MediaConfiguration from './MediaConfiguration'
 import PaymentMethodsTab from './PaymentMethodsTab'
@@ -31,6 +32,7 @@ const AllTabs = ({ values, activeTab, setFieldValue, errors, touched }) => {
                     <TabPane tabId="10"><PaymentMethodsTab errors={errors} touched={touched} /></TabPane>
                     <TabPane tabId="11"><AnalyticsTab values={values} setFieldValue={setFieldValue} errors={errors} /></TabPane>
                     <TabPane tabId="13"><MaintenanceTab values={values} setFieldValue={setFieldValue} errors={errors} /></TabPane>
+                    <TabPane tabId="14"><LoaderTab values={values} setFieldValue={setFieldValue} errors={errors} /></TabPane>
                 </TabContent>
             </Col>
         </>
