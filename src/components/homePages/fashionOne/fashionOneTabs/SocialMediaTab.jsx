@@ -13,20 +13,28 @@ const SocialMediaTab = ({ values, setFieldValue, productData, categoryData, setS
   const { t } = useTranslation("common");
   const [active, setActive] = useState();
   const removeBanners = (index) => {
-    if (values["content"]["social_media"]["banners"].length > 1) {
-      let filterValue = values["content"]["social_media"]["banners"].filter((item, i) => i !== index);
-      setFieldValue("[content][home_banner][banners]", filterValue);
-      filterValue?.forEach((elem, i) => {
-        elem?.image_url && setFieldValue(`socialMediaBannerImage${i}`, { original_url: elem?.image_url });
-        elem?.redirect_link?.link_type && setFieldValue(`homeRedirectLinkType${i}`, elem?.redirect_link?.link_type);
-        elem?.redirect_link?.link && setFieldValue(`homeRedirectLink${i}`, elem?.redirect_link?.link);
-      });
+    const banners = values["content"]["social_media"]["banners"];
+    if (banners.length <= 1) return;
+    const filterValue = banners.filter((_, i) => i !== index);
+    setFieldValue("[content][social_media][banners]", filterValue);
+    // Re-index per-banner Formik fields using current values (not stale elem.image_url)
+    let newIdx = 0;
+    for (let oldIdx = 0; oldIdx < banners.length; oldIdx++) {
+      if (oldIdx === index) continue;
+      setFieldValue(`socialMediaBannerImage${newIdx}`, values[`socialMediaBannerImage${oldIdx}`] ?? null);
+      setFieldValue(`socialMediaRedirectLinkType${newIdx}`, values[`socialMediaRedirectLinkType${oldIdx}`] ?? "");
+      setFieldValue(`socialMediaRedirectLink${newIdx}`, values[`socialMediaRedirectLink${oldIdx}`] ?? "");
+      newIdx++;
     }
+    // Clear the now-orphaned last slot
+    setFieldValue(`socialMediaBannerImage${filterValue.length}`, null);
+    setFieldValue(`socialMediaRedirectLinkType${filterValue.length}`, "");
+    setFieldValue(`socialMediaRedirectLink${filterValue.length}`, "");
   };
 
   return (
     <>
-      {<Btn className="btn-theme my-4" onClick={() => setFieldValue("[content][social_media][banners]", [...values["content"]?.["social_media"]["banners"], { title: "", description: "" }])} title="AddBanner" />}
+      {<Btn className="btn-theme my-4" onClick={() => setFieldValue("[content][social_media][banners]", [...values["content"]?.["social_media"]["banners"], { title: "", description: "", status: true }])} title="AddBanner" />}
       {values["content"]?.["social_media"]?.["banners"]?.map((elem, index) => {
         return (
           <Row className="align-items-center" key={index}>
