@@ -6,6 +6,7 @@ import CheckBoxField from "@/components/inputFields/CheckBoxField";
 import FileUploadField from "@/components/inputFields/FileUploadField";
 import SimpleInputField from "@/components/inputFields/SimpleInputField";
 import SearchableSelectInput from "@/components/inputFields/SearchableSelectInput";
+import ColorPickerField from "@/components/inputFields/ColorPickerField";
 import TabTitle from "@/components/widgets/TabTitle";
 import CommonRedirect from "../../CommonRedirect";
 import { mediaConfig } from "@/data/MediaConfig";
@@ -32,6 +33,13 @@ const OfferBannerTab = ({ values, setFieldValue, productData, categoryData, setS
             { name: "[content][offer_banner][banner_1][subtitle]", title: "Subtitle", placeholder: "Subtitle" },
             { name: "[content][offer_banner][banner_1][title]", title: "Title", placeholder: "Title" },
           ]} />
+          <ColorPickerField
+            name="[content][offer_banner][banner_1][text_color]"
+            title="Text Color"
+            value={values?.content?.offer_banner?.banner_1?.text_color}
+            setFieldValue={setFieldValue}
+          />
+          <CheckBoxField name="[content][offer_banner][banner_1][text_bg]" title="Dark Text Background" />
           <SearchableSelectInput nameList={[{
             name: "[content][offer_banner][banner_1][text_position]",
             title: "Text Position",
@@ -54,6 +62,13 @@ const OfferBannerTab = ({ values, setFieldValue, productData, categoryData, setS
             { name: "[content][offer_banner][banner_2][subtitle]", title: "Subtitle", placeholder: "Subtitle" },
             { name: "[content][offer_banner][banner_2][title]", title: "Title", placeholder: "Title" },
           ]} />
+          <ColorPickerField
+            name="[content][offer_banner][banner_2][text_color]"
+            title="Text Color"
+            value={values?.content?.offer_banner?.banner_2?.text_color}
+            setFieldValue={setFieldValue}
+          />
+          <CheckBoxField name="[content][offer_banner][banner_2][text_bg]" title="Dark Text Background" />
           <SearchableSelectInput nameList={[{
             name: "[content][offer_banner][banner_2][text_position]",
             title: "Text Position",

@@ -8,6 +8,7 @@ import CheckBoxField from "@/components/inputFields/CheckBoxField";
 import FileUploadField from "@/components/inputFields/FileUploadField";
 import SimpleInputField from "@/components/inputFields/SimpleInputField";
 import SearchableSelectInput from "@/components/inputFields/SearchableSelectInput";
+import ColorPickerField from "@/components/inputFields/ColorPickerField";
 import CommonRedirect from "../../CommonRedirect";
 import { mediaConfig } from "@/data/MediaConfig";
 
@@ -66,6 +67,13 @@ const HomeBannerTab = ({ values, setFieldValue, productData, categoryData, setSe
                       store: "obj",
                       setvalue: (name, value) => setFieldValue(`[content][home_banner][banners][${index}][text_position]`, value?.id ?? ""),
                     }]} />
+                    <ColorPickerField
+                      name={`[content][home_banner][banners][${index}][text_color]`}
+                      title="Text Color"
+                      value={values?.content?.home_banner?.banners?.[index]?.text_color}
+                      setFieldValue={setFieldValue}
+                    />
+                    <CheckBoxField name={`[content][home_banner][banners][${index}][text_bg]`} title="Dark Text Background" />
                     <CommonRedirect values={values} setFieldValue={setFieldValue} productData={productData} categoryData={categoryData} nameList={{ selectNameKey: `homeRedirectLinkType${index}`, multipleNameKey: `homeRedirectLink${index}` }} setSearch={setSearch} />
                     <CheckBoxField name={`[content][home_banner][banners][${index}][status]`} title="Status" />
                   </div>
