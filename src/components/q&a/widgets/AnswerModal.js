@@ -3,13 +3,21 @@ import { useTranslation } from "react-i18next";
 import { Input, Table } from "reactstrap";
 import ShowModal from "../../../elements/alerts&Modals/Modal";
 import Btn from "../../../elements/buttons/Btn";
+import useUpdate from "../../../utils/hooks/useUpdate";
+import { QuestionNAnswerAPI } from "../../../utils/axiosUtils/API";
 
 const AnswerModal = ({ fullObj, modal, setModal, refetch }) => {
   const { t } = useTranslation("common");
-  const [answer, setAnswer] = useState(fullObj?.answer);
+  const [answer, setAnswer] = useState(fullObj?.answer || "");
+  const { mutate: submitAnswer, isLoading } = useUpdate(QuestionNAnswerAPI, fullObj?.id, false, "Answer Saved", (resData) => {
+    if (resData?.status === 200 || resData?.status === 201) {
+      refetch && refetch();
+      setModal(false);
+    }
+  });
   const onSubmit = () => {
-    //   Put your logic here
-    setModal(false);
+    if (!fullObj?.id) return setModal(false);
+    submitAnswer({ answer: answer ?? "" });
   };
   return (
     <ShowModal open={modal} setModal={setModal} close={true} title={"Answers"} noClass={true}>
@@ -33,7 +41,7 @@ const AnswerModal = ({ fullObj, modal, setModal, refetch }) => {
         <div>
           <div className="button-box">
             <Btn title="Close" className="btn btn-md fw-bold" onClick={() => setModal(false)} />
-            <Btn title="Submit" className="btn btn-md btn-theme fw-bold" onClick={onSubmit} />
+            <Btn title="Submit" className="btn btn-md btn-theme fw-bold" onClick={onSubmit} loading={isLoading} />
           </div>
         </div>
       </div>
