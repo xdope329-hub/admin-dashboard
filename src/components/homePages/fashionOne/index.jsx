@@ -51,7 +51,6 @@ const FashionOneForm = ({ title, apiData }) => {
       initialValues={{ ...FashionOneInitialValue(NewSettingsData) }}
       onSubmit={(values) => {
         values["_method"] = "put";
-        console.log(values.content, "HERE ARE THE VALUES")
         FashionOneSubmit(values, mutate);
       }}
     >
