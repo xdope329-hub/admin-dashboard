@@ -15,7 +15,7 @@ const ShippingNote = ({ setOpenReceiptModal, openReceiptModal, values, mutate, s
       note: values?.note,
       changed_at: formattedDateTime,
     };
-    // Put your logic here
+    mutate(sendValue);
     refetch();
     setOpenReceiptModal(false);
     setFieldValue("note", "");
