@@ -5,6 +5,7 @@ import { RiDownload2Line, RiUpload2Line, RiUploadCloud2Line } from "react-icons/
 import { DropdownItem, TabContent, TabPane } from "reactstrap";
 import ShowModal from "../../elements/alerts&Modals/Modal";
 import Btn from "../../elements/buttons/Btn";
+import request from "../../utils/axiosUtils";
 import { YupObject, requiredSchema } from "../../utils/validation/ValidationSchemas";
 import FileUploadBrowser from "../inputFields/FileUploadBrowser";
 
@@ -13,7 +14,9 @@ const ImportExport = ({ importExport, refetch, moduleName, exportButton, Dropdow
   const [modal, setModal] = useState(false);
 
   const exportUser = () => {
-    // Put Your Logic Here
+    if (importExport?.exportUrl) {
+      window.open(importExport.exportUrl, "_blank");
+    }
   };
 
   return (
@@ -51,7 +54,9 @@ const ImportExport = ({ importExport, refetch, moduleName, exportButton, Dropdow
                 formData.append(`${moduleName?.toLowerCase()}`, el);
               });
               setModal(false);
-              u;
+              if (importExport?.importUrl) {
+                request({ url: importExport.importUrl, data: formData, method: "post" }).then(() => refetch && refetch());
+              }
             }}
           >
             {({ values, setFieldValue, errors }) => (

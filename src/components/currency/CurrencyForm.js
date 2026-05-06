@@ -14,11 +14,12 @@ import SearchableSelectInput from "../inputFields/SearchableSelectInput";
 import SimpleInputField from "../inputFields/SimpleInputField";
 import CurrencySymbol from "./widgets/CurrencySymbol";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
+import useCreate from "../../utils/hooks/useCreate";
 
 const CurrencyForm = ({ updateId, buttonName }) => {
-  
   const { t } = useTranslation("common");
   const router = useRouter();
+  const { mutate } = useCreate(currency, updateId, "/currency");
 
   const {
     data: oldData,
@@ -50,9 +51,9 @@ const CurrencyForm = ({ updateId, buttonName }) => {
         symbol_position: nameSchema,
       })}
       onSubmit={(values) => {
-        router.push("/currency");
         values["status"] = Number(values["status"]);
-        // Put your logic here
+        if (updateId) values["_method"] = "put";
+        mutate(values);
       }}
     >
       {({ values, setFieldValue }) => (

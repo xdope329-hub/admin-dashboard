@@ -18,7 +18,6 @@ const EmailTab = ({ values, setFieldValue, errors, touched }) => {
       mailgun_domain: values?.values?.email?.mailgun_domain,
       mailgun_secret: values?.values?.email?.mailgun_secret,
     };
-    // Put your logic here
   };
   const { t } = useTranslation("common");
   return (

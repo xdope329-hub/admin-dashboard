@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/navigation'
 import useCustomQuery from '@/utils/hooks/useCustomQuery'
 
-const CommonAddressForm = ({ type, updateId, setModal }) => {
+const CommonAddressForm = ({ type, updateId, setModal, addressMutate, setAddress }) => {
     const router = useRouter()
     const { data, refetch, isLoading } = useCustomQuery([country], () => request({ url: country }, router), { enabled: false, refetchOnWindowFocus: false, select: (res) => res.data.map((country) => ({ id: country.id, name: country.name, state: country.state })) });
     useEffect(() => {
@@ -29,9 +29,8 @@ const CommonAddressForm = ({ type, updateId, setModal }) => {
                 })}
                 onSubmit={(values) => {
                     values['pincode'] = values['pincode'].toString();
-                    setAddress((prev) => [...prev, values])
-                    setModal(false)
-                    // Put Your Logic Here
+                    addressMutate && addressMutate(values);
+                    setModal(false);
                 }}>
                 {({ values, setFieldValue }) => (
                     <Form className='row'>

@@ -10,7 +10,9 @@ const InvoiceSummary = ({ data }) => {
   const { convertCurrency } = useContext(SettingContext);
 
   const downloadInvoice = (orderId) => {
-    // Put your logic here
+    if (data?.invoice_url) {
+      window.open(data.invoice_url, "_blank");
+    }
   };
 
   const [openReceiptModal, setOpenReceiptModal] = useState(false);

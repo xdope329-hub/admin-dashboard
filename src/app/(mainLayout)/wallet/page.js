@@ -35,9 +35,9 @@ const Wallet = () => {
         validationSchema={YupObject({ consumer_id: nameSchema })}
         onSubmit={(values) => {
           if (isValue == "credit") {
-            // Put your logic here
+            CreateWalletCredit(values);
           } else {
-            // Put your logic here
+            CreateWalletDebit(values);
           }
         }}
       >

@@ -19,7 +19,7 @@ const SearchCategory = ({ data, setActive, active, setSearch, search, type, muta
   // Save changes
   const saveChanges = () => {
     if (menu) {
-// Put your logic here
+      mutate(filterJson(menu));
     }
   };
 

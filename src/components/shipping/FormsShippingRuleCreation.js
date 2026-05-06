@@ -37,9 +37,8 @@ const FormsShippingRuleCreation = ({ rules, mutate, shipping_id, loading, refetc
         if (values["shipping_type"] == "free") {
           delete values["amount"];
         }
-        setActive(false)
-        
-        // Put your logic here
+        setActive(false);
+        mutate(values);
       }}
     >
       {({ values, setFieldValue }) => (

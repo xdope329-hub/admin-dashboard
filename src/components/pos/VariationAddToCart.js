@@ -1,7 +1,7 @@
 import Btn from "@/elements/buttons/Btn";
 import { useTranslation } from "react-i18next";
 
-const VariationAddToCart = ({ cloneVariation, setFieldValue, setModal }) => {
+const VariationAddToCart = ({ cloneVariation, setFieldValue, setModal, mutate }) => {
   const { t } = useTranslation("common");
   const addToCart = (allProduct) => {
     if (cloneVariation.selectedVariation) {
@@ -11,7 +11,7 @@ const VariationAddToCart = ({ cloneVariation, setFieldValue, setModal }) => {
         quantity: cloneVariation?.productQty,
       };
       setFieldValue("variation_id", cloneVariation?.selectedVariation?.id);
-      // Put Your Logic Here
+      mutate && mutate(params);
       setModal(false);
     }
   };

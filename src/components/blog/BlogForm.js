@@ -13,10 +13,12 @@ import DescriptionInput from "../widgets/DescriptionInput";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
+import useCreate from "../../utils/hooks/useCreate";
 
 const BlogForm = ({ updateId, buttonName }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
+  const { mutate } = useCreate(blog, updateId, "/blog");
   const { data } = useCustomQuery([Category], () => request({ url: Category, params: { type: "post" } }, router), { refetchOnWindowFocus: false, select: (data) => data.data.data });
   const { data: tagData } = useCustomQuery([tag], () => request({ url: tag, params: { type: "post" } }, router), { refetchOnWindowFocus: false, select: (data) => data.data.data });
   const { data: oldData, isLoading: oldDataLoading, refetch } = useCustomQuery([blog + "/" + updateId], () => request({ url: `${blog}/${updateId}` }, router), { enabled: false, refetchOnWindowFocus: false });
@@ -57,8 +59,7 @@ const BlogForm = ({ updateId, buttonName }) => {
           values.is_sticky = Number(values.is_sticky);
           values.status = Number(values.status);
           if (values["blog_thumbnail_id"] == undefined) values["blog_thumbnail_id"] = null;
-          router.push("/blog");
-          // Put your logic here
+          mutate(values);
         }}
       >
         {({ values, setFieldValue, errors, touched }) => (

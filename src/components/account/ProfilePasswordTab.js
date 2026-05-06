@@ -23,9 +23,10 @@ const ProfilePasswordTab = () => {
                 password: passwordSchema,
                 password_confirmation: passwordConfirmationSchema
             })}
-            onSubmit={(values) => {
-                // Put your logic here
-                 values = { }
+            onSubmit={(values, { resetForm }) => {
+                values["_method"] = "put";
+                mutate(values);
+                resetForm();
             }}>
             {({ values, setFieldValue }) => (
                 <Form className="theme-form theme-form-2 mega-form">
