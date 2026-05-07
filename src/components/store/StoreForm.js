@@ -17,10 +17,12 @@ import { StoreInitialValue } from "./widgets/StoreInitialValue";
 import { StoreValidationSchema } from "./widgets/StoreValidationSchema";
 import StoreVendor from "./widgets/StoreVendor";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
+import useCreate from "../../utils/hooks/useCreate";
 
 const StoreForm = ({ updateId, buttonName }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
+  const { mutate } = useCreate(store, updateId, "/store");
   const {
     data: oldData,
     isLoading,
@@ -46,8 +48,8 @@ const StoreForm = ({ updateId, buttonName }) => {
           password_confirmation: !updateId && passwordConfirmationSchema,
         })}
         onSubmit={(values) => {
-          // Put Your Logic Here
-          router.push(`/store`);
+          if (updateId) values["_method"] = "put";
+          mutate(values);
         }}
       >
         {({ setFieldValue, values, errors, touched }) => (

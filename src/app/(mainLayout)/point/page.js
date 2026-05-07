@@ -2,7 +2,8 @@
 import SelectUser from "@/components/wallet/SelectUser";
 import SelectWalletPrice from "@/components/wallet/SelectWalletPrice";
 import UserTransactionsTable from "@/components/wallet/UserTransactionsTable";
-import { PointUserTransactions } from "@/utils/axiosUtils/API";
+import { PointCredit, PointDebit, PointUserTransactions } from "@/utils/axiosUtils/API";
+import useCreate from "@/utils/hooks/useCreate";
 import usePermissionCheck from "@/utils/hooks/usePermissionCheck";
 import { YupObject, nameSchema } from "@/utils/validation/ValidationSchemas";
 import { Form, Formik } from "formik";
@@ -16,6 +17,8 @@ const Point = () => {
   const [credit, debit] = usePermissionCheck(["credit", "debit"]);
   const { t } = useTranslation("common");
   const refRefetch = useRef();
+  const { mutate: CreditPoints } = useCreate(PointCredit, false, "/point", false, () => { refRefetch.current?.call(); });
+  const { mutate: DebitPoints } = useCreate(PointDebit, false, "/point", false, () => { refRefetch.current?.call(); });
 
   return (
     <div className="save-back-button">
@@ -28,9 +31,9 @@ const Point = () => {
         validationSchema={YupObject({ consumer_id: nameSchema })}
         onSubmit={(values, { setFieldValue }) => {
           if (isValue == "credit") {
-            // Put your logic here
+            CreditPoints(values);
           } else {
-            // Put your logic here
+            DebitPoints(values);
           }
           setFieldValue("balance", "");
         }}

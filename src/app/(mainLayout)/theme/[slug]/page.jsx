@@ -18,7 +18,6 @@ const homePages = () => {
         return { id: elem.id, name: elem.title, slug: elem?.slug };
       }),
   });
-  console.log('EST NO ES EL COMPONENTE')
   const { data: brandData, isLoading: brandLoader } = useCustomQuery([BrandAPI], () => request({ url: BrandAPI }), {
     refetchOnWindowFocus: false,
     select: (res) =>

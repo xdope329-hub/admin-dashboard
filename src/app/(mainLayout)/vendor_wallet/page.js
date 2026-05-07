@@ -40,9 +40,9 @@ const VendorWallet = () => {
         validationSchema={YupObject({ vendor_id: nameSchema })}
         onSubmit={(values) => {
           if (isValue == "credit") {
-            // Put Your Logic Here
+            CreateWalletCredit(values);
           } else {
-            // Put Your Logic Here
+            CreateWalletDebit(values);
           }
         }}
       >

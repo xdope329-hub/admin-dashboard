@@ -96,6 +96,11 @@ export function ProductInitValues(oldData, updateId) {
     // SEO
     meta_title: updateId ? oldData?.meta_title || "" : "",
     meta_description: updateId ? oldData?.meta_description || "" : "",
+    meta_keywords: updateId ? oldData?.meta_keywords || "" : "",
+    og_title: updateId ? oldData?.og_title || "" : "",
+    og_description: updateId ? oldData?.og_description || "" : "",
+    canonical_url: updateId ? oldData?.canonical_url || "" : "",
+    robots: updateId ? oldData?.robots || "index, follow" : "index, follow",
     product_meta_image_id: updateId ? oldData?.product_meta_image_id?.id || "" : "",
     product_meta_image: updateId ? oldData?.product_meta_image || "" : "",
     // Shipping Tax

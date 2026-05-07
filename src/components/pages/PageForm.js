@@ -12,10 +12,12 @@ import DescriptionInput from "../widgets/DescriptionInput";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
+import useCreate from "../../utils/hooks/useCreate";
 
 const PageForm = ({ updateId, buttonName }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
+  const { mutate } = useCreate(PagesAPI, updateId, "/page");
   const { data: oldData, isLoading, refetch } = useCustomQuery([`page/id`], () => request({ url: `${PagesAPI}/${updateId}` }, router), { enabled: false, select: (data) => data?.data });
   useEffect(() => {
     updateId && refetch();
@@ -37,9 +39,9 @@ const PageForm = ({ updateId, buttonName }) => {
         title: nameSchema,
       })}
       onSubmit={(values) => {
-        router.push("/page");
         values.status = Number(values.status);
-        //  Put your logic here
+        if (updateId) values["_method"] = "put";
+        mutate(values);
       }}
     >
       {({ values, setFieldValue, errors, touched }) => (

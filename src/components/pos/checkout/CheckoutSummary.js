@@ -67,7 +67,7 @@ const CheckoutSidebar = ({ addToCartData, values, setFieldValue, data, loading, 
           </li>
         </ul>
       </div>
-      <PlaceOrder addToCartData={addToCartData} values={values} />
+      <PlaceOrder addToCartData={addToCartData} values={values} mutate={mutate} />
     </Card>
   );
 };

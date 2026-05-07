@@ -15,12 +15,13 @@ const ApplyCoupon = ({ data, setFieldValue, storeCoupon, setStoreCoupon, values,
     setAppliedCoupon(null);
     setFieldValue("coupon", "");
     setStoreCoupon("");
-    // Put Add Or Update Logic Here
+    mutate({ ...values, coupon: "" });
   };
   const onCouponApplyClick = () => {
-    // Put your logic here
-    values["products"]?.length > 0;
-    setFieldValue("coupon", storeCoupon);
+    if (values["products"]?.length > 0) {
+      setFieldValue("coupon", storeCoupon);
+      mutate({ ...values, coupon: storeCoupon });
+    }
   };
   return (
     <>

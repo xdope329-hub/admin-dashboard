@@ -44,7 +44,7 @@ const FormShipping = ({ open, setActive, shippingData, refetch: shippingRefetch 
           status: nameSchema,
         })}
         onSubmit={(values) => {
-          // Put your logic here
+          mutate(values);
           setActive(false);
         }}
       >

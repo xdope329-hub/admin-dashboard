@@ -26,11 +26,10 @@ const CheckoutSidebar = ({ addToCartData, values, setFieldValue, loading, mutate
         if (values['billing_address_id'] && values['shipping_address_id'] && values['delivery_description'] && values['payment_method']) {
             values["variation_id"] = ""
             if (loading) { setStoreCoupon(''),setFieldValue('coupon','') }
-            // Put your logic here
+            mutate(values);
         }
         if (addToCartData?.is_digital_only && values['billing_address_id'] && values['payment_method']) {
-            // mutate(values)
-            // Put your logic here
+            mutate(values);
         }
     }, [values['billing_address_id'], values['shipping_address_id'], values['payment_method'], values['delivery_description'], values['points_amount'], values['wallet_balance']])
     return (

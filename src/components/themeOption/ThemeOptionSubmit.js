@@ -51,6 +51,11 @@ const ThemeOptionSubmit = (values, mutate) => {
   } else {
     values["options"]["seo"]["og_image_id"] = null;
   }
+  if (values["twitter_image_id"]) {
+    values["options"]["seo"]["twitter_image_id"] = values["twitter_image_id"];
+  } else {
+    values["options"]["seo"]["twitter_image_id"] = null;
+  }
   if (values["headerCategories"]) {
     values["options"]["header"]["category_ids"] = values["headerCategories"];
   }
@@ -168,6 +173,7 @@ const ThemeOptionSubmit = (values, mutate) => {
   });
 
   delete values?.options?.seo?.og_image;
+  delete values?.options?.seo?.twitter_image;
   values["_method"] = "put";
   mutate(values);
 };

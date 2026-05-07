@@ -8,15 +8,25 @@ import { YupObject, dropDownScheme, nameSchema } from "../../utils/validation/Va
 import CheckBoxField from "../inputFields/CheckBoxField";
 import FileUploadField from "../inputFields/FileUploadField";
 import MultiSelectField from "../inputFields/MultiSelectField";
+import SelectField from "../inputFields/SelectField";
 import SimpleInputField from "../inputFields/SimpleInputField";
 import DescriptionInput from "../widgets/DescriptionInput";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
+import useCreate from "../../utils/hooks/useCreate";
+
+const robotsOptions = [
+  { id: "index, follow", name: "index, follow (default)" },
+  { id: "noindex, follow", name: "noindex, follow" },
+  { id: "index, nofollow", name: "index, nofollow" },
+  { id: "noindex, nofollow", name: "noindex, nofollow" },
+];
 
 const BlogForm = ({ updateId, buttonName }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
+  const { mutate } = useCreate(blog, updateId, "/blog");
   const { data } = useCustomQuery([Category], () => request({ url: Category, params: { type: "post" } }, router), { refetchOnWindowFocus: false, select: (data) => data.data.data });
   const { data: tagData } = useCustomQuery([tag], () => request({ url: tag, params: { type: "post" } }, router), { refetchOnWindowFocus: false, select: (data) => data.data.data });
   const { data: oldData, isLoading: oldDataLoading, refetch } = useCustomQuery([blog + "/" + updateId], () => request({ url: `${blog}/${updateId}` }, router), { enabled: false, refetchOnWindowFocus: false });
@@ -34,6 +44,11 @@ const BlogForm = ({ updateId, buttonName }) => {
           content: updateId ? oldData?.data?.content || "" : "",
           meta_title: updateId ? oldData?.data?.meta_title || "" : "",
           meta_description: updateId ? oldData?.data?.meta_description || "" : "",
+          meta_keywords: updateId ? oldData?.data?.meta_keywords || "" : "",
+          og_title: updateId ? oldData?.data?.og_title || "" : "",
+          og_description: updateId ? oldData?.data?.og_description || "" : "",
+          canonical_url: updateId ? oldData?.data?.canonical_url || "" : "",
+          robots: updateId ? oldData?.data?.robots || "index, follow" : "index, follow",
           blog_meta_image_id: updateId ? oldData?.data?.blog_meta_image?.id || "" : "",
           blog_meta_image: updateId ? oldData?.data?.blog_meta_image || "" : "",
           blog_thumbnail_id: updateId ? oldData?.data?.blog_thumbnail?.id || "" : undefined,
@@ -57,8 +72,7 @@ const BlogForm = ({ updateId, buttonName }) => {
           values.is_sticky = Number(values.is_sticky);
           values.status = Number(values.status);
           if (values["blog_thumbnail_id"] == undefined) values["blog_thumbnail_id"] = null;
-          router.push("/blog");
-          // Put your logic here
+          mutate(values);
         }}
       >
         {({ values, setFieldValue, errors, touched }) => (
@@ -76,8 +90,13 @@ const BlogForm = ({ updateId, buttonName }) => {
                 nameList={[
                   { name: "meta_title", placeholder: t("EnterMetaTitle") },
                   { name: "meta_description", placeholder: t("EnterMetaDescription"), type: "textarea" },
+                  { name: "meta_keywords", title: "MetaKeywords", placeholder: "keyword1, keyword2, keyword3" },
+                  { name: "og_title", title: "OgTitle", placeholder: t("EnterMetaTitle") },
+                  { name: "og_description", title: "OgDescription", placeholder: t("EnterMetaDescription"), type: "textarea" },
+                  { name: "canonical_url", title: "CanonicalURL", placeholder: "https://yourdomain.com/blogs/..." },
                 ]}
               />
+              <SelectField name="robots" title="Robots" inputprops={{ options: robotsOptions, id: "robots", name: "robots" }} />
               <FileUploadField name="blog_meta_image_id" title="BlogMetaImage" id="blog_meta_image_id" updateId={updateId} type="file" values={values} setFieldValue={setFieldValue} errors={errors} touched={touched} />
               <CheckBoxField name="status" />
               <FormBtn buttonName={buttonName} />

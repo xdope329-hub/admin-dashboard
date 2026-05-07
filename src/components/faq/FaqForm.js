@@ -11,10 +11,12 @@ import SimpleInputField from "../inputFields/SimpleInputField";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
+import useCreate from "../../utils/hooks/useCreate";
 
 const FaqForm = ({ updateId, buttonName }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
+  const { mutate } = useCreate(FaqAPI, updateId, "/faq");
   const { data: oldData, isLoading, refetch } = useCustomQuery(["faq/id"], () => request({ url: `${FaqAPI}/${updateId}` }, router), { refetchOnMount: false, enabled: false });
   useEffect(() => {
     updateId && refetch();
@@ -29,10 +31,11 @@ const FaqForm = ({ updateId, buttonName }) => {
         status: updateId ? Boolean(Number(oldData?.data?.status)) : true,
       }}
       validationSchema={YupObject({ title: nameSchema, description: nameSchema })}
-      onSubmit={
-        (values) => router.push("/faq")
-        //  Put your logic here
-      }
+      onSubmit={(values) => {
+        values.status = Number(values.status);
+        if (updateId) values["_method"] = "put";
+        mutate(values);
+      }}
     >
       {() => (
         <Form className="theme-form theme-form-2 mega-form">
