@@ -34,7 +34,7 @@ const ThemeOptionAllTabs = ({ activeTab, values, setFieldValue, errors, touched 
                 <TabPane tabId="8"><AboutUsTab values={values} setFieldValue={setFieldValue} /></TabPane>
                 <TabPane tabId="9"><ContactPageTab values={values} setFieldValue={setFieldValue} /></TabPane>
                 <TabPane tabId="10"><ErrorPage values={values} /></TabPane>
-                <TabPane tabId="11"><PopupTab values={values} /></TabPane>
+                <TabPane tabId="11"><PopupTab values={values} setFieldValue={setFieldValue} /></TabPane>
                 <TabPane tabId="12"><SeoTab values={values} setFieldValue={setFieldValue} errors={errors} /></TabPane>
             </TabContent>
         </Col>

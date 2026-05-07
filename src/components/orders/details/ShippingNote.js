@@ -5,8 +5,8 @@ import { Modal, ModalBody } from "reactstrap";
 
 const ShippingNote = ({ setOpenReceiptModal, openReceiptModal, values, mutate, setFieldValue, refetch }) => {
   const originalDateTime = values?.date;
-  const parsedDateTime = new Date(originalDateTime);
-  const formattedDateTime = parsedDateTime.toISOString();
+  const parsedDateTime = originalDateTime ? new Date(originalDateTime) : null;
+  const formattedDateTime = parsedDateTime && !isNaN(parsedDateTime) ? parsedDateTime.toISOString() : null;
   const { t } = useTranslation("common");
   const handleSubmit = () => {
     const sendValue = {
