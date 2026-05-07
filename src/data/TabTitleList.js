@@ -111,6 +111,7 @@ export const SettingTabTitleListData = [
   { title: "ReCaptcha", icon: <RiGoogleFill /> },
   { title: "Maintenance", icon: <RiAlertLine /> },
   { title: "LoaderSettings", icon: <RiLoaderLine /> },
+  { title: "SEO", icon: <RiEarthLine /> },
 ];
 
 export const SettingProductBoxOptions = [

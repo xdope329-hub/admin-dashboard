@@ -15,6 +15,14 @@ import { mediaConfig } from "@/data/MediaConfig";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
+import SelectField from "../inputFields/SelectField";
+
+const robotsOptions = [
+  { id: "index, follow", name: "index, follow (default)" },
+  { id: "noindex, follow", name: "noindex, follow" },
+  { id: "index, nofollow", name: "index, nofollow" },
+  { id: "noindex, nofollow", name: "noindex, nofollow" },
+];
 
 const CategoryForm = ({ setResetData, updateId, loading, type, buttonName, mutate }) => {
   const { t } = useTranslation("common");
@@ -39,6 +47,11 @@ const CategoryForm = ({ setResetData, updateId, loading, type, buttonName, mutat
         category_image_id: updateId ? oldData?.data?.category_image?.id : "",
         meta_title: updateId ? oldData?.data?.meta_title || "" : "",
         meta_description: updateId ? oldData?.data?.meta_description || "" : "",
+        meta_keywords: updateId ? oldData?.data?.meta_keywords || "" : "",
+        og_title: updateId ? oldData?.data?.og_title || "" : "",
+        og_description: updateId ? oldData?.data?.og_description || "" : "",
+        canonical_url: updateId ? oldData?.data?.canonical_url || "" : "",
+        robots: updateId ? oldData?.data?.robots || "index, follow" : "index, follow",
         category_meta_image_id: updateId ? oldData?.data?.category_meta_image?.id : "",
         category_meta_image: updateId ? oldData?.data?.category_meta_image : "",
         category_icon_id: updateId ? oldData?.data?.category_icon?.id : "",
@@ -102,9 +115,14 @@ const CategoryForm = ({ setResetData, updateId, loading, type, buttonName, mutat
               nameList={[
                 { name: "meta_title", title: "meta_title", placeholder: t("enter_meta_title") },
                 { name: "meta_description", title: "meta_description", type: "textarea", rows: "3", placeholder: t("enter_meta_description") },
+                { name: "meta_keywords", title: "MetaKeywords", placeholder: "keyword1, keyword2, keyword3" },
+                { name: "og_title", title: "OgTitle", placeholder: t("enter_meta_title") },
+                { name: "og_description", title: "OgDescription", type: "textarea", rows: "3", placeholder: t("enter_meta_description") },
+                { name: "canonical_url", title: "CanonicalURL", placeholder: "https://yourdomain.com/category/..." },
               ]}
             />
-            <FileUploadField paramsProps={{ mime_type: mediaConfig.image.join(",") }} name="category_meta_image_id" id="category_meta_image_id" title="Image" updateId={updateId} type="file" values={values} setFieldValue={setFieldValue} loading={loading} />
+            <SelectField name="robots" title="Robots" inputprops={{ options: robotsOptions, id: "robots", name: "robots" }} />
+            <FileUploadField paramsProps={{ mime_type: mediaConfig.image.join(",") }} name="category_meta_image_id" id="category_meta_image_id" title="MetaImage" updateId={updateId} type="file" values={values} setFieldValue={setFieldValue} loading={loading} />
             <CheckBoxField name="status" />
             <FormBtn loading={loading} buttonName={buttonName} />
           </Row>

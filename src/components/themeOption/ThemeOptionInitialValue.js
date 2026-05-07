@@ -33,6 +33,8 @@ export const ThemeOptionInitialValue = (NewSettingsData) => {
     footer_logo: NewSettingsData?.logo?.footer_logo || null,
     favicon_icon_id: NewSettingsData?.logo?.favicon_icon_id || null,
     favicon_icon: NewSettingsData?.logo?.favicon_icon || null,
+    twitter_image_id: NewSettingsData?.seo?.twitter_image_id || null,
+    twitter_image: NewSettingsData?.seo?.twitter_image || null,
 
     authImage: NewSettingsData?.popup?.auth?.image_url ? { original_url: NewSettingsData?.popup?.auth?.image_url } : "",
 

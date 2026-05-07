@@ -13,6 +13,7 @@ import VendorCommissionTab from './VendorCommissionTab'
 import WalletPointTab from './WalletPointTab'
 import AnalyticsTab from './AnalyticsTab'
 import SMSConfiguration from './SMSConfigurationTab'
+import SeoTab from './SeoTab'
 
 const AllTabs = ({ values, activeTab, setFieldValue, errors, touched }) => {
     return (
@@ -33,6 +34,7 @@ const AllTabs = ({ values, activeTab, setFieldValue, errors, touched }) => {
                     <TabPane tabId="11"><AnalyticsTab values={values} setFieldValue={setFieldValue} errors={errors} /></TabPane>
                     <TabPane tabId="13"><MaintenanceTab values={values} setFieldValue={setFieldValue} errors={errors} /></TabPane>
                     <TabPane tabId="14"><LoaderTab values={values} setFieldValue={setFieldValue} errors={errors} /></TabPane>
+                    <TabPane tabId="15"><SeoTab /></TabPane>
                 </TabContent>
             </Col>
         </>
