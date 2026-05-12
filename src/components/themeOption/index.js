@@ -39,7 +39,13 @@ const ThemeOptionForm = ({ mutate, loading, title }) => {
                 }))
             }}>
             {({ values, errors, touched, setFieldValue }) => (
-                <Form className="theme-form theme-form-2 mega-form vertical-tabs">
+                <Form className="theme-form theme-form-2 mega-form vertical-tabs" style={{ position: 'relative' }}>
+                    {loading && (
+                        <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.75)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 10, borderRadius: 'inherit' }}>
+                            <div className="spinner-border text-primary" role="status" style={{ width: '2.5rem', height: '2.5rem' }} />
+                            <p className="mt-2 mb-0 fw-semibold">{t("Uploading")}...</p>
+                        </div>
+                    )}
                     <Col>
                         <Card>
                             <div className="title-header option-title">

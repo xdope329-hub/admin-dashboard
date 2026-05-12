@@ -17,7 +17,7 @@ import useCreate from "../../utils/hooks/useCreate";
 const PageForm = ({ updateId, buttonName }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
-  const { mutate } = useCreate(PagesAPI, updateId, "/page");
+  const { mutate, isLoading: submitLoading } = useCreate(PagesAPI, updateId, "/page");
   const { data: oldData, isLoading, refetch } = useCustomQuery([`page/id`], () => request({ url: `${PagesAPI}/${updateId}` }, router), { enabled: false, select: (data) => data?.data });
   useEffect(() => {
     updateId && refetch();
@@ -46,7 +46,13 @@ const PageForm = ({ updateId, buttonName }) => {
     >
       {({ values, setFieldValue, errors, touched }) => (
         <>
-          <Form id="blog" className="theme-form theme-form-2 mega-form">
+          <Form id="blog" className="theme-form theme-form-2 mega-form" style={{ position: 'relative' }}>
+              {submitLoading && (
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.75)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 10, borderRadius: 'inherit' }}>
+                  <div className="spinner-border text-primary" role="status" style={{ width: '2.5rem', height: '2.5rem' }} />
+                  <p className="mt-2 mb-0 fw-semibold">{t("Uploading")}...</p>
+                </div>
+              )}
             <SimpleInputField nameList={[{ name: "title", placeholder: t("EnterTitle"), require: "true" }]} />
             <DescriptionInput values={values} setFieldValue={setFieldValue} title={"Content"} nameKey="content" />
             <SimpleInputField
