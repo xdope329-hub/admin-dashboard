@@ -160,6 +160,21 @@ const FashionOneSubmit = (values, mutate) => {
     values["content"]["category_product"]["category_ids"] = values["productCategories"];
   }
 
+  // ── Brands section ────────────────────────────────────────────────
+  // Always emit a normalized { status, title, brand_ids } object so the
+  // backend gets the admin's exact intent on every save.
+  const existingBrands = values["content"]["brands"] || values["content"]["brand"] || {};
+  const rawStatus = existingBrands.status;
+  // Coerce truthy/falsy variants (true / 1 / "1" → 1, otherwise 0)
+  const normalizedStatus = (rawStatus === true || rawStatus === 1 || rawStatus === "1") ? 1 : 0;
+  values["content"]["brands"] = {
+    status: normalizedStatus,
+    title: existingBrands.title || "Our Brands",
+    brand_ids: values["brandItems"] !== undefined ? values["brandItems"] : (existingBrands.brand_ids || []),
+  };
+  // Drop the legacy singular alias if a previous save left it behind
+  if (values["content"]["brand"]) delete values["content"]["brand"];
+
   const updatedValues = {
     ...values,
     content: {

@@ -3,6 +3,7 @@ import { Col, TabContent, TabPane } from "reactstrap";
 import request from "@/utils/axiosUtils";
 import { product } from "@/utils/axiosUtils/API";
 import Loader from "@/components/commonComponent/Loader";
+import BrandTab from "./fashionOneTabs/BrandTab";
 import CategoryProductTab from "./fashionOneTabs/CategoryProductTab";
 import HomeBannerTab from "./fashionOneTabs/HomeBannerTab";
 import OfferBannerTab from "./fashionOneTabs/OfferBannerTab";
@@ -85,6 +86,9 @@ const AllTabsFashionOne = forwardRef(({ activeTab, values, setFieldValue, apiDat
         </TabPane>
         <TabPane tabId="6">
           <SocialMediaTab values={values} setFieldValue={setFieldValue} />
+        </TabPane>
+        <TabPane tabId="7">
+          <BrandTab values={values} setFieldValue={setFieldValue} brandData={brandData} brandLoader={brandLoader} />
         </TabPane>
       </TabContent>
     </Col>
