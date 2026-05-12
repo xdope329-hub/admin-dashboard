@@ -45,6 +45,7 @@ const FashionOneInitialValue = (data) => {
     //MultiSelect
     productList1Product: data?.content?.products_list?.product_ids || [],
     productCategories: data?.content?.category_product?.category_ids || [],
+    brandItems: data?.content?.brands?.brand_ids || data?.content?.brand?.brand_ids || [],
 
     featuredBlogList: data?.content?.featured_blogs?.blog_ids || [],
   };

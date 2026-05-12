@@ -627,6 +627,7 @@ export const FashionOneSettingTitle = [
   { title: "CategoryProduct", icon: <RiRecordCircleLine /> },
   { title: "Services", icon: <RiRecordCircleLine /> },
   { title: "SocialMedia ", icon: <RiRecordCircleLine /> },
+  { title: "Brand", icon: <RiRecordCircleLine /> },
 ];
 
 export const FashionTwoSettingTitle = [

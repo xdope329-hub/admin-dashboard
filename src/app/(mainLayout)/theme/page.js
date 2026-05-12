@@ -39,15 +39,22 @@ const Theme = () => {
                 <div className={`theme-card ${activeTheme == theme.id ? "active" : ""}`}>
                   <div
                     className="library-box"
+                    style={{ cursor: "pointer" }}
                     onClick={(e) => {
                       e.preventDefault();
-                      edit && router.push(`/theme/${theme.slug}`);
+                      router.push(`/theme/${theme.slug}`);
                     }}
                   >
-                    <a href={`/theme/${theme.slug}`}>
-                      <Image src={theme.image} className="img-fluid bg-img bg_size_content" alt={theme?.name} height={1500} width={1500} />
+                    <a href={`/theme/${theme.slug}`} onClick={(e) => e.preventDefault()}>
+                      <Image
+                        src={theme.image || "/assets/images/placeholder.png"}
+                        className="img-fluid bg-img bg_size_content"
+                        alt={theme?.name || "theme"}
+                        height={1500}
+                        width={1500}
+                      />
                     </a>
-                    <a href={`/theme/${theme.slug}`} className="details-box">
+                    <a href={`/theme/${theme.slug}`} className="details-box" onClick={(e) => e.preventDefault()}>
                       {t("ThemeDetails")}
                     </a>
                   </div>
