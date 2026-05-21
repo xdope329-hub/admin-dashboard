@@ -124,14 +124,10 @@ const MENUITEMS = [
     icon: <RiCoinsLine />,
     path: "/point",
     permission: ["point.index"],
-    type: "link",
-  },
-  {
-    title: "Wallet",
-    displayTitle: "Wallet",
-    icon: <RiWalletLine />,
-    path: "/wallet",
-    permission: ["wallet.index"],
+    // The Earning Points feature can be hidden storefront-wide via
+    // settings.activation.earning_points. The sidebar reads this flag
+    // (see the Sidebar component) and filters this entry out when off.
+    flag: "earning_points",
     type: "link",
   },
   {

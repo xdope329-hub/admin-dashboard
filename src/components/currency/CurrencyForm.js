@@ -86,7 +86,9 @@ const CurrencyForm = ({ updateId, buttonName }) => {
                   require: "true",
                   type: "number",
                   placeholder: t("EnterExchangeRate"),
-                  helpertext: "*Specify the exchange rate for converting other currencies to US Dollars (USD).",
+                  // Base currency is COP — rate 1 means "no conversion". For USD use a
+                  // fraction (e.g. 0.00024 for a 4,166 COP ↔ 1 USD rate).
+                  helpertext: "*Exchange rate relative to the base currency COP. Use 1 for COP itself.",
                 },
               ]}
             />
