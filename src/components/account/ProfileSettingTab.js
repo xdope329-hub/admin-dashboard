@@ -42,7 +42,13 @@ const ProfileSettingTab = () => {
       }}
     >
       {({ values, setFieldValue, errors }) => (
-        <Form className="theme-form theme-form-2 mega-form row">
+        <Form className="theme-form theme-form-2 mega-form row" style={{ position: 'relative' }}>
+          {isLoading && (
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.75)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 10, borderRadius: 'inherit' }}>
+              <div className="spinner-border text-primary" role="status" style={{ width: '2.5rem', height: '2.5rem' }} />
+              <p className="mt-2 mb-0 fw-semibold">{t("Uploading")}...</p>
+            </div>
+          )}
           <FileUploadField name="profile_image_id" uniquename={values?.profile_image} errors={errors} id="profile_image_id" title="Avatar" type="file" values={values} setFieldValue={setFieldValue} helpertext={getHelperText("500x100px")} />
           <SimpleInputField nameList={[{ name: "name", title: "Name", require: "true", placeholder: t("EnterName") }]} />
           <SimpleInputField nameList={[{ name: "email", title: "Email", require: "true", placeholder: t("EnterEmail") }]} />

@@ -66,7 +66,13 @@ const AttachmentModal = (props) => {
             <TabContent activeTab={tabNav}>
                 {!isAttachment && <TabPane className={tabNav == 1 ? "fade active show" : ""} id="upload">
                     <AttachmentFilter setSearch={setSearch} setSorting={setSorting} />
-                    {<div className="content-section select-file-section py-0 ratio2_3">
+                    {<div className="content-section select-file-section py-0 ratio2_3" style={{ position: 'relative' }}>
+                        {isLoading && (
+                            <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.75)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 10, borderRadius: 'inherit' }}>
+                                <div className="spinner-border text-primary" role="status" style={{ width: '2.5rem', height: '2.5rem' }} />
+                                <p className="mt-2 mb-0 fw-semibold">{t("Uploading")}...</p>
+                            </div>
+                        )}
                         {<Row xxl={6} xl={5} lg={4} sm={3} xs={2} className="g-sm-3 g-2 py-0 media-library-sec ratio_square">
                             <ModalData isModal={true} attachmentsData={attachmentsData?.data} state={state} refetch={refetch} dispatch={dispatch} multiple={multiple} redirectToTabs={redirectToTabs} />
                         </Row>}

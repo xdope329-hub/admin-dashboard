@@ -26,7 +26,7 @@ const robotsOptions = [
 const BlogForm = ({ updateId, buttonName }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
-  const { mutate } = useCreate(blog, updateId, "/blog");
+  const { mutate, isLoading } = useCreate(blog, updateId, "/blog");
   const { data } = useCustomQuery([Category], () => request({ url: Category, params: { type: "post" } }, router), { refetchOnWindowFocus: false, select: (data) => data.data.data });
   const { data: tagData } = useCustomQuery([tag], () => request({ url: tag, params: { type: "post" } }, router), { refetchOnWindowFocus: false, select: (data) => data.data.data });
   const { data: oldData, isLoading: oldDataLoading, refetch } = useCustomQuery([blog + "/" + updateId], () => request({ url: `${blog}/${updateId}` }, router), { enabled: false, refetchOnWindowFocus: false });
@@ -77,7 +77,13 @@ const BlogForm = ({ updateId, buttonName }) => {
       >
         {({ values, setFieldValue, errors, touched }) => (
           <>
-            <Form id="blog" className="theme-form theme-form-2 mega-form">
+            <Form id="blog" className="theme-form theme-form-2 mega-form" style={{ position: 'relative' }}>
+              {isLoading && (
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.75)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 10, borderRadius: 'inherit' }}>
+                  <div className="spinner-border text-primary" role="status" style={{ width: '2.5rem', height: '2.5rem' }} />
+                  <p className="mt-2 mb-0 fw-semibold">{t("Uploading")}...</p>
+                </div>
+              )}
               <SimpleInputField nameList={[{ name: "title", placeholder: t("EnterBlogTitle"), require: "true" }]} />
               <SimpleInputField nameList={[{ name: "description", placeholder: t("EnterBlogDescription") }]} />
               <DescriptionInput values={values} setFieldValue={setFieldValue} title={"Content"} nameKey="content" />
