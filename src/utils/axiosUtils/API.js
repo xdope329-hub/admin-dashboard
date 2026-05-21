@@ -86,10 +86,8 @@ export const commissions = '/commissionHistory';
 // Currency
 export const currency = '/currency';
 
-// Wallet
-export const UserTransactions = '/wallet/consumer';
-export const WalletCredit = '/credit/wallet';
-export const WalletDebit = '/debit/wallet';
+// Wallet / Bank Details (Payment Account) endpoints were removed when the
+// consumer Wallet and Bank Details features were retired from the storefront.
 
 // Notifications
 export const NotificationsAPI = "/notifications";
@@ -107,9 +105,6 @@ export const PointDebit = '/debit/points';
 
 // Theme Option
 export const ThemeOptions = "/themeOptions"
-
-// Payment Details
-export const PaymentAccount = '/paymentAccount';
 
 // Pages
 export const PagesAPI = '/page';
