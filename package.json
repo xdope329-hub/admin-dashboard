@@ -29,7 +29,7 @@
     "i18next-resources-to-backend": "^1.2.1",
     "jodit-react": "^5.2.19",
     "js-cookie": "^3.0.5",
-    "next": "^15.2.0",
+    "next": "^15.5.0",
     "nextjs-toploader": "^3.7.15",
     "react": "^19.0.0",
     "react-apexcharts": "^1.7.0",
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "eslint": "^8",
-    "eslint-config-next": "^14.2.1",
+    "eslint-config-next": "^15.5.0",
     "sass": "1.77.6"
   }
 }
