@@ -5,7 +5,7 @@ import Btn from "@/elements/buttons/Btn";
 import SettingContext from "@/helper/settingContext";
 import LoginBoxWrapper from "@/utils/hoc/LoginBoxWrapper";
 import { YupObject, emailSchema, nameSchema } from "@/utils/validation/ValidationSchemas";
-import request from "@/utils/axiosUtils";
+import request, { saveSession } from "@/utils/axiosUtils";
 import { login } from "@/utils/axiosUtils/API";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import Image from "next/image";
@@ -26,8 +26,10 @@ const Login = () => {
     try {
       const res = await request({ url: login, method: "post", data: values });
       if (res?.status === 200 || res?.status === 201) {
-        const token = res.data?.access_token || res.data?.token;
-        Cookies.set("uat", token, { path: "/", expires: 7 });
+        // saveSession stores both uat (access) and urt (refresh) cookies via
+        // the axios util. Both apps share the same key names so the refresh
+        // interceptor picks up the right token automatically.
+        saveSession(res.data || {});
         Cookies.set("account", JSON.stringify(res.data?.data || {}));
         router.push("/dashboard");
       } else {

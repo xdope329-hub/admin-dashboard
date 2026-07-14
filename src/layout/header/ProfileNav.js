@@ -1,4 +1,6 @@
 import useOutsideDropdown from "@/utils/hooks/customHooks/useOutsideDropdown";
+import request, { clearSession } from "@/utils/axiosUtils";
+import { LogoutAPI } from "@/utils/axiosUtils/API";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -21,7 +23,13 @@ const ProfileNav = () => {
   const isStateData = (accountContextData.image && Object?.keys(accountContextData.image).length > 0) || accountContextData.image == "";
 
   const handleLogout = () => {
-    Cookies.remove("uat");
+    // Revoke the refresh token server-side so it can't be re-used after
+    // logout. Fire-and-forget - never block the UX on the network call.
+    const refresh = Cookies.get("urt");
+    if (refresh) {
+      request({ url: LogoutAPI, method: "post", data: { refresh_token: refresh } }).catch(() => {});
+    }
+    clearSession();
     Cookies.remove("ue");
     Cookies.remove("account");
     localStorage.removeItem("account");
