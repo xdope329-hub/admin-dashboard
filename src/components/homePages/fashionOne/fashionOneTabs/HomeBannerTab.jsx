@@ -28,6 +28,7 @@ const HomeBannerTab = ({ values, setFieldValue, productData, categoryData, setSe
       setFieldValue("[content][home_banner][banners]", filterValue);
       filterValue?.forEach((elem, i) => {
         elem?.image_url && setFieldValue(`homeBannerImage${i}`, { original_url: elem?.image_url });
+        elem?.image_url_mobile && setFieldValue(`homeBannerImageMobile${i}`, { original_url: elem?.image_url_mobile });
         elem?.redirect_link?.link_type && setFieldValue(`homeRedirectLinkType${i}`, elem?.redirect_link?.link_type);
         elem?.redirect_link?.link && setFieldValue(`homeRedirectLink${i}`, elem?.redirect_link?.link);
       });
@@ -49,9 +50,12 @@ const HomeBannerTab = ({ values, setFieldValue, productData, categoryData, setSe
                 {active == index && (
                   <div className="rule-edit-form">
                     <FileUploadField paramsProps={{ mime_type: mediaConfig.image.join(",") }} name={`homeBannerImage${index}`} title="Image" id={`homeBannerImage${index}`} type="file" values={values} setFieldValue={setFieldValue} showImage={values[`homeBannerImage${index}`]} helpertext={getHelperText("376x231px")} />
+                    <FileUploadField paramsProps={{ mime_type: mediaConfig.image.join(",") }} name={`homeBannerImageMobile${index}`} title="Image (Mobile)" id={`homeBannerImageMobile${index}`} type="file" values={values} setFieldValue={setFieldValue} showImage={values[`homeBannerImageMobile${index}`]} helpertext={getHelperText("Optional — used on screens < 768px")} />
                     <SimpleInputField nameList={[
                       { name: `[content][home_banner][banners][${index}][subtitle]`, title: "Subtitle", placeholder: "Subtitle" },
+                      { name: `[content][home_banner][banners][${index}][subtitle_mobile]`, title: "Subtitle (Mobile)", placeholder: "Optional — mobile subtitle" },
                       { name: `[content][home_banner][banners][${index}][title]`, title: "Title", placeholder: "Title" },
+                      { name: `[content][home_banner][banners][${index}][title_mobile]`, title: "Title (Mobile)", placeholder: "Optional — mobile title" },
                       { name: `[content][home_banner][banners][${index}][button_text]`, title: "Button Text", placeholder: "Shop Now" },
                     ]} />
                     <SearchableSelectInput nameList={[{

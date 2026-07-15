@@ -22,12 +22,14 @@ const SocialMediaTab = ({ values, setFieldValue, productData, categoryData, setS
     for (let oldIdx = 0; oldIdx < banners.length; oldIdx++) {
       if (oldIdx === index) continue;
       setFieldValue(`socialMediaBannerImage${newIdx}`, values[`socialMediaBannerImage${oldIdx}`] ?? null);
+      setFieldValue(`socialMediaBannerImageMobile${newIdx}`, values[`socialMediaBannerImageMobile${oldIdx}`] ?? null);
       setFieldValue(`socialMediaRedirectLinkType${newIdx}`, values[`socialMediaRedirectLinkType${oldIdx}`] ?? "");
       setFieldValue(`socialMediaRedirectLink${newIdx}`, values[`socialMediaRedirectLink${oldIdx}`] ?? "");
       newIdx++;
     }
     // Clear the now-orphaned last slot
     setFieldValue(`socialMediaBannerImage${filterValue.length}`, null);
+    setFieldValue(`socialMediaBannerImageMobile${filterValue.length}`, null);
     setFieldValue(`socialMediaRedirectLinkType${filterValue.length}`, "");
     setFieldValue(`socialMediaRedirectLink${filterValue.length}`, "");
   };
@@ -47,6 +49,7 @@ const SocialMediaTab = ({ values, setFieldValue, productData, categoryData, setS
                 {active == index && (
                   <div className="rule-edit-form">
                     <FileUploadField paramsProps={{ mime_type: mediaConfig.image.join(",") }} name={`socialMediaBannerImage${index}`} title="Image" id={`socialMediaBannerImage${index}`} type="file" values={values} setFieldValue={setFieldValue} showImage={values[`socialMediaBannerImage${index}`]} helpertext={getHelperText("375x586px")} />
+                    <FileUploadField paramsProps={{ mime_type: mediaConfig.image.join(",") }} name={`socialMediaBannerImageMobile${index}`} title="Image (Mobile)" id={`socialMediaBannerImageMobile${index}`} type="file" values={values} setFieldValue={setFieldValue} showImage={values[`socialMediaBannerImageMobile${index}`]} helpertext={getHelperText("Optional — used on screens < 768px")} />
                     <CommonRedirect values={values} setFieldValue={setFieldValue} productData={productData} categoryData={categoryData} nameList={{ selectNameKey: `socialMediaRedirectLinkType${index}`, multipleNameKey: `socialMediaRedirectLink${index}` }} setSearch={setSearch} />
                     <CheckBoxField name={`[content][social_media][banners][${index}][status]`} title="Status" />
                   </div>

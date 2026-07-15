@@ -14,6 +14,12 @@ const FashionOneSubmit = (values, mutate) => {
       values["content"]["home_banner"]["banners"][i]["image_url"] = "";
     }
 
+    if (values[`homeBannerImageMobile${i}`]) {
+      values["content"]["home_banner"]["banners"][i]["image_url_mobile"] = values[`homeBannerImageMobile${i}`].original_url;
+    } else {
+      values["content"]["home_banner"]["banners"][i]["image_url_mobile"] = "";
+    }
+
     if (values[`homeRedirectLinkType${i}`] || values[`homeRedirectLink${i}`]) {
       values["content"]["home_banner"]["banners"][i]["redirect_link"]["link_type"] = values[`homeRedirectLinkType${i}`];
       values["content"]["home_banner"]["banners"][i]["redirect_link"]["link"] = values[`homeRedirectLink${i}`];
@@ -40,6 +46,11 @@ const FashionOneSubmit = (values, mutate) => {
     } else {
       values["content"]["social_media"]["banners"][i]["image_url"] = "";
     }
+    if (values[`socialMediaBannerImageMobile${i}`]) {
+      values["content"]["social_media"]["banners"][i]["image_url_mobile"] = values[`socialMediaBannerImageMobile${i}`].original_url;
+    } else {
+      values["content"]["social_media"]["banners"][i]["image_url_mobile"] = "";
+    }
     if (values[`socialMediaRedirectLinkType${i}`] || values[`socialMediaRedirectLink${i}`]) {
       values["content"]["social_media"]["banners"][i]["redirect_link"]["link_type"] = values[`socialMediaRedirectLinkType${i}`];
       values["content"]["social_media"]["banners"][i]["redirect_link"]["link"] = values[`socialMediaRedirectLink${i}`];
@@ -60,6 +71,11 @@ const FashionOneSubmit = (values, mutate) => {
     } else {
       values["content"]["services"]["banners"][i]["image_url"] = "";
     }
+    if (values[`serviceBannerImageMobile${i}`]) {
+      values["content"]["services"]["banners"][i]["image_url_mobile"] = values[`serviceBannerImageMobile${i}`]?.original_url;
+    } else {
+      values["content"]["services"]["banners"][i]["image_url_mobile"] = "";
+    }
   });
 
   // =============================================================================================================
@@ -78,6 +94,9 @@ const FashionOneSubmit = (values, mutate) => {
   if (values["offerBanner1Image"]) {
     values["content"]["offer_banner"]["banner_1"]["image_url"] = values["offerBanner1Image"].original_url;
   } else values["content"]["offer_banner"]["banner_1"]["image_url"] = "";
+  if (values["offerBanner1ImageMobile"]) {
+    values["content"]["offer_banner"]["banner_1"]["image_url_mobile"] = values["offerBanner1ImageMobile"].original_url;
+  } else values["content"]["offer_banner"]["banner_1"]["image_url_mobile"] = "";
 
   if (values["banner1Image"]) {
     values["content"]["banner"]["image_url"] = values["banner1Image"].original_url;
@@ -86,6 +105,9 @@ const FashionOneSubmit = (values, mutate) => {
   if (values["offerBanner2Image"]) {
     values["content"]["offer_banner"]["banner_2"]["image_url"] = values["offerBanner2Image"].original_url;
   } else values["content"]["offer_banner"]["banner_2"]["image_url"] = "";
+  if (values["offerBanner2ImageMobile"]) {
+    values["content"]["offer_banner"]["banner_2"]["image_url_mobile"] = values["offerBanner2ImageMobile"].original_url;
+  } else values["content"]["offer_banner"]["banner_2"]["image_url_mobile"] = "";
 
   // =============================================================================================================
 

@@ -3,6 +3,7 @@ const FashionOneInitialValue = (data) => {
   data?.content?.home_banner?.banners?.length > 0 &&
     data?.content?.home_banner?.banners?.forEach((elem, index) => {
       elem.image_url ? (obj[`homeBannerImage${index}`] = { original_url: elem.image_url }) : "";
+      elem.image_url_mobile ? (obj[`homeBannerImageMobile${index}`] = { original_url: elem.image_url_mobile }) : "";
       elem?.redirect_link ? (obj[`homeRedirectLinkType${index}`] = elem?.redirect_link?.link_type) : "";
       elem?.redirect_link ? (obj[`homeRedirectLink${index}`] = elem?.redirect_link?.link) : "";
       return obj;
@@ -11,12 +12,14 @@ const FashionOneInitialValue = (data) => {
   data?.content?.services?.banners?.length > 0 &&
     data?.content?.services?.banners?.forEach((elem, index) => {
       elem.image_url ? (obj[`serviceBannerImage${index}`] = { original_url: elem.image_url }) : "";
+      elem.image_url_mobile ? (obj[`serviceBannerImageMobile${index}`] = { original_url: elem.image_url_mobile }) : "";
       return obj;
     });
 
   data?.content?.social_media?.banners?.length > 0 &&
     data?.content?.social_media?.banners?.forEach((elem, index) => {
       elem.image_url ? (obj[`socialMediaBannerImage${index}`] = { original_url: elem.image_url }) : "";
+      elem.image_url_mobile ? (obj[`socialMediaBannerImageMobile${index}`] = { original_url: elem.image_url_mobile }) : "";
       elem?.redirect_link ? (obj[`socialMediaRedirectLinkType${index}`] = elem?.redirect_link?.link_type) : "";
       elem?.redirect_link ? (obj[`socialMediaRedirectLink${index}`] = elem?.redirect_link?.link) : "";
       return obj;
@@ -28,7 +31,9 @@ const FashionOneInitialValue = (data) => {
     slug: data?.slug,
     // Images
     offerBanner1Image: data?.content?.offer_banner?.banner_1?.image_url ? { original_url: data?.content?.offer_banner?.banner_1?.image_url } : "",
+    offerBanner1ImageMobile: data?.content?.offer_banner?.banner_1?.image_url_mobile ? { original_url: data?.content?.offer_banner?.banner_1?.image_url_mobile } : "",
     offerBanner2Image: data?.content?.offer_banner?.banner_2?.image_url ? { original_url: data?.content?.offer_banner?.banner_2?.image_url } : "",
+    offerBanner2ImageMobile: data?.content?.offer_banner?.banner_2?.image_url_mobile ? { original_url: data?.content?.offer_banner?.banner_2?.image_url_mobile } : "",
     banner1Image: data?.content?.banner?.image_url ? { original_url: data?.content?.banner?.image_url } : "",
     ...obj,
 
