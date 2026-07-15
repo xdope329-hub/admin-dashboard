@@ -1,0 +1,16 @@
+export const FontOptions = [
+  { id: "Inter, sans-serif", name: "Inter" },
+  { id: "Poppins, sans-serif", name: "Poppins" },
+  { id: "Roboto, sans-serif", name: "Roboto" },
+  { id: "Montserrat, sans-serif", name: "Montserrat" },
+  { id: "Open Sans, sans-serif", name: "Open Sans" },
+  { id: "Lato, sans-serif", name: "Lato" },
+  { id: "Raleway, sans-serif", name: "Raleway" },
+  { id: "Nunito, sans-serif", name: "Nunito" },
+  { id: "Oswald, sans-serif", name: "Oswald" },
+  { id: "Playfair Display, serif", name: "Playfair Display" },
+  { id: "Merriweather, serif", name: "Merriweather" },
+  { id: "Georgia, serif", name: "Georgia" },
+  { id: "Times New Roman, serif", name: "Times New Roman" },
+  { id: "Courier New, monospace", name: "Courier New" },
+];
