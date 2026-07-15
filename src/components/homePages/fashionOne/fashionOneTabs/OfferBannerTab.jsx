@@ -29,9 +29,12 @@ const OfferBannerTab = ({ values, setFieldValue, productData, categoryData, setS
       <TabContent activeTab={activeTab}>
         <TabPane tabId="1">
           <FileUploadField paramsProps={{ mime_type: mediaConfig.image.join(",") }} name="offerBanner1Image" title="Image" id="offerBanner1Image" showImage={values["offerBanner1Image"]} type="file" values={values} setFieldValue={setFieldValue} helpertext={getHelperText("806x670px")} />
+          <FileUploadField paramsProps={{ mime_type: mediaConfig.image.join(",") }} name="offerBanner1ImageMobile" title="Image (Mobile)" id="offerBanner1ImageMobile" showImage={values["offerBanner1ImageMobile"]} type="file" values={values} setFieldValue={setFieldValue} helpertext={getHelperText("Optional — used on screens < 768px")} />
           <SimpleInputField nameList={[
             { name: "[content][offer_banner][banner_1][subtitle]", title: "Subtitle", placeholder: "Subtitle" },
+            { name: "[content][offer_banner][banner_1][subtitle_mobile]", title: "Subtitle (Mobile)", placeholder: "Optional — mobile subtitle" },
             { name: "[content][offer_banner][banner_1][title]", title: "Title", placeholder: "Title" },
+            { name: "[content][offer_banner][banner_1][title_mobile]", title: "Title (Mobile)", placeholder: "Optional — mobile title" },
           ]} />
           <ColorPickerField
             name="[content][offer_banner][banner_1][text_color]"
@@ -58,9 +61,12 @@ const OfferBannerTab = ({ values, setFieldValue, productData, categoryData, setS
         </TabPane>
         <TabPane tabId="2">
           <FileUploadField paramsProps={{ mime_type: mediaConfig.image.join(",") }} name="offerBanner2Image" title="Image" id="offerBanner2Image" showImage={values["offerBanner2Image"]} type="file" values={values} setFieldValue={setFieldValue} helpertext={getHelperText("806x670px")} />
+          <FileUploadField paramsProps={{ mime_type: mediaConfig.image.join(",") }} name="offerBanner2ImageMobile" title="Image (Mobile)" id="offerBanner2ImageMobile" showImage={values["offerBanner2ImageMobile"]} type="file" values={values} setFieldValue={setFieldValue} helpertext={getHelperText("Optional — used on screens < 768px")} />
           <SimpleInputField nameList={[
             { name: "[content][offer_banner][banner_2][subtitle]", title: "Subtitle", placeholder: "Subtitle" },
+            { name: "[content][offer_banner][banner_2][subtitle_mobile]", title: "Subtitle (Mobile)", placeholder: "Optional — mobile subtitle" },
             { name: "[content][offer_banner][banner_2][title]", title: "Title", placeholder: "Title" },
+            { name: "[content][offer_banner][banner_2][title_mobile]", title: "Title (Mobile)", placeholder: "Optional — mobile title" },
           ]} />
           <ColorPickerField
             name="[content][offer_banner][banner_2][text_color]"

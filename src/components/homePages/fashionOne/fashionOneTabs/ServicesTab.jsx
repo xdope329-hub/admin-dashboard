@@ -19,6 +19,7 @@ const ServicesTab = ({ values, setFieldValue}) => {
       setFieldValue("[content][services][banners]", filterValue);
       filterValue?.forEach((elem, i) => {
         elem?.image_url && setFieldValue(`serviceBannerImage${i}`, { original_url: elem?.image_url });
+        elem?.image_url_mobile && setFieldValue(`serviceBannerImageMobile${i}`, { original_url: elem?.image_url_mobile });
       });
     }
   };
@@ -39,10 +40,13 @@ const ServicesTab = ({ values, setFieldValue}) => {
                     <SimpleInputField
                       nameList={[
                         { name: `[content][services][banners][${index}][title]`, placeholder: t("EnterTitle"), title: "Title" },
+                        { name: `[content][services][banners][${index}][title_mobile]`, placeholder: "Optional — mobile title", title: "Title (Mobile)" },
                         { name: `[content][services][banners][${index}][description]`, placeholder: t("EnterDescription"), title: "Description", type: "textarea" },
+                        { name: `[content][services][banners][${index}][description_mobile]`, placeholder: "Optional — mobile description", title: "Description (Mobile)", type: "textarea" },
                       ]}
                     />
                     <FileUploadField paramsProps={{ mime_type: mediaConfig.image.join(",") }} name={`serviceBannerImage${index}`} title="Image" id={`serviceBannerImage${index}`} type="file" values={values} setFieldValue={setFieldValue} showImage={values[`serviceBannerImage${index}`]} helpertext={getHelperText("375x586px")} />
+                    <FileUploadField paramsProps={{ mime_type: mediaConfig.image.join(",") }} name={`serviceBannerImageMobile${index}`} title="Image (Mobile)" id={`serviceBannerImageMobile${index}`} type="file" values={values} setFieldValue={setFieldValue} showImage={values[`serviceBannerImageMobile${index}`]} helpertext={getHelperText("Optional — used on screens < 768px")} />
                     <CheckBoxField name={`[content][services][banners][${index}][status]`} title="Status" />
                   </div>
                 )}
