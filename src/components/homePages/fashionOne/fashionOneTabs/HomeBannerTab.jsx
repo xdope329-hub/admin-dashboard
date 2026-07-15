@@ -88,6 +88,15 @@ const HomeBannerTab = ({ values, setFieldValue, productData, categoryData, setSe
                     <SimpleInputField nameList={[
                       { name: `[content][home_banner][banners][${index}][title_font_size_mobile]`, title: "Title Font Size Mobile (px)", placeholder: "e.g. 28", type: "number" },
                       { name: `[content][home_banner][banners][${index}][button_text]`, title: "Button Text", placeholder: "Shop Now" },
+                      { name: `[content][home_banner][banners][${index}][button_text_mobile]`, title: "Button Text (Mobile)", placeholder: "Optional — mobile button text" },
+                    ]} />
+                    <SearchableSelectInput nameList={[fontSelect(`[content][home_banner][banners][${index}][button_font_family]`, values?.content?.home_banner?.banners?.[index]?.button_font_family, setFieldValue, `homeBannerButtonFont${index}`)]} />
+                    <SimpleInputField nameList={[
+                      { name: `[content][home_banner][banners][${index}][button_font_size]`, title: "Button Font Size (px)", placeholder: "e.g. 16", type: "number" },
+                    ]} />
+                    <SearchableSelectInput nameList={[fontSelect(`[content][home_banner][banners][${index}][button_font_family_mobile]`, values?.content?.home_banner?.banners?.[index]?.button_font_family_mobile, setFieldValue, `homeBannerButtonFontMobile${index}`)]} />
+                    <SimpleInputField nameList={[
+                      { name: `[content][home_banner][banners][${index}][button_font_size_mobile]`, title: "Button Font Size Mobile (px)", placeholder: "e.g. 14", type: "number" },
                     ]} />
                     <SearchableSelectInput nameList={[{
                       name: `[content][home_banner][banners][${index}][text_position]`,
