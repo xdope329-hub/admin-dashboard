@@ -11,6 +11,7 @@ import Btn from "../../elements/buttons/Btn";
 import request from "../../utils/axiosUtils";
 import { setting } from "../../utils/axiosUtils/API";
 import { YupObject, emailSchema, nameSchema } from "../../utils/validation/ValidationSchemas";
+import SaveAsPresetButton from "../preset/SaveAsPresetButton";
 import AllTabs from "./AllTabs";
 
 const SettingForm = ({ mutate, loading, title }) => {
@@ -109,6 +110,7 @@ const SettingForm = ({ mutate, loading, title }) => {
                 <AllTabs values={values} activeTab={activeTab} setFieldValue={setFieldValue} errors={errors} touched={touched} />
                 <div className="ms-auto justify-content-end dflex-wgap mt-4 save-back-button">
                   {/* <Btn className="me-2 btn-outline btn-lg" title="Back" onClick={() => router.back()} /> */}
+                   <SaveAsPresetButton presetType="settings" />
                    <Btn className="btn-primary btn-lg" type="submit" title="Save" loading={Number(loading)} />
                 </div>
               </Row>
