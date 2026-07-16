@@ -180,6 +180,7 @@ const MENUITEMS = [
     children: [
       { title: "Themes", path: "/theme", displayTitle: "Theme", permission: ["theme.index"] },
       { title: "ThemeOptions", path: "/theme_option", displayTitle: "Theme Option", permission: ["theme_option.index"] },
+      { title: "Presets", path: "/preset", displayTitle: "Presets", permission: ["setting.index"] },
       { title: "Menu", path: "/menu", displayTitle: "Menu", permission: ["menu.index"] },
     ],
   },

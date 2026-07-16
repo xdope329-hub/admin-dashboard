@@ -10,6 +10,7 @@ import { ThemeOptions } from '../../utils/axiosUtils/API';
 import { RecursiveSet } from '../../utils/customFunctions/RecursiveSet';
 import usePermissionCheck from '../../utils/hooks/usePermissionCheck';
 import Loader from '../commonComponent/Loader';
+import SaveAsPresetButton from '../preset/SaveAsPresetButton';
 import ThemeOptionAllTabs from './ThemeOptionAllTabs';
 import { ThemeOptionInitialValue } from './ThemeOptionInitialValue';
 import ThemeOptionSubmit from './ThemeOptionSubmit';
@@ -58,6 +59,7 @@ const ThemeOptionForm = ({ mutate, loading, title }) => {
                                 <ThemeOptionAllTabs activeTab={activeTab} errors={errors} values={values} setFieldValue={setFieldValue} touched={touched} />
                                 <div className="ms-auto justify-content-end dflex-wgap mt-4 save-back-button">
                                     <Btn className="me-2 btn-outline btn-lg" title="Back" onClick={() => router.back()} />
+                                    {edit && <SaveAsPresetButton presetType="themeOption" />}
                                     {edit && <Btn className="btn-primary btn-lg" type="submit" title="Save" loading={Number(loading)} />}
                                 </div>
                             </Row>

@@ -167,4 +167,8 @@ export const NoticeRecent = "/notice/recent";
 
 export const AppSettingsApi = "/app/settings";
 
-export const sortMenu = '/menu/sort' 
+export const sortMenu = '/menu/sort'
+
+// Presets — save/restore Setting & ThemeOption snapshots for seasonal themes.
+export const PresetAPI = '/presets';
+export const PresetApplyAPI = (id) => `/presets/${id}/apply`;
