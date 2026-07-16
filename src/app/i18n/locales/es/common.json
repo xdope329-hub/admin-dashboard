@@ -1226,5 +1226,7 @@
   "Applying": "Aplicando…",
   "Saving": "Guardando…",
   "SaveAsPreset": "Guardar como preset",
-  "NoThumbnail": "Sin miniatura"
+  "NoThumbnail": "Sin miniatura",
+  "InUse": "En uso",
+  "InUseCannotDelete": "Este archivo está siendo usado por un producto, ajuste, opción de tema o preset y no puede eliminarse."
 }

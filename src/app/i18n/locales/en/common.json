@@ -1239,5 +1239,7 @@
   "Applying": "Applying…",
   "Saving": "Saving…",
   "SaveAsPreset": "Save as preset",
-  "NoThumbnail": "No thumbnail"
+  "NoThumbnail": "No thumbnail",
+  "InUse": "In use",
+  "InUseCannotDelete": "This attachment is referenced by a product, setting, theme option or preset and cannot be deleted."
 }
