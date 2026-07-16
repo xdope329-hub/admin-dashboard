@@ -1226,5 +1226,7 @@
   "Applying": "Application…",
   "Saving": "Enregistrement…",
   "SaveAsPreset": "Enregistrer comme préréglage",
-  "NoThumbnail": "Pas de miniature"
+  "NoThumbnail": "Pas de miniature",
+  "InUse": "Utilisé",
+  "InUseCannotDelete": "Cette pièce jointe est référencée par un produit, un paramètre, une option de thème ou un préréglage et ne peut pas être supprimée."
 }

@@ -1,8 +1,11 @@
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
+import { RiLockLine } from "react-icons/ri";
 import { Input, Label } from "reactstrap";
 import NoDataFound from "../../commonComponent/NoDataFound";
 
 const AttachmentData = ({ state, dispatch, attachmentsData, refetch }) => {
+  const { t } = useTranslation("common");
   let mimeImageMapping = [
     { mimeType: "application/pdf", imagePath: "/assets/images/pdf.png" },
     { mimeType: "application/msword", imagePath: "/assets/images/word.png" },
@@ -23,8 +26,11 @@ const AttachmentData = ({ state, dispatch, attachmentsData, refetch }) => {
     { mimeType: "application/gzip", imagePath: "/assets/images/zip.png" },
   ];
 
-  // Deleting the selected images from media module
+  // Deleting the selected images from media module. In-use attachments
+  // are locked to prevent accidental removal — the checkbox is disabled
+  // and any attempt to toggle is ignored.
   const ChoseImages = (e, item) => {
+    if (item.is_used) return;
     let temp = [...state.deleteImage];
     if (temp?.includes(item.id) && !e.target.checked) {
       temp.splice(temp.indexOf(item.id), 1);
@@ -47,13 +53,36 @@ const AttachmentData = ({ state, dispatch, attachmentsData, refetch }) => {
 
         return imageUrl ? (
           <div key={i}>
-            <div className="library-box">
-              <Input type="checkbox" id={elem.id} checked={state.deleteImage?.includes(elem.id)} onChange={(e) => ChoseImages(e, elem)} />
+            <div className={`library-box${elem.is_used ? " library-box-used" : ""}`} style={{ position: "relative" }}>
+              <Input type="checkbox" id={elem.id} checked={state.deleteImage?.includes(elem.id)} onChange={(e) => ChoseImages(e, elem)} disabled={elem.is_used} />
               <Label htmlFor={elem.id}>
                 <div className="ratio ratio-1x1">
-                  <Image src={imageUrl} className="img-fluid" alt="attachment" height={130} width={130} />
+                  <Image src={imageUrl} className="img-fluid" alt="attachment" height={130} width={130} style={elem.is_used ? { filter: "brightness(0.85)" } : undefined} />
                 </div>
               </Label>
+              {elem.is_used && (
+                <span
+                  title={t("InUseCannotDelete")}
+                  style={{
+                    position: "absolute",
+                    top: 6,
+                    right: 6,
+                    background: "rgba(0,0,0,0.65)",
+                    color: "#fff",
+                    borderRadius: 4,
+                    padding: "2px 6px",
+                    fontSize: 11,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 4,
+                    pointerEvents: "auto",
+                    zIndex: 2,
+                  }}
+                >
+                  <RiLockLine size={12} />
+                  {t("InUse")}
+                </span>
+              )}
             </div>
           </div>
         ) : null; // If imageUrl is empty, do not render the Image component

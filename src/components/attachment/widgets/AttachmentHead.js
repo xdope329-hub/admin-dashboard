@@ -18,12 +18,16 @@ const AttachmentHead = ({ isAttachment, state, dispatch, refetch }) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const { mutate } = useCustomMutation((data) => request({ url: attachmentDelete, data: { ids: data }, method: "post" }, router), {
+  const { mutate, isLoading } = useCustomMutation((data) => request({ url: attachmentDelete, data: { ids: data }, method: "delete" }, router), {
     onSuccess: (resData) => {
-      SuccessHandle(resData, router, "/attachment", "Deleted Successfully", pathname);
-      resData.status == 200 && dispatch({ type: "DeleteSelectedImage", payload: [] });
-      refetch();
+      SuccessHandle(resData, router, "/attachment", resData?.data?.message || "Deleted Successfully", pathname);
+      if (resData?.status === 200) {
+        dispatch({ type: "DeleteSelectedImage", payload: [] });
+        refetch();
+      }
+      setDeleteModal(false);
     },
+    onError: () => setDeleteModal(false),
   });
   return (
     <>
@@ -52,9 +56,8 @@ const AttachmentHead = ({ isAttachment, state, dispatch, refetch }) => {
                       <Btn
                         title="Yes"
                         className="btn-theme btn-md fw-bold"
-                        onClick={() => {
-                          setDeleteModal(false);
-                        }}
+                        loading={Number(isLoading)}
+                        onClick={() => mutate(state.deleteImage)}
                       />
                     </>
                   }
