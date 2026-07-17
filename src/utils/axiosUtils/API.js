@@ -71,6 +71,7 @@ export const shippingRule = "/shippingRule";
 // setting api
 export const setting = "/settings";
 export const updateSetting = "/settings";
+export const testEmailAPI = "/settings/test-email";
 
 // setting api
 export const checkout = "/checkout";
