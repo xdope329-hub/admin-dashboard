@@ -1,25 +1,35 @@
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import request from "../../utils/axiosUtils";
+import { testEmailAPI } from "../../utils/axiosUtils/API";
 import SearchableSelectInput from "../inputFields/SearchableSelectInput";
 import SimpleInputField from "../inputFields/SimpleInputField";
 
 const EmailTab = ({ values, setFieldValue, errors, touched }) => {
-  const handleNonSubmitButton = () => {
-    setFieldValue("submitButtonClicked", true);
-    const notificationsTest = {
-      email: values?.email,
-      mail_encryption: values?.mail_encryption,
-      mail_mailer: values?.mail_mailer,
-      mail_from_address: values?.values?.email?.mail_from_address,
-      mail_from_name: values?.values?.email?.mail_encryption,
-      mail_host: values?.values?.email?.mail_host,
-      mail_password: values?.values?.email?.mail_password,
-      mail_username: values?.values?.email?.mail_username,
-      mail_port: values?.values?.email?.mail_port,
-      mailgun_domain: values?.values?.email?.mailgun_domain,
-      mailgun_secret: values?.values?.email?.mailgun_secret,
-    };
-  };
   const { t } = useTranslation("common");
+  const router = useRouter();
+  const [sending, setSending] = useState(false);
+  const [feedback, setFeedback] = useState(null);
+
+  const handleTestEmail = async () => {
+    setFieldValue("submitButtonClicked", true);
+    if (!values?.email || (touched?.email && errors?.email)) return;
+    setSending(true);
+    setFeedback(null);
+    try {
+      const res = await request(
+        { url: testEmailAPI, method: "post", data: { email: values.email } },
+        router
+      );
+      setFeedback({ type: "success", text: res?.data?.message || `Test email sent to ${values.email}` });
+    } catch (err) {
+      const msg = err?.response?.data?.message || err?.message || "Failed to send test email";
+      setFeedback({ type: "error", text: msg });
+    } finally {
+      setSending(false);
+    }
+  };
   return (
     <>
       <SearchableSelectInput
@@ -31,6 +41,7 @@ const EmailTab = ({ values, setFieldValue, errors, touched }) => {
               name: "mail_mailer",
               id: "mail_mailer",
               options: [
+                { id: "brevo", name: "Brevo" },
                 { id: "sendmail", name: "SendMail" },
                 { id: "smtp", name: "SMTP" },
                 { id: "mailgun", name: "MailGun" },
@@ -39,7 +50,17 @@ const EmailTab = ({ values, setFieldValue, errors, touched }) => {
           },
         ]}
       />
-      {values?.["mail_mailer"] == "mailgun" ? (
+      {values?.["mail_mailer"] == "brevo" ? (
+        <div className="alert alert-info mt-3" role="alert">
+          <strong>Brevo:</strong> las credenciales se configuran por variables de entorno en el servidor.
+          <ul className="mb-0 mt-2">
+            <li><code>BREVO_API_KEY</code> — API key desde Brevo &gt; SMTP &amp; API</li>
+            <li><code>BREVO_SENDER_EMAIL</code> — remitente validado en tu cuenta</li>
+            <li><code>BREVO_SENDER_NAME</code> — nombre visible del remitente</li>
+            <li><code>BREVO_NEWSLETTER_LIST_ID</code> — ID de la lista para el newsletter</li>
+          </ul>
+        </div>
+      ) : values?.["mail_mailer"] == "mailgun" ? (
         <SimpleInputField
           nameList={[
             { name: "[values][email][mailgun_domain]", title: "MailgunDomain", placeholder: t("EnterMailGunDomain") },
@@ -83,9 +104,14 @@ const EmailTab = ({ values, setFieldValue, errors, touched }) => {
       <hr />
       <h4 className="fw-semibold mb-3 txt-primary w-100">{t("Testemail")}</h4>
       <SimpleInputField nameList={[{ name: "email", title: "to_mail", type: "email", placeholder: t("enter_email") }]} />
-      <button type="button" name="email" disabled={(touched?.email && errors?.email) || !touched?.email} title="SendEmail" className="btn btn-animation  ms-auto" onClick={handleNonSubmitButton}>
-        {t("SendEmail")}
+      <button type="button" name="email" disabled={sending || (touched?.email && errors?.email) || !touched?.email} title="SendEmail" className="btn btn-animation  ms-auto" onClick={handleTestEmail}>
+        {sending ? "..." : t("SendEmail")}
       </button>
+      {feedback && (
+        <div className={`alert mt-3 ${feedback.type === "success" ? "alert-success" : "alert-danger"}`} role="alert">
+          {feedback.text}
+        </div>
+      )}
       <div className="instruction-box">
         <div className="instruction-title">
           <h4>Instruction</h4>
