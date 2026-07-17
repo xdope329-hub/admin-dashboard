@@ -35,7 +35,46 @@ const FooterTab = ({ values, setFieldValue, errors, categoryData }) => {
             ]}
           />
           {values["options"]["footer"]?.["footer_style"] === "footer_four" && <FileUploadField paramsProps={{ mime_type: mediaConfig.image.join(",") }} name="footerImage" title="FooterBackgroundImage" id="footerImage" showImage={values["footerImage"]} type="file" values={values} setFieldValue={setFieldValue} helpertext={getHelperText("1155x670px")} />}
-          {values["options"]["footer"]?.["footer_style"] === "footer_three" && <SimpleInputField nameList={[{ name: "[options][footer][bg_color]", title: "BackgroundColor", type: "color" }]} />}
+          {values["options"]["footer"]?.["footer_style"] === "footer_three" && (
+            <>
+              <SimpleInputField nameList={[{ name: "[options][footer][bg_color]", title: "BackgroundColor", type: "color" }]} />
+              <SimpleInputField nameList={[{ name: "[options][footer][text_color]", title: "TextColor", type: "color" }]} />
+              <SearchableSelectInput
+                nameList={[
+                  {
+                    name: "[options][footer][font_family]",
+                    title: "FontFamily",
+                    inputprops: {
+                      name: "[options][footer][font_family]",
+                      id: "[options][footer][font_family]",
+                      options: [
+                        { id: "", name: "Default" },
+                        { id: "Arial, sans-serif", name: "Arial" },
+                        { id: "Helvetica, Arial, sans-serif", name: "Helvetica" },
+                        { id: "'Times New Roman', Times, serif", name: "Times New Roman" },
+                        { id: "Georgia, serif", name: "Georgia" },
+                        { id: "'Courier New', Courier, monospace", name: "Courier New" },
+                        { id: "Verdana, Geneva, sans-serif", name: "Verdana" },
+                        { id: "Tahoma, Geneva, sans-serif", name: "Tahoma" },
+                        { id: "'Trebuchet MS', sans-serif", name: "Trebuchet MS" },
+                        { id: "'Roboto', sans-serif", name: "Roboto" },
+                        { id: "'Open Sans', sans-serif", name: "Open Sans" },
+                        { id: "'Lato', sans-serif", name: "Lato" },
+                        { id: "'Montserrat', sans-serif", name: "Montserrat" },
+                        { id: "'Poppins', sans-serif", name: "Poppins" },
+                        { id: "'Nunito', sans-serif", name: "Nunito" },
+                        { id: "'Raleway', sans-serif", name: "Raleway" },
+                        { id: "'Playfair Display', serif", name: "Playfair Display" },
+                        { id: "'Merriweather', serif", name: "Merriweather" },
+                        { id: "'Oswald', sans-serif", name: "Oswald" },
+                      ],
+                      defaultOption: "Select Font Family",
+                    },
+                  },
+                ]}
+              />
+            </>
+          )}
           <SimpleInputField
             nameList={[
               { name: "[options][footer][footer_about]", type: "textarea", title: "FooterContent", placeholder: t("EnterFooterAbout") },
