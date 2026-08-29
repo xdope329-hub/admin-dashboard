@@ -1211,5 +1211,17 @@
   "Failed": "فشل",
   "SomethingWentWrong": "حدث خطأ ما",
   "CopyImagesToSameColor": "استخدام هذه الصور لجميع مقاسات هذا اللون",
-  "CopyImagesToAllVariations": "استخدام هذه الصور لجميع المتغيرات"
+  "CopyImagesToAllVariations": "استخدام هذه الصور لجميع المتغيرات",
+  "TermsAndConditions": "الشروط والأحكام",
+  "PrivacyPolicy": "سياسة الخصوصية",
+  "SocialNetworks": "شبكات التواصل",
+  "ShippingZones": "مناطق الشحن (حسب المدينة)",
+  "ShippingZonesHelp": "المنطقة 1 = المدن الرئيسية؛ المنطقة 2 = بقية البلاد.",
+  "Zone1Rate": "تعرفة المنطقة 1 — المدن الرئيسية",
+  "Zone1RateHelp": "العواصم والمناطق الحضرية",
+  "Zone2Rate": "تعرفة المنطقة 2 — بقية البلاد",
+  "Zone2RateHelp": "أي مدينة خارج المنطقة 1",
+  "FreeShippingThreshold": "شحن مجاني اعتباراً من",
+  "FreeShippingThresholdHelp": "0 يعطل الشحن المجاني.",
+  "ShippingZonesSaved": "تم حفظ مناطق الشحن"
 }

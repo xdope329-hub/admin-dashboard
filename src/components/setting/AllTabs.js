@@ -15,6 +15,7 @@ import AnalyticsTab from './AnalyticsTab'
 import SMSConfiguration from './SMSConfigurationTab'
 import SeoTab from './SeoTab'
 import WhatsAppTab from './WhatsAppTab'
+import SocialNetworksTab from './SocialNetworksTab'
 
 const AllTabs = ({ values, activeTab, setFieldValue, errors, touched }) => {
     return (
@@ -37,6 +38,7 @@ const AllTabs = ({ values, activeTab, setFieldValue, errors, touched }) => {
                     <TabPane tabId="14"><LoaderTab values={values} setFieldValue={setFieldValue} errors={errors} /></TabPane>
                     <TabPane tabId="15"><SeoTab /></TabPane>
                     <TabPane tabId="16"><WhatsAppTab /></TabPane>
+                    <TabPane tabId="17"><SocialNetworksTab /></TabPane>
                 </TabContent>
             </Col>
         </>

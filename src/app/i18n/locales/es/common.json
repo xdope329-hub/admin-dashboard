@@ -1246,5 +1246,17 @@
   "Failed": "Fallaron",
   "SomethingWentWrong": "Algo salió mal",
   "CopyImagesToSameColor": "Usar estas imágenes para todas las tallas de este color",
-  "CopyImagesToAllVariations": "Usar estas imágenes para todas las variaciones"
+  "CopyImagesToAllVariations": "Usar estas imágenes para todas las variaciones",
+  "TermsAndConditions": "Términos y Condiciones",
+  "PrivacyPolicy": "Política de Privacidad",
+  "SocialNetworks": "Redes Sociales",
+  "ShippingZones": "Zonas de envío (por ciudad)",
+  "ShippingZonesHelp": "Zona 1 = ciudades principales y áreas metropolitanas; Zona 2 = resto del país (incluida 'Otra ciudad'). El checkout cobra según la ciudad de la dirección de entrega.",
+  "Zone1Rate": "Tarifa Zona 1 — ciudades principales",
+  "Zone1RateHelp": "Bogotá, Medellín, Cali, Barranquilla y demás capitales + áreas metropolitanas",
+  "Zone2Rate": "Tarifa Zona 2 — resto del país",
+  "Zone2RateHelp": "Cualquier ciudad fuera de la Zona 1, incluida 'Otra ciudad'",
+  "FreeShippingThreshold": "Envío gratis desde (subtotal del pedido)",
+  "FreeShippingThresholdHelp": "Pedidos con subtotal igual o mayor envían gratis a cualquier zona. 0 desactiva el envío gratis.",
+  "ShippingZonesSaved": "Zonas de envío guardadas"
 }

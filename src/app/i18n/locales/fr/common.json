@@ -1233,5 +1233,17 @@
   "Failed": "Échoués",
   "SomethingWentWrong": "Une erreur est survenue",
   "CopyImagesToSameColor": "Utiliser ces images pour toutes les tailles de cette couleur",
-  "CopyImagesToAllVariations": "Utiliser ces images pour toutes les variantes"
+  "CopyImagesToAllVariations": "Utiliser ces images pour toutes les variantes",
+  "TermsAndConditions": "Termes et Conditions",
+  "PrivacyPolicy": "Politique de Confidentialité",
+  "SocialNetworks": "Réseaux Sociaux",
+  "ShippingZones": "Zones de livraison (par ville)",
+  "ShippingZonesHelp": "Zone 1 = grandes villes ; Zone 2 = reste du pays.",
+  "Zone1Rate": "Tarif Zone 1 — grandes villes",
+  "Zone1RateHelp": "Capitales et zones métropolitaines",
+  "Zone2Rate": "Tarif Zone 2 — reste du pays",
+  "Zone2RateHelp": "Toute ville hors Zone 1",
+  "FreeShippingThreshold": "Livraison gratuite à partir de",
+  "FreeShippingThresholdHelp": "0 désactive la livraison gratuite.",
+  "ShippingZonesSaved": "Zones de livraison enregistrées"
 }

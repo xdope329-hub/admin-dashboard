@@ -1257,5 +1257,17 @@
   "Failed": "Failed",
   "SomethingWentWrong": "Something went wrong",
   "CopyImagesToSameColor": "Use these images for all sizes of this color",
-  "CopyImagesToAllVariations": "Use these images for all variations"
+  "CopyImagesToAllVariations": "Use these images for all variations",
+  "TermsAndConditions": "Terms & Conditions",
+  "PrivacyPolicy": "Privacy Policy",
+  "SocialNetworks": "Social Networks",
+  "ShippingZones": "Shipping zones (by city)",
+  "ShippingZonesHelp": "Zone 1 = main cities and metro areas; Zone 2 = rest of the country (including 'Other city'). The checkout charges by the city of the delivery address.",
+  "Zone1Rate": "Zone 1 rate — main cities",
+  "Zone1RateHelp": "Bogotá, Medellín, Cali, Barranquilla and other capitals + metro areas",
+  "Zone2Rate": "Zone 2 rate — rest of the country",
+  "Zone2RateHelp": "Any city not in Zone 1, including 'Other city'",
+  "FreeShippingThreshold": "Free shipping from (order subtotal)",
+  "FreeShippingThresholdHelp": "Orders at or above this subtotal ship free to any zone. 0 disables free shipping.",
+  "ShippingZonesSaved": "Shipping zones saved"
 }

@@ -1,4 +1,4 @@
-import { RiAccountBoxLine, RiAlertLine, RiBankCardLine, RiBankLine, RiCheckboxCircleLine, RiCloseCircleLine, RiComputerLine, RiContactsLine, RiDatabaseLine, RiEarthLine, RiFacebookCircleLine, RiFileList2Line, RiFileListLine, RiGoogleFill, RiGoogleLine, RiImageLine, RiLayoutBottom2Line, RiLayoutTop2Line, RiLineChartLine, RiLoaderLine, RiMailOpenLine, RiPaypalLine, RiPercentLine, RiPhoneLockLine, RiPieChartLine, RiRadioButtonLine, RiRecordCircleLine, RiRefundLine, RiSettingsLine, RiShoppingBasketLine, RiToolsLine, RiTruckLine, RiWallet3Fill, RiWhatsappLine } from "react-icons/ri";
+import { RiAccountBoxLine, RiAlertLine, RiBankCardLine, RiBankLine, RiCheckboxCircleLine, RiCloseCircleLine, RiComputerLine, RiContactsLine, RiDatabaseLine, RiEarthLine, RiFacebookCircleLine, RiFileList2Line, RiFileListLine, RiGoogleFill, RiGoogleLine, RiImageLine, RiLayoutBottom2Line, RiLayoutTop2Line, RiLineChartLine, RiLoaderLine, RiMailOpenLine, RiPaypalLine, RiPercentLine, RiPhoneLockLine, RiPieChartLine, RiRadioButtonLine, RiRecordCircleLine, RiRefundLine, RiSettingsLine, RiShoppingBasketLine, RiToolsLine, RiTruckLine, RiWallet3Fill, RiWhatsappLine, RiInstagramLine } from "react-icons/ri";
 import { TbTruckDelivery } from "react-icons/tb";
 const header1 = "/assets/images/theme-option/header/01.jpg";
 const header2 = "/assets/images/theme-option/header/02.jpg";
@@ -113,6 +113,7 @@ export const SettingTabTitleListData = [
   { title: "LoaderSettings", icon: <RiLoaderLine /> },
   { title: "SEO", icon: <RiEarthLine /> },
   { title: "WhatsApp", icon: <RiWhatsappLine /> },
+  { title: "SocialNetworks", icon: <RiInstagramLine /> },
 ];
 
 export const SettingProductBoxOptions = [
@@ -342,6 +343,16 @@ export const helpCenter = [
     id: 6,
     name: "Contact Us",
     value: "contact-us",
+  },
+  {
+    id: 7,
+    name: "TermsAndConditions",
+    value: "terms-and-conditions",
+  },
+  {
+    id: 8,
+    name: "PrivacyPolicy",
+    value: "privacy-policy",
   },
 ];
 

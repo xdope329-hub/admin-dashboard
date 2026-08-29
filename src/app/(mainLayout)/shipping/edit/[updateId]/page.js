@@ -2,6 +2,7 @@
 import Loader from "@/components/commonComponent/Loader";
 import NoDataFound from "@/components/commonComponent/NoDataFound";
 import FormsShippingRuleCreation from "@/components/shipping/FormsShippingRuleCreation";
+import ShippingZonesForm from "@/components/shipping/ShippingZonesForm";
 import ShowModal from "@/elements/alerts&Modals/Modal";
 import Btn from "@/elements/buttons/Btn";
 import request from "@/utils/axiosUtils";
@@ -69,6 +70,7 @@ const AddShippingRules = () => {
           <FormsShippingRuleCreation setActive={setActive} mutate={createMutate} shipping_id={active} loading={createMutateIsLoading} />
         </ShowModal>
       </div>
+      <ShippingZonesForm shippingData={data} refetch={refetch} />
       {data?.shipping_rules?.length > 0 ? (
         data.shipping_rules.map((item, index) => (
           <div className="shipping-accordion-custom" key={index}>
