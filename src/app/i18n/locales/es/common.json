@@ -1274,5 +1274,6 @@
   "AnnouncementBgColorHelp": "Déjelo vacío (Reset) para usar el color primario del tema.",
   "AnnouncementTextColor": "Color del texto",
   "AnnouncementSpeed": "Velocidad (segundos)",
-  "AnnouncementSpeedHelp": "Segundos que tarda un ciclo completo. Más alto = más lento. Por defecto 30."
+  "AnnouncementSpeedHelp": "Segundos que tarda un ciclo completo. Más alto = más lento. Por defecto 30.",
+  "MercadoPagoPaid": "Mercado Pago — Pagados"
 }

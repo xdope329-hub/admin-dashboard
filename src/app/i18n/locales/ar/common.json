@@ -1239,5 +1239,6 @@
   "AnnouncementBgColorHelp": "Leave empty (Reset) to use the theme's primary color.",
   "AnnouncementTextColor": "Text color",
   "AnnouncementSpeed": "Scroll speed (seconds)",
-  "AnnouncementSpeedHelp": "Seconds one full loop takes. Higher = slower. Default 30."
+  "AnnouncementSpeedHelp": "Seconds one full loop takes. Higher = slower. Default 30.",
+  "MercadoPagoPaid": "Mercado Pago — Paid"
 }
