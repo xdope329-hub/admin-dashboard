@@ -17,7 +17,11 @@ const TableWrapper = (WrappedComponent) => {
     const [search, setSearch] = useState("");
     const [date, setDate] = useState([{ startDate: null, endDate: null, key: "selection" }]);
     const [sortBy, setSortBy] = useState({ field: "", sort: "asc" });
-    let ifParamsData = paramsProps ? Object.keys(paramsProps)[0] : "";
+    // Antes solo se observaba la PRIMERA clave de paramsProps, así que una
+    // pestaña que cambiaba otro filtro (p. ej. payment_method) no refrescaba
+    // la tabla. Comparar por valor cubre todas las claves y es estable entre
+    // renders (string, no identidad de objeto).
+    const paramsKey = JSON.stringify(paramsProps ?? {});
     // Row-level delete for every table: DELETE {url}/{id}, then refetch the
     // list. Passed down as `mutate` (ShowTable → Options → DeleteButton).
     const { mutate: deleteRow } = useDelete(url, url, () => refetch());
@@ -50,7 +54,7 @@ const TableWrapper = (WrappedComponent) => {
 
     useEffect(() => {
       (!loading || url) && refetch();
-    }, [paginate, page, date, search, loading, sortBy, type, paramsProps ? paramsProps[ifParamsData] : ""]);
+    }, [paginate, page, date, search, loading, sortBy, type, paramsKey]);
 
     useEffect(() => {
       if (!data?.data?.length || !data?.data?.data?.length) {
@@ -66,7 +70,7 @@ const TableWrapper = (WrappedComponent) => {
         <Card>
           <CardBody className="custom-role">
             <TableTitle moduleName={moduleName} type={type} onlyTitle={onlyTitle} filterHeader={filterHeader} importExport={importExport} refetch={refetch} />
-            {(filterHeader?.noPageDrop !== true || filterHeader?.noSearch !== true) && <TableTop setPaginate={setPaginate} setSearch={setSearch} paginate={paginate} isCheck={isCheck} setIsCheck={setIsCheck} url={url} isReplicate={isReplicate} refetch={refetch} dateRange={dateRange} date={date} setDate={setDate} filterHeader={filterHeader} keyInPermission={keyInPermission} />}
+            {(filterHeader?.noPageDrop !== true || filterHeader?.noSearch !== true) && <TableTop setPaginate={setPaginate} setSearch={setSearch} paginate={paginate} isCheck={isCheck} setIsCheck={setIsCheck} url={url} isReplicate={isReplicate} refetch={refetch} dateRange={dateRange} date={date} setDate={setDate} filterHeader={filterHeader} keyInPermission={keyInPermission} differentFilter={props.differentFilter} advanceFilter={props.advanceFilter} showFilterDifferentPlace={props.showFilterDifferentPlace} />}
             <div className="table-responsive border-table">
               <WrappedComponent mutate={deleteRow} data={userIdParams ? data?.data : data?.data?.data} sortBy={sortBy} setSortBy={setSortBy} moduleName={moduleName} type={type} current_page={userIdParams ? data?.data?.transactions?.current_page : data?.data?.current_page} per_page={userIdParams ? data?.data?.transactions?.per_page : data?.data?.per_page} url={url} userIdParams={userIdParams} fetchStatus={fetchStatus} refetch={refetch} isCheck={isCheck} setIsCheck={setIsCheck} {...props} keyInPermission={keyInPermission} />
             </div>
