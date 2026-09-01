@@ -1245,5 +1245,21 @@
   "Zone2RateHelp": "Toute ville hors Zone 1",
   "FreeShippingThreshold": "Livraison gratuite à partir de",
   "FreeShippingThresholdHelp": "0 désactive la livraison gratuite.",
-  "ShippingZonesSaved": "Zones de livraison enregistrées"
+  "ShippingZonesSaved": "Zones de livraison enregistrées",
+  "AnnouncementBar": "Announcement Bar",
+  "ShowAnnouncementBar": "Show announcement bar",
+  "ShowAnnouncementBarHelp": "Shows a scrolling tape at the top of the store with the messages below.",
+  "AnnouncementMessages": "Messages",
+  "AnnouncementMessagesHelp": "Each enabled message scrolls in the tape. Use the switch to hide one without deleting it.",
+  "NoAnnouncementMessages": "No messages yet. Add the first one.",
+  "AnnouncementMessagePlaceholder": "e.g. Free shipping on orders over $200.000",
+  "AddMessage": "Add message",
+  "EnableDisableMessage": "Enable / disable this message",
+  "MoveUp": "Move up",
+  "MoveDown": "Move down",
+  "AnnouncementBgColor": "Background color",
+  "AnnouncementBgColorHelp": "Leave empty (Reset) to use the theme's primary color.",
+  "AnnouncementTextColor": "Text color",
+  "AnnouncementSpeed": "Scroll speed (seconds)",
+  "AnnouncementSpeedHelp": "Seconds one full loop takes. Higher = slower. Default 30."
 }
