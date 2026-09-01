@@ -1258,5 +1258,21 @@
   "Zone2RateHelp": "Cualquier ciudad fuera de la Zona 1, incluida 'Otra ciudad'",
   "FreeShippingThreshold": "Envío gratis desde (subtotal del pedido)",
   "FreeShippingThresholdHelp": "Pedidos con subtotal igual o mayor envían gratis a cualquier zona. 0 desactiva el envío gratis.",
-  "ShippingZonesSaved": "Zonas de envío guardadas"
+  "ShippingZonesSaved": "Zonas de envío guardadas",
+  "AnnouncementBar": "Cinta de anuncios",
+  "ShowAnnouncementBar": "Mostrar cinta de anuncios",
+  "ShowAnnouncementBarHelp": "Muestra una tira que se desplaza en la parte superior de la tienda con los mensajes de abajo.",
+  "AnnouncementMessages": "Mensajes",
+  "AnnouncementMessagesHelp": "Cada mensaje activo se desplaza en la cinta. Use el interruptor para ocultar uno sin borrarlo.",
+  "NoAnnouncementMessages": "Aún no hay mensajes. Agregue el primero.",
+  "AnnouncementMessagePlaceholder": "Ej. Envío gratis después de $200.000 en compras",
+  "AddMessage": "Agregar mensaje",
+  "EnableDisableMessage": "Activar / desactivar este mensaje",
+  "MoveUp": "Subir",
+  "MoveDown": "Bajar",
+  "AnnouncementBgColor": "Color de fondo",
+  "AnnouncementBgColorHelp": "Déjelo vacío (Reset) para usar el color primario del tema.",
+  "AnnouncementTextColor": "Color del texto",
+  "AnnouncementSpeed": "Velocidad (segundos)",
+  "AnnouncementSpeedHelp": "Segundos que tarda un ciclo completo. Más alto = más lento. Por defecto 30."
 }
