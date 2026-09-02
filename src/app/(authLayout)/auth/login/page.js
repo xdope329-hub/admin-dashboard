@@ -30,7 +30,7 @@ const Login = () => {
         // the axios util. Both apps share the same key names so the refresh
         // interceptor picks up the right token automatically.
         saveSession(res.data || {});
-        Cookies.set("account", JSON.stringify(res.data?.data || {}));
+        Cookies.set("account", JSON.stringify(res.data?.data || {}), { path: "/", sameSite: "lax", secure: window.location.protocol === "https:" });
         router.push("/dashboard");
       } else {
         setShowBoxMessage(res?.response?.data?.message || "Invalid credentials");

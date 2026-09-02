@@ -1,6 +1,6 @@
 "use client";
 import AllOrdersTable from "@/components/orders/AllOrdersTable";
-import { filterPills } from "@/data/OrderTable";
+import { filterPills, paymentPills } from "@/data/OrderTable";
 import request from "@/utils/axiosUtils";
 import { OrderAPI, StatisticsCountAPI } from "@/utils/axiosUtils/API";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
@@ -10,25 +10,36 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Col } from "reactstrap";
 
+/**
+ * Listado de pedidos con DOS filtros independientes que se combinan:
+ *  - `status`  → estado del PEDIDO (logística: processing, shipped, …),
+ *    filtra por status_id en el API.
+ *  - `payment` → estado del PAGO (p. ej. "Mercado Pago — Pagados"),
+ *    filtra por payment_method + payment_status en el API.
+ * Un pedido pagado por Mercado Pago y ya enviado aparece tanto en
+ * "Pagados" como en "Enviado"; elegir una pestaña no desactiva la otra.
+ */
 const Order = () => {
   const { t } = useTranslation("common");
-  const  router = useRouter()
-  const { data: StatisticsCountData, refetch, isLoading, } = useCustomQuery([StatisticsCountAPI], () => request({ url: StatisticsCountAPI },router), { refetchOnWindowFocus: false, select: (data) => data?.data });
+  const router = useRouter();
+  const { data: StatisticsCountData, refetch, isLoading } = useCustomQuery([StatisticsCountAPI], () => request({ url: StatisticsCountAPI }, router), { refetchOnWindowFocus: false, select: (data) => data?.data });
   const [isCheck, setIsCheck] = useState([]);
   const [storeFilterData, setStoreFilterData] = useState([]);
   const searchParams = useSearchParams();
   const statusValue = searchParams.get("status");
-  // Pestaña de pagos (por ahora: "mercadopago_paid" = pagados por Mercado Pago)
   const paymentValue = searchParams.get("payment");
+  const activePayment = paymentPills.find((pill) => pill.value === paymentValue) || null;
 
-  // Filtros que se envían al API según la pestaña activa.
-  const paramsProps = useMemo(() => {
-    if (paymentValue === "mercadopago_paid") {
-      // Un pago aprobado por la pasarela deja payment_status='completed'.
-      return { payment_method: "mercadopago", payment_status: "completed" };
-    }
-    return { status: statusValue ?? null };
-  }, [statusValue, paymentValue]);
+  // Filtros que se envían al API: ambos a la vez, cada uno por su campo.
+  const paramsProps = useMemo(
+    () => ({ status: statusValue ?? null, ...(activePayment ? activePayment.params : {}) }),
+    [statusValue, paymentValue] // eslint-disable-line react-hooks/exhaustive-deps
+  );
+
+  // Enlaces que conservan el otro filtro activo.
+  const withStatus = (status) => ({ ...(status ? { status } : {}), ...(paymentValue ? { payment: paymentValue } : {}) });
+  const withPayment = (payment) => ({ ...(statusValue ? { status: statusValue } : {}), ...(payment ? { payment } : {}) });
+
   useEffect(() => {
     refetch();
   }, [isLoading]);
@@ -48,30 +59,40 @@ const Order = () => {
     <Col sm="12">
       <AllOrdersTable
         differentFilter={
-          <div className="show-box mb-4 d-flex overflow-custom">
-            <ul className="order-tab-content">
-              <li className={`${!statusValue && !paymentValue ? "active" : ""}`}><Link href={`/order`}> All <span> {StatisticsCountData?.total_orders}</span>  </Link></li>
-              {storeFilterData.length > 0 &&
-                storeFilterData?.map((status, index) => (
-                  <li key={index} className={`${!paymentValue && statusValue === status.value ? "active" : ""} ${status.color}`}>
-                    <Link
-                      href={{
-                        pathname: `/order`,
-                        query: { status: status.value },
-                      }}
-                    >
-                      {status.label} <span>{status.count}</span>
+          <div className="show-box mb-4 order-filter-groups">
+            <div className="order-filter-group d-flex align-items-center overflow-custom">
+              <span className="order-filter-label">{t("OrderStatus")}:</span>
+              <ul className="order-tab-content">
+                <li className={`${!statusValue ? "active" : ""}`}>
+                  <Link href={{ pathname: `/order`, query: withStatus(null) }}>
+                    {t("All")} <span>{StatisticsCountData?.total_orders ?? 0}</span>
+                  </Link>
+                </li>
+                {storeFilterData.length > 0 &&
+                  storeFilterData?.map((status, index) => (
+                    <li key={index} className={`${statusValue === status.value ? "active" : ""} ${status.color}`}>
+                      <Link href={{ pathname: `/order`, query: withStatus(status.value) }}>
+                        {t(status.label)} <span>{status.count}</span>
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+            <div className="order-filter-group d-flex align-items-center overflow-custom mt-2">
+              <span className="order-filter-label">{t("PaymentStatus")}:</span>
+              <ul className="order-tab-content">
+                <li className={`${!paymentValue ? "active" : ""}`}>
+                  <Link href={{ pathname: `/order`, query: withPayment(null) }}>{t("AllPayments")}</Link>
+                </li>
+                {paymentPills.map((pill) => (
+                  <li key={pill.value} className={`${paymentValue === pill.value ? "active" : ""} ${pill.color}`}>
+                    <Link href={{ pathname: `/order`, query: withPayment(pill.value) }}>
+                      {t(pill.label)} <span>{StatisticsCountData?.[pill.countKey] ?? 0}</span>
                     </Link>
                   </li>
                 ))}
-              {/* Pagados por Mercado Pago: órdenes con el pago confirmado
-                  por la pasarela (payment_status = completed). */}
-              <li className={`${paymentValue === "mercadopago_paid" ? "active" : ""} completed`}>
-                <Link href={{ pathname: `/order`, query: { payment: "mercadopago_paid" } }}>
-                  {t("MercadoPagoPaid")} <span>{StatisticsCountData?.total_mercadopago_paid_orders ?? 0}</span>
-                </Link>
-              </li>
-            </ul>
+              </ul>
+            </div>
           </div>
         }
         paramsProps={paramsProps}
