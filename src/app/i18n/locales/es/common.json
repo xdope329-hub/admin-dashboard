@@ -1275,5 +1275,16 @@
   "AnnouncementTextColor": "Color del texto",
   "AnnouncementSpeed": "Velocidad (segundos)",
   "AnnouncementSpeedHelp": "Segundos que tarda un ciclo completo. Más alto = más lento. Por defecto 30.",
-  "MercadoPagoPaid": "Mercado Pago — Pagados"
+  "MercadoPagoPaid": "Mercado Pago — Pagados",
+  "AllPayments": "Todos los pagos",
+  "Processing": "Procesando",
+  "Shipped": "Enviado",
+  "Delivered": "Entregado",
+  "Cancelled": "Cancelado",
+  "NoFurtherStatus": "Este pedido ya no admite más cambios de estado",
+  "Payment_pending": "Pendiente",
+  "Payment_completed": "Pagado",
+  "Payment_rejected": "Rechazado",
+  "Payment_cancelled": "Cancelado",
+  "Payment_refunded": "Reembolsado"
 }

@@ -1286,5 +1286,16 @@
   "AnnouncementTextColor": "Text color",
   "AnnouncementSpeed": "Scroll speed (seconds)",
   "AnnouncementSpeedHelp": "Seconds one full loop takes. Higher = slower. Default 30.",
-  "MercadoPagoPaid": "Mercado Pago — Paid"
+  "MercadoPagoPaid": "Mercado Pago — Paid",
+  "AllPayments": "All payments",
+  "Processing": "Processing",
+  "Shipped": "Shipped",
+  "Delivered": "Delivered",
+  "Cancelled": "Cancelled",
+  "NoFurtherStatus": "This order has no further status changes",
+  "Payment_pending": "Pending",
+  "Payment_completed": "Paid",
+  "Payment_rejected": "Rejected",
+  "Payment_cancelled": "Cancelled",
+  "Payment_refunded": "Refunded"
 }
