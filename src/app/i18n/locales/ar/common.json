@@ -1240,5 +1240,14 @@
   "AnnouncementTextColor": "Text color",
   "AnnouncementSpeed": "Scroll speed (seconds)",
   "AnnouncementSpeedHelp": "Seconds one full loop takes. Higher = slower. Default 30.",
-  "MercadoPagoPaid": "Mercado Pago — Paid"
+  "MercadoPagoPaid": "Mercado Pago — Paid",
+  "Approve": "موافقة",
+  "Reject": "رفض",
+  "MarkAsPending": "إعادة إلى قيد الانتظار",
+  "Moderation": "الإشراف",
+  "Opinion": "الرأي",
+  "ReviewApproved": "تمت الموافقة على المراجعة: أصبحت مرئية في المتجر",
+  "ReviewRejected": "تم رفض المراجعة: لن تظهر في المتجر",
+  "ReviewPendingAgain": "أُعيدت المراجعة إلى قيد الانتظار",
+  "ReviewModerationHint": "تصل المراجعات الجديدة قيد الانتظار ولا تظهر في المتجر حتى توافق عليها. المراجعات المعتمدة فقط تُحتسب في تقييم المنتج."
 }

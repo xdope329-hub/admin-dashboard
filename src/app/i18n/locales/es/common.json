@@ -1286,5 +1286,14 @@
   "Payment_completed": "Pagado",
   "Payment_rejected": "Rechazado",
   "Payment_cancelled": "Cancelado",
-  "Payment_refunded": "Reembolsado"
+  "Payment_refunded": "Reembolsado",
+  "Approve": "Aprobar",
+  "Reject": "Rechazar",
+  "MarkAsPending": "Volver a pendiente",
+  "Moderation": "Moderación",
+  "Opinion": "Opinión",
+  "ReviewApproved": "Reseña aprobada: ya es visible en la tienda",
+  "ReviewRejected": "Reseña rechazada: no se mostrará en la tienda",
+  "ReviewPendingAgain": "Reseña devuelta a pendiente",
+  "ReviewModerationHint": "Las reseñas nuevas llegan como pendientes y no se muestran en la tienda hasta que las apruebes. Solo las aprobadas cuentan para la calificación del producto."
 }
