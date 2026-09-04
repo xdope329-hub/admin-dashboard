@@ -8,9 +8,16 @@ const MultiSelectField = ({ setFieldValue, values, name, getValuesKey = "id", da
   const [selectedItems, setSelectedItems] = useState([]);
   const { ref, isComponentVisible, setIsComponentVisible } = useOutsideDropdown();
 
+  // Ids ya añadidos como etiqueta. El listado de categorías llega PLANO
+  // (incluye las subcategorías) y además cada categoría trae `subcategories`
+  // anidadas, así que sin esta guarda cada subcategoría elegida aparecía dos
+  // veces y al quitar una etiqueta seguía viéndose la repetida.
+  const seenIds = new Set();
   const SelectedItemFunction = (data) => {
     for (let i = 0; i < data?.length; i++) {
-      if (data[i][getValuesKey] == values[name] || (Array.isArray(values[name]) && values[name].includes(data[i][getValuesKey])) || (Array.isArray(values[name]) && data[i][getValuesKey] != null && values[name].some(value => value?.id != null && value?.id == data[i][getValuesKey]))) {
+      const key = data[i][getValuesKey];
+      if (!seenIds.has(key) && (key == values[name] || (Array.isArray(values[name]) && values[name].includes(key)) || (Array.isArray(values[name]) && key != null && values[name].some(value => value?.id != null && value?.id == key)))) {
+        seenIds.add(key);
         setSelectedItems((p) => (p ? [...p, data[i]] : [data[i]]));
       }
       if (data[i].subcategories?.length > 0) {
@@ -24,6 +31,7 @@ const MultiSelectField = ({ setFieldValue, values, name, getValuesKey = "id", da
   };
   useEffect(() => {
     setSelectedItems();
+    seenIds.clear();
     SelectedItemFunction(data && data);
     // `data` is in the deps so already-saved selections render once the
     // options finish loading (on edit pages the query resolves after mount).

@@ -1297,5 +1297,14 @@
   "Payment_completed": "Paid",
   "Payment_rejected": "Rejected",
   "Payment_cancelled": "Cancelled",
-  "Payment_refunded": "Refunded"
+  "Payment_refunded": "Refunded",
+  "Approve": "Approve",
+  "Reject": "Reject",
+  "MarkAsPending": "Mark as pending",
+  "Moderation": "Moderation",
+  "Opinion": "Opinion",
+  "ReviewApproved": "Review approved: it is now visible in the store",
+  "ReviewRejected": "Review rejected: it will not be shown in the store",
+  "ReviewPendingAgain": "Review sent back to pending",
+  "ReviewModerationHint": "New reviews arrive as pending and are hidden from the store until you approve them. Only approved reviews count towards the product rating."
 }

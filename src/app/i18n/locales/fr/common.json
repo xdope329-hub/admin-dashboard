@@ -1262,5 +1262,14 @@
   "AnnouncementTextColor": "Text color",
   "AnnouncementSpeed": "Scroll speed (seconds)",
   "AnnouncementSpeedHelp": "Seconds one full loop takes. Higher = slower. Default 30.",
-  "MercadoPagoPaid": "Mercado Pago — Paid"
+  "MercadoPagoPaid": "Mercado Pago — Paid",
+  "Approve": "Approuver",
+  "Reject": "Rejeter",
+  "MarkAsPending": "Remettre en attente",
+  "Moderation": "Modération",
+  "Opinion": "Avis",
+  "ReviewApproved": "Avis approuvé : il est maintenant visible dans la boutique",
+  "ReviewRejected": "Avis rejeté : il ne sera pas affiché dans la boutique",
+  "ReviewPendingAgain": "Avis remis en attente",
+  "ReviewModerationHint": "Les nouveaux avis arrivent en attente et restent masqués jusqu'à leur approbation. Seuls les avis approuvés comptent pour la note du produit."
 }
