@@ -52,6 +52,8 @@ const HomeBannerTab = ({ values, setFieldValue, productData, categoryData, setSe
 
   return (
     <>
+      {/* Auto-desplazamiento del slider en la tienda: segundos entre banners (vacío = 5, 0 = desactivado). */}
+      <SimpleInputField nameList={[{ name: "[content][home_banner][autoplay_interval]", title: "BannerAutoplayInterval", type: "number", placeholder: "5", helpertext: t("BannerAutoplayIntervalHelp") }]} />
       {<Btn className="btn-theme my-4" onClick={() => setFieldValue("[content][home_banner][banners]", [...values["content"]?.["home_banner"]["banners"], { title: "", description: "" }])} title="AddBanner" />}
       {values["content"]?.["home_banner"]?.["banners"]?.map((elem, index) => {
         return (

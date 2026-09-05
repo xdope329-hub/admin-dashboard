@@ -942,6 +942,8 @@
   "ServiceBanners": "Bannières de service",
   "DealofDays": "Offre du jour",
   "HomeBanner": "Bannière d'accueil",
+  "BannerAutoplayInterval": "Défilement automatique toutes les (secondes)",
+  "BannerAutoplayIntervalHelp": "*Secondes d'affichage de chaque bannière avant de passer à la suivante. Vide = 5 ; 0 désactive le défilement automatique.",
   "ValueBanner": "Bannière de valeur",
   "CategoriesProduct": "Catégories de produits",
   "FeaturesBlogs": "Blogs de fonctionnalités",

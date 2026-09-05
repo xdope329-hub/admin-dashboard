@@ -58,7 +58,8 @@ const SetupTab = ({ values, setFieldValue, errors, updateId }) => {
       refetchOnWindowFocus: false,
       select: (res) =>
         res?.data?.data
-          .filter((elem) => (updateId ? elem?.id !== Number(updateId) : elem))
+          // Un producto no puede relacionarse consigo mismo (los ids son ObjectId, no números).
+          .filter((elem) => (updateId ? String(elem?.id) !== String(updateId) : elem))
           .map((elem) => {
             return { id: elem.id, name: elem.name, image: elem?.product_thumbnail?.original_url || "/assets/images/placeholder.png", slug: elem?.slug };
           }),
