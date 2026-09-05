@@ -93,7 +93,9 @@ export function ProductInitValues(oldData, updateId) {
     categories: updateId ? oldData?.categories?.filter(Boolean).map((item) => item?.id ?? item) || [] : [],
     brand_id : updateId ? oldData?.brand_id?.id ?? oldData?.brand_id ?? '' : '',
     is_random_related_products: updateId ? Boolean(Number(oldData?.is_random_related_products)) : true,
-    related_products: updateId ? oldData?.related_products?.filter(Boolean) || [] : [],
+    // Con "aleatorios" el API devuelve una muestra al azar en related_products;
+    // no es la selección del admin, así que el selector arranca vacío.
+    related_products: updateId && !Number(oldData?.is_random_related_products) ? oldData?.related_products?.filter(Boolean) || [] : [],
     cross_sell_products: updateId ? oldData?.cross_sell_products?.filter(Boolean) || [] : [],
    
     // SEO
