@@ -13,7 +13,7 @@ import { CouponValidation } from "./widgets/CouponValidation";
 import { useRouter } from "next/navigation";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
 
-const CouponForm = ({ updateId, title, buttonName }) => {
+const CouponForm = ({ updateId, title, buttonName, mutate, loading }) => {
   const { t } = useTranslation("common");
   const [activeTab, setActiveTab] = useState("1");
   const router = useRouter();
@@ -53,7 +53,10 @@ const CouponForm = ({ updateId, title, buttonName }) => {
         if (values["type"] === "free_shipping") {
           delete values["amount"];
         }
-        router.push("/coupon");
+        // Guardar de verdad: el hook de la página (useCreate / useUpdate)
+        // hace el POST/PUT y redirige a la lista al confirmar. Antes el
+        // formulario solo navegaba a /coupon y ningún cupón se guardaba.
+        mutate && mutate(values);
       }}
     >
       {({ values, setFieldValue, errors, touched, isSubmitting }) => (
@@ -68,7 +71,7 @@ const CouponForm = ({ updateId, title, buttonName }) => {
                   <TabTitle activeTab={activeTab} setActiveTab={setActiveTab} titleList={CouponTabTitleListData} errors={errors} touched={touched} />
                 </Col>
                 <Col xl="7" lg="8">
-                  <CouponTab buttonName={buttonName} touched={touched} values={values} activeTab={activeTab} isSubmitting={isSubmitting} setFieldValue={setFieldValue} errors={errors} updateId={updateId} setActiveTab={setActiveTab} />
+                  <CouponTab buttonName={buttonName} loading={loading} touched={touched} values={values} activeTab={activeTab} isSubmitting={isSubmitting} setFieldValue={setFieldValue} errors={errors} updateId={updateId} setActiveTab={setActiveTab} />
                 </Col>
               </Row>
             </Form>

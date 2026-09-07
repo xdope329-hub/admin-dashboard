@@ -953,6 +953,8 @@
   "ServiceBanners": "Service Banners",
   "DealofDays": "Deal of Days",
   "HomeBanner": "Home Banner",
+  "Guest": "Guest",
+  "ConsumerDetails": "Customer details",
   "BannerAutoplayInterval": "Auto-scroll every (seconds)",
   "BannerAutoplayIntervalHelp": "*Seconds each banner stays on screen before the slider moves to the next one. Leave empty for 5; 0 disables auto-scroll.",
   "ValueBanner": "Value Banner",
