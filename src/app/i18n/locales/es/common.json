@@ -946,6 +946,8 @@
   "ServiceBanners": "Banners de Servicio",
   "DealofDays": "Oferta del Día",
   "HomeBanner": "Banner de Inicio",
+  "Guest": "Invitado",
+  "ConsumerDetails": "Datos del cliente",
   "BannerAutoplayInterval": "Auto-desplazar cada (segundos)",
   "BannerAutoplayIntervalHelp": "*Segundos que se muestra cada banner antes de pasar al siguiente. Vacío = 5; 0 desactiva el auto-desplazamiento.",
   "ValueBanner": "Banner de Valor",

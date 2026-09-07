@@ -942,6 +942,8 @@
   "ServiceBanners": "بانرات الخدمة",
   "DealofDays": "عرض اليوم",
   "HomeBanner": "بانر المنزل",
+  "Guest": "زائر",
+  "ConsumerDetails": "بيانات العميل",
   "BannerAutoplayInterval": "التمرير التلقائي كل (ثوانٍ)",
   "BannerAutoplayIntervalHelp": "*عدد الثواني التي تبقى فيها كل لافتة قبل الانتقال إلى التالية. اتركه فارغًا لـ 5؛ 0 يعطّل التمرير التلقائي.",
   "ValueBanner": "بانر القيمة",
