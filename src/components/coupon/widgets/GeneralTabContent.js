@@ -44,9 +44,9 @@ const GeneralTabContent = ({ values, setFieldValue }) => {
               name: "type",
               id: "type",
               options: [
-                { id: "free_shipping", name: "Free Shipping" },
-                { id: "fixed", name: "Fixed" },
-                { id: "percentage", name: "Percentage" },
+                { id: "free_shipping", name: t("CouponTypeFreeShipping") },
+                { id: "fixed", name: t("CouponTypeFixed") },
+                { id: "percentage", name: t("CouponTypePercentage") },
               ],
             },
           },

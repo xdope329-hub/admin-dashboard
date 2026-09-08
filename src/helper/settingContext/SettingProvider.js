@@ -31,12 +31,13 @@ const SettingProvider = (props) => {
         let amount = Number(value);
         amount = amount * settingObj?.general?.default_currency?.exchange_rate;
     
-        // Apply thousand separators if the format parameter is passed and is true
-        if (format) {
-            amount = amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        } else {
-            amount = amount.toFixed(2);
-        }
+        // Formato de la moneda de la tienda (COP: sin decimales y miles con
+        // punto, como en la tienda). Antes salía "$559800.00" en pedidos,
+        // productos y el panel, con o sin `format`.
+        const currency = settingObj?.general?.default_currency || {};
+        const decimals = Number.isFinite(Number(currency.no_of_decimal)) ? Number(currency.no_of_decimal) : 2;
+        const locale = String(currency.code || 'COP').toUpperCase() === 'COP' ? 'es-CO' : 'en-US';
+        amount = Number.isFinite(amount) ? amount.toLocaleString(locale, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) : '0';
     
         if (position === 'before_price') {
             return `${symbol}${amount}`;
