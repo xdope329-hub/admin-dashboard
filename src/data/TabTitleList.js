@@ -1,5 +1,6 @@
 import { RiAccountBoxLine, RiAlertLine, RiBankCardLine, RiBankLine, RiCheckboxCircleLine, RiCloseCircleLine, RiComputerLine, RiContactsLine, RiDatabaseLine, RiEarthLine, RiFacebookCircleLine, RiFileList2Line, RiFileListLine, RiGoogleFill, RiGoogleLine, RiImageLine, RiLayoutBottom2Line, RiLayoutTop2Line, RiLineChartLine, RiLoaderLine, RiMailOpenLine, RiPaypalLine, RiPercentLine, RiPhoneLockLine, RiPieChartLine, RiRadioButtonLine, RiRecordCircleLine, RiRefundLine, RiSettingsLine, RiShoppingBasketLine, RiToolsLine, RiTruckLine, RiWallet3Fill, RiWhatsappLine, RiInstagramLine,
   RiMegaphoneLine,
+  RiCalendarCheckLine,
 } from "react-icons/ri";
 import { TbTruckDelivery } from "react-icons/tb";
 const header1 = "/assets/images/theme-option/header/01.jpg";
@@ -117,6 +118,7 @@ export const SettingTabTitleListData = [
   { title: "WhatsApp", icon: <RiWhatsappLine /> },
   { title: "SocialNetworks", icon: <RiInstagramLine /> },
   { title: "AnnouncementBar", icon: <RiMegaphoneLine /> },
+  { title: "Capacity", icon: <RiCalendarCheckLine /> },
 ];
 
 export const SettingProductBoxOptions = [
