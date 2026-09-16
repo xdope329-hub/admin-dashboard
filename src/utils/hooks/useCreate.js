@@ -17,6 +17,12 @@ const useCreate = (url, updateId, path = false, message, extraFunction, notHandl
       }
     },
     onError: (err) => {
+      // Surface API failures — otherwise a rejected save is completely
+      // silent and looks like "the API did not respond".
+      const apiMessage = err?.response?.data?.message;
+      const status = err?.response?.status;
+      const fallback = err?.request && !err?.response ? "API not reachable — is the server running?" : err?.message;
+      ToastNotification("error", apiMessage ? `${apiMessage}${status ? ` (${status})` : ""}` : fallback);
       errFunction && errFunction(err);
       return err;
     },

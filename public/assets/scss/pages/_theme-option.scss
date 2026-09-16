@@ -193,6 +193,22 @@
     font-weight: 500;
     font-size: 14px;
   }
+
+  // Editable hex field next to the swatch (paste #f6efef for fast pick).
+  .form-control.color-hex-text {
+    width: 100px;
+    height: auto;
+    padding: 0 4px;
+    font-weight: 500;
+    font-size: 14px;
+    border: none;
+    background: transparent;
+
+    &:focus {
+      box-shadow: none;
+      border-bottom: 1px solid #ededed;
+    }
+  }
 }
 
 .layout-selection-sec {

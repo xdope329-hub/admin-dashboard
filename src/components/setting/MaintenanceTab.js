@@ -3,7 +3,7 @@ import { Col, Input, Label, Row } from "reactstrap";
 import CheckBoxField from '../inputFields/CheckBoxField';
 import FileUploadField from '../inputFields/FileUploadField';
 import SimpleInputField from '../inputFields/SimpleInputField';
-import { dateFormat } from '@/utils/customFunctions/DateFormat';
+import { dateFormat, safeDateRange } from '@/utils/customFunctions/DateFormat';
 import useOutsideDropdown from '@/utils/hooks/customHooks/useOutsideDropdown';
 import { useEffect, useState } from 'react';
 import { DateRange } from "react-date-range";
@@ -13,12 +13,13 @@ const MaintenanceTab = ({ values, setFieldValue, errors }) => {
 
   const { t } = useTranslation('common');
   const { ref, isComponentVisible, setIsComponentVisible } = useOutsideDropdown();
-  const [state, setState] = useState([{
-    startDate: new Date(values['start_date']),
-    endDate: addDays(new Date(values['end_date']), 1),
-    key: 'selection'
-  }
-  ]);
+  // Dates can be empty (new record) or ISO strings — both used to reach
+  // react-date-range as Invalid Date and crash <Month> with
+  // "RangeError: Invalid time value".
+  const [state, setState] = useState(() => {
+    const range = safeDateRange(values['start_date'], values['end_date']);
+    return [{ ...range[0], endDate: addDays(range[0].endDate, range[0].endDate > range[0].startDate ? 0 : 1) }];
+  });
   useEffect(() => {
     if (state[0].startDate == state[0].endDate) {
       const updateDate = addDays(new Date(state[0].startDate), 1)

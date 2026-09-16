@@ -3,6 +3,9 @@ import * as Yup from "yup";
 export const YupObject = (schemaObject) => Yup.object().shape(schemaObject);
 
 export const emailSchema = Yup.string().email("Enter Valid Email").required();
+// Same format check, but blank is allowed — for fields that are helpers rather
+// than saved values (e.g. the settings page's "send test email" recipient).
+export const optionalEmailSchema = Yup.string().email("Enter Valid Email").notRequired();
 export const passwordSchema = Yup.string()
   .min(8, "Too Short!")
   .max(20, "Too Long!")

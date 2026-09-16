@@ -29,6 +29,18 @@ const NumberTable = ({ data }) => {
                             </td>
                             <td>
                                 <h6>{elem?.pivot?.variation ? elem?.pivot?.variation?.name : elem?.name}</h6>
+                                {/* Variante comprada: cada atributo (Color, Talla…) y el SKU,
+                                    tal como quedaron guardados en el pedido. */}
+                                {elem?.variation_attributes?.length > 0 && (
+                                    <div className="order-line-attributes text-muted small">
+                                        {elem.variation_attributes.map((attr, i) => (
+                                            <span key={i} className="me-2"><strong>{attr?.name}:</strong> {attr?.value}</span>
+                                        ))}
+                                    </div>
+                                )}
+                                {elem?.sku && (
+                                    <div className="order-line-sku text-muted small"><strong>{t("Sku")}:</strong> {elem.sku}</div>
+                                )}
                             </td>
                             <td>
                                 <h6>{convertCurrency(elem?.pivot?.single_price)}</h6>

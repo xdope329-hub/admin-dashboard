@@ -28,7 +28,7 @@ export function ProductInitValues(oldData, updateId) {
   }
   // variation_options derived directly from saved attribute_values
   const savedVariationOptions = oldData?.variations
-    ?.map((v) => v?.attribute_values)
+    ?.map((v) => (Array.isArray(v?.attribute_values) ? v.attribute_values.filter(Boolean) : v?.attribute_values))
     ?.filter((av) => Array.isArray(av) && av.length > 0) || [];
   return {
     // General
@@ -44,8 +44,8 @@ export function ProductInitValues(oldData, updateId) {
     product_thumbnail_id: updateId ? oldData?.product_thumbnail?.id || "" : "",
     size_chart_image: updateId ? oldData?.size_chart_image || "" : "",
     size_chart_image_id: updateId ? oldData?.size_chart_image?.id || "" : "",
-    product_galleries: updateId ? oldData?.product_galleries?.map((img) => img) || "" : "",
-    product_galleries_id: updateId ? oldData?.product_galleries?.map((elem) => elem.id) || "" : "",
+    product_galleries: updateId ? oldData?.product_galleries?.filter(Boolean) || "" : "",
+    product_galleries_id: updateId ? oldData?.product_galleries?.filter(Boolean).map((elem) => elem?.id ?? elem) || "" : "",
     watermark: updateId ?  oldData?.watermark ? false : false : false,
     watermark_position: updateId ? "center" : "center",
     watermark_image: updateId ? "" : "",
@@ -86,12 +86,17 @@ export function ProductInitValues(oldData, updateId) {
     sale_starts_at: updateId ? oldData?.sale_starts_at || null : null,
     sale_expired_at: updateId ? oldData?.sale_expired_at || null : null,
     unit: updateId ? oldData?.unit || "" : "",
-    tags: updateId ? oldData?.tags?.map((item) => item.id) || [] : [],
-    categories: updateId ? oldData?.categories?.map((item) => item.id) || [] : [],
-    brand_id : updateId ? oldData?.brand_id : '',
+    // Tags are stored on the product as plain name strings by the API; older
+    // saves could also leave null entries. Keep the raw string (or the tag
+    // object's name) and drop anything null so the form never crashes.
+    tags: updateId ? oldData?.tags?.filter(Boolean).map((item) => item?.name ?? item?.id ?? item) || [] : [],
+    categories: updateId ? oldData?.categories?.filter(Boolean).map((item) => item?.id ?? item) || [] : [],
+    brand_id : updateId ? oldData?.brand_id?.id ?? oldData?.brand_id ?? '' : '',
     is_random_related_products: updateId ? Boolean(Number(oldData?.is_random_related_products)) : true,
-    related_products: updateId ? oldData?.related_products?.map((elem) => elem) || [] : [],
-    cross_sell_products: updateId ? oldData?.cross_sell_products?.map((elem) => elem) || [] : [],
+    // Con "aleatorios" el API devuelve una muestra al azar en related_products;
+    // no es la selección del admin, así que el selector arranca vacío.
+    related_products: updateId && !Number(oldData?.is_random_related_products) ? oldData?.related_products?.filter(Boolean) || [] : [],
+    cross_sell_products: updateId ? oldData?.cross_sell_products?.filter(Boolean) || [] : [],
    
     // SEO
     meta_title: updateId ? oldData?.meta_title || "" : "",

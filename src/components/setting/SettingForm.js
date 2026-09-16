@@ -10,7 +10,8 @@ import { SettingTabTitleListData } from "../../data/TabTitleList";
 import Btn from "../../elements/buttons/Btn";
 import request from "../../utils/axiosUtils";
 import { setting } from "../../utils/axiosUtils/API";
-import { YupObject, emailSchema, nameSchema } from "../../utils/validation/ValidationSchemas";
+import { YupObject, optionalEmailSchema, nameSchema } from "../../utils/validation/ValidationSchemas";
+import FormValidationNotifier from "../commonComponent/FormValidationNotifier";
 import SaveAsPresetButton from "../preset/SaveAsPresetButton";
 import AllTabs from "./AllTabs";
 
@@ -42,7 +43,11 @@ const SettingForm = ({ mutate, loading, title }) => {
   if (isLoading && !data) return null;
 
   const validationSchema = YupObject({
-    email: emailSchema,
+    // `email` is only the recipient for the "Send Email" test button, not a
+    // saved setting — requiring it made the Save button do nothing (silently)
+    // until something was typed there. Validate the format when filled, and
+    // leave it optional otherwise.
+    email: optionalEmailSchema,
     values: YupObject({
       general: YupObject({ site_title: nameSchema }),
     }),
@@ -75,6 +80,13 @@ const SettingForm = ({ mutate, loading, title }) => {
       }}
       onSubmit={(values) => {
         values["_method"] = "put";
+        // Databases seeded by the API defaults have no maintenance/general/email
+        // sections yet — writing into them blind threw mid-submit and made the
+        // Save button appear dead. Ensure the sections exist first.
+        values["values"] = values["values"] || {};
+        ["general", "maintenance", "email"].forEach((section) => {
+          values["values"][section] = values["values"][section] || {};
+        });
         values["values"]["maintenance"]["start_date"] = dateSubmitValue(values["start_date"]);
         values["values"]["maintenance"]["end_date"] = dateSubmitValue(values["end_date"]);
         values["values"]["general"]["default_timezone"] = values["default_timezone"];
@@ -97,6 +109,7 @@ const SettingForm = ({ mutate, loading, title }) => {
               <h5>{t(title)}</h5>
             </div>
             <Form className="theme-form theme-form-2 mega-form vertical-tabs" style={{ position: 'relative' }}>
+              <FormValidationNotifier labels={{ email: "TestEmailAddress", site_title: "SiteTitle" }} />
               {loading && (
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.75)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 10, borderRadius: 'inherit' }}>
                   <div className="spinner-border text-primary" role="status" style={{ width: '2.5rem', height: '2.5rem' }} />

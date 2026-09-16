@@ -20,6 +20,13 @@ const ModalButton = ({ setModal, attachmentsData, dispatch, state, name, setSele
                     state.selectedImage && setSelectedImage([...state.selectedImage]);
                     state.selectedImage && setFieldValue && setFieldValue(name, state.selectedImage.map((elemmm) => elemmm.id));
                 });
+                // Also store the attachment objects under the matching
+                // "*_images" field (nested-name safe: "variations[0][variation_images_id]"
+                // → "variations[0][variation_images]") so previews can be
+                // re-seeded outside this uploader (e.g. copy-to-same-color).
+                if (state.selectedImage && setFieldValue && name?.endsWith('_id]')) {
+                    setFieldValue(name.replace(/_id\]$/, ']'), [...state.selectedImage]);
+                }
             } else {
                 if (state?.selectedImage?.length > 0) {
                     if (showImage) {

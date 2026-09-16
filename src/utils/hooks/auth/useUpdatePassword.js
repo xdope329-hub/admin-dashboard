@@ -16,7 +16,8 @@ const useUpdatePassword = () => {
       request({
         url: updatePassword,
         method: "post",
-        data: { ...data, token: cookies.uo, email: cookies.ue },
+        // `uo` guarda el reset_token de un solo uso que devolvió /verify-otp.
+        data: { ...data, reset_token: cookies.uo, token: cookies.uo, email: cookies.ue },
       },router),
     {
       onSuccess: (resData) => {

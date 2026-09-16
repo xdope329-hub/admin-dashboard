@@ -14,6 +14,7 @@ const AllRefundTable = ({ data, ...props }) => {
         column: [
             { title: "OrderNumber", apiKey: "order_id" },
             { title: "ConsumerName", apiKey: "consumer_name", sorting: true, sortBy: "desc" },
+            { title: "Product", apiKey: "product_name" },
             { title: "Reason", apiKey: "reason" },
             { title: "Status", apiKey: "refund_status" },
             { title: "CreateAt", apiKey: "created_at", sorting: true, sortBy: "desc", type: "date" },
@@ -22,6 +23,7 @@ const AllRefundTable = ({ data, ...props }) => {
     };
     let refunds = headerObj?.data?.filter((element) => {
         element.consumer_name = element?.user?.name
+        element.product_name = element?.product?.name || '-'
         element.order_id = <span className="fw-bolder">#{element?.order?.order_number}</span>
         element.refund_status = element.status ? <div className={`status-${element.status}`}><span>{element.status.replace(/_/g, " ")}</span></div> : '-';
         return element;

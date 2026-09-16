@@ -1,6 +1,6 @@
 import { DateRangePicker } from 'react-date-range'
 import { Input } from 'reactstrap'
-import { dateFormat } from '../../utils/customFunctions/DateFormat';
+import { dateFormat, safeDateRange } from '../../utils/customFunctions/DateFormat';
 import CloseDateRange from './CloseDateRange';
 import useOutsideDropdown from '../../utils/hooks/customHooks/useOutsideDropdown';
 import { RiCalendarLine } from 'react-icons/ri';
@@ -25,7 +25,7 @@ const CalenderFilter = ({ date, setDate }) => {
                 showSelectionPreview={true}
                 moveRangeOnFirstSelection={false}
                 months={2}
-                ranges={date ? date : false}
+                ranges={safeDateRange(date?.[0]?.startDate, date?.[0]?.endDate)}
                 endDatePlaceholder="End Date"
                 footerContent={<CloseDateRange setDate={setDate} setIsComponentVisible={setIsComponentVisible} />}
                 startDatePlaceholder="Start Date"
