@@ -19,6 +19,32 @@ import ModalData from "./ModalData";
 import ModalNav from "./ModalNav";
 import { useRouter } from "next/navigation";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
+// CAMBIO: librería de compresión. Corre en un Web Worker, no bloquea la UI.
+import imageCompression from "browser-image-compression";
+
+// CAMBIO: solo comprimimos imágenes (jpg/png/webp/gif). PDFs y ZIPs se
+// suben tal cual, ya que imageCompression solo sabe procesar imágenes.
+// maxSizeMB apunta a un tamaño objetivo; la librería ajusta calidad/
+// dimensiones iterativamente hasta acercarse a ese límite.
+const COMPRESSIBLE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+const COMPRESSION_OPTIONS = {
+    maxSizeMB: 8,           // objetivo: que ningún archivo pase de ~4MB
+    maxWidthOrHeight: 2500, // suficiente para mockups de producto en alta res
+    useWebWorker: true,
+};
+
+async function compressIfImage(file) {
+    if (!COMPRESSIBLE_TYPES.includes(file.type)) return file;
+    try {
+        const compressed = await imageCompression(file, COMPRESSION_OPTIONS);
+        // browser-image-compression devuelve un Blob; lo re-envolvemos en un
+        // File para conservar el nombre original al armar el FormData.
+        return new File([compressed], file.name, { type: compressed.type });
+    } catch (err) {
+        console.error("Error comprimiendo imagen, se sube el archivo original:", err);
+        return file;
+    }
+}
 
 const AttachmentModal = (props) => {
     const { modal, setModal, setFieldValue, name, setSelectedImage, isAttachment, multiple, values, showImage, redirectToTabs, noAPICall ,selectedImage ,paramsProps } = props
@@ -92,9 +118,16 @@ const AttachmentModal = (props) => {
                             <Formik
                                 initialValues={{ attachments: "" }}
                                 validationSchema={YupObject({ attachments: requiredSchema })}
-                                onSubmit={(values, { resetForm }) => {
+                                onSubmit={async (values, { resetForm }) => {
+                                    // CAMBIO: comprimimos cada archivo (si es imagen) antes de
+                                    // armar el FormData. Esto cubre tanto los archivos que
+                                    // llegaron por drag & drop como los seleccionados con el
+                                    // input de archivo, porque ambos terminan aquí.
+                                    const rawFiles = Object.values(values.attachments);
+                                    const filesToUpload = await Promise.all(rawFiles.map(compressIfImage));
+
                                     let formData = new FormData();
-                                    Object.values(values.attachments).forEach((el, i) => {
+                                    filesToUpload.forEach((el, i) => {
                                         formData.append(`attachments[${i}]`, el);
                                     });
                                     mutate(formData);
