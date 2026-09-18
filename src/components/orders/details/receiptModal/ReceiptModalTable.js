@@ -20,7 +20,22 @@ const ReceiptModalTable = ({ data }) => {
                     return (
                         <tr key={index}>
                             <td className="quantity">{elem?.pivot?.quantity}</td>
-                            <td className="description">{elem?.pivot?.variation?.name || elem.name}</td>
+                            <td className="description">
+                                {elem?.pivot?.variation?.name || elem.name}
+                                {Array.isArray(elem?.bundle_selections) && elem.bundle_selections.length > 0 && (
+                                    <ul className="small mb-0 mt-1 ps-3">
+                                        {elem.bundle_selections.map((sel, i) => {
+                                            const attrs = (sel?.variation_attributes || []).map((a) => `${a.name}: ${a.value}`).join(", ");
+                                            const details = sel?.variation_name || attrs || null;
+                                            return (
+                                                <li key={i}>
+                                                    {sel?.product_name || "—"}{details ? ` — ${details}` : ""}
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                )}
+                            </td>
                             <td className="price">{convertCurrency(elem?.pivot?.subtotal)}</td>
                         </tr>
                     )
