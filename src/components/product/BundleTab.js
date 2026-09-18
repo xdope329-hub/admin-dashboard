@@ -15,10 +15,12 @@ const BundleTab = ({ values, setFieldValue, updateId }) => {
   const router = useRouter();
   const [search, setSearch] = useState("");
 
-  // Ids ya seleccionados + el propio producto (para excluirlo del picker).
+  // Ids ya seleccionados (para bootstrap del picker). Se permiten duplicados:
+  // el mismo producto puede aparecer varias veces en el bundle con distintas
+  // variantes permitidas.
   const items = useMemo(() => (Array.isArray(values?.bundle_items) ? values.bundle_items : []), [values?.bundle_items]);
   const selectedIds = useMemo(() => items.map((it) => String(it.product_id)).filter(Boolean), [items]);
-  const bootstrapIds = useMemo(() => selectedIds.join(",") || null, [selectedIds]);
+  const bootstrapIds = useMemo(() => Array.from(new Set(selectedIds)).join(",") || null, [selectedIds]);
 
   // Trae productos activos por búsqueda O por ids ya guardados (para poder
   // mostrar los seleccionados aunque el término de búsqueda no los incluya).
@@ -36,7 +38,7 @@ const BundleTab = ({ values, setFieldValue, updateId }) => {
   }, [options]);
 
   const addItem = (productId) => {
-    if (!productId || selectedIds.includes(String(productId))) return;
+    if (!productId) return;
     if (updateId && String(productId) === String(updateId)) return;
     setFieldValue("bundle_items", [...items, { product_id: productId, allowed_variation_ids: [] }]);
   };
@@ -69,7 +71,6 @@ const BundleTab = ({ values, setFieldValue, updateId }) => {
         <div className="mt-2" style={{ maxHeight: 200, overflow: "auto", border: "1px solid #eee" }}>
           {(options || [])
             .filter((p) => (updateId ? String(p.id) !== String(updateId) : true))
-            .filter((p) => !selectedIds.includes(String(p.id)))
             .filter((p) => p.type !== "bundle")
             .map((p) => (
               <div key={p.id} className="d-flex justify-content-between align-items-center px-2 py-1 border-bottom">
