@@ -46,6 +46,7 @@ const InventoryTab = ({ values, setFieldValue, errors, updateId, touched, setErr
                 options: [
                   { id: "simple", name: "Simple Product" },
                   { id: "classified", name: "Variable Product" },
+                  { id: "bundle", name: "Bundle (Grupo)" },
                 ],
               },
             },
@@ -75,7 +76,7 @@ const InventoryTab = ({ values, setFieldValue, errors, updateId, touched, setErr
           { name: "quantity", title: "StockQuantity", placeholder: t("EnterQuantity"), type: "number", require: "true" },
         ]}
       />
-      {values["type"] === "simple" && (
+      {(values["type"] === "simple" || values["type"] === "bundle") && (
         <SimpleInputField
           nameList={[
             { name: "price", type: "number", inputaddon: "true", placeholder: t("EnterPrice") },

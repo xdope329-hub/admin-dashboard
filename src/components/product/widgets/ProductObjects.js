@@ -89,6 +89,12 @@ export function ProductInitValues(oldData, updateId) {
     tags: updateId ? oldData?.tags?.map((item) => item.id) || [] : [],
     categories: updateId ? oldData?.categories?.map((item) => item.id) || [] : [],
     brand_id : updateId ? oldData?.brand_id : '',
+    bundle_items: updateId
+      ? (oldData?.bundle_items || []).map((it) => ({
+          product_id: it?.product_id?.id || it?.product_id?._id || it?.product_id,
+          allowed_variation_ids: (it?.allowed_variation_ids || []).map(String),
+        }))
+      : [],
     is_random_related_products: updateId ? Boolean(Number(oldData?.is_random_related_products)) : true,
     related_products: updateId ? oldData?.related_products?.map((elem) => elem) || [] : [],
     cross_sell_products: updateId ? oldData?.cross_sell_products?.map((elem) => elem) || [] : [],

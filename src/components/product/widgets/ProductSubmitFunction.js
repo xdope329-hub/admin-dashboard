@@ -5,6 +5,12 @@ const ProductSubmitFunction = (mutate, value, updateId) => {
     delete value["sale_price"];
     delete value["discount"];
   }
+  if (value["type"] == "bundle") {
+    value["variations"] = [];
+    value["bundle_items"] = (value["bundle_items"] || []).filter((it) => it && it.product_id);
+  } else {
+    value["bundle_items"] = [];
+  }
   if (value["is_random_related_products"]) {
     value["related_products"] = [];
   }

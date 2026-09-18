@@ -53,6 +53,11 @@ export const ProductTabTitleListData = [
     inputs: ["type", "stock_status", "sku", "quantity", "price", "sale_price", "show_stock_quantity", "discount", "visible_time", "variations", "is_licensable", "is_licensekey_auto", "separator", "license_key"],
   },
   {
+    title: "Bundle",
+    icon: <RiDatabaseLine />,
+    inputs: ["bundle_items"],
+  },
+  {
     title: "Digital Product",
     icon: <RiComputerLine />,
     inputs: ["is_licensable", "is_licensekey_auto", "separator", "license_key", "preview_audio_file_id", "preview_type", "preview_video_file_id", "preview_url"],
