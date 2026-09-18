@@ -26,7 +26,10 @@ const OrderDetailsContain = ({ updateId }) => {
     const { data: orderStatusData, refetch: orderStatusRefetch, isLoading: orderStatusLoader } = useCustomQuery([OrderStatusAPI], () => request({ url: OrderStatusAPI }, router), { enabled: false, refetchOnWindowFocus: false, select: (data) => data?.data?.data });
 
     // Update Status in Order API
-    const { data: orderStatusUpdate, mutate } = useCreate(OrderAPI, data?.id, false, "No");
+    // Tras un cambio aceptado se vuelve a leer el pedido: así el selector
+    // recibe los nuevos `allowed_next_statuses` del backend. Un salto
+    // rechazado (422) se muestra como toast desde useCreate.
+    const { data: orderStatusUpdate, mutate } = useCreate(OrderAPI, data?.id, false, "No", () => refetch());
 
     useEffect(() => {
         if (data) {

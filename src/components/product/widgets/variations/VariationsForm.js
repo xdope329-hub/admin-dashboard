@@ -68,6 +68,66 @@ const VariationsForm = ({ values, setFieldValue, newId, index, elem, errors, upd
     setSelectedFields({});
   };
 
+  // ── Auto SKU / name for new variations ───────────────────────────────────────
+  // Name = the variant label verbatim, e.g. "Blanco Marfil/S".
+  // SKU  = <productname>_<label>,   e.g. "gatocurioso_Blanco Marfil/S"
+  // (product name lowercased with spaces removed; label kept as-is).
+  // Only fills EMPTY fields (never overwrites a manual or saved value), and
+  // re-runs when the product name changes or variants are regenerated —
+  // clearing the field by hand does not trigger an instant refill.
+  // Build the label in the order the attributes were configured (Color first,
+  // then Talla) — newId is alphabetically sorted, which would give "L/Negro".
+  const variantLabel = (() => {
+    if (!(Array.isArray(elem) && elem.length && elem.every((v) => v && v.value))) return "";
+    const attrOrder = (values["combination"] || []).map((c) => c?.name?.id);
+    return [...elem]
+      .sort((a, b) => attrOrder.indexOf(a.attribute_id) - attrOrder.indexOf(b.attribute_id))
+      .map((v) => v.value)
+      .join("/");
+  })();
+  useEffect(() => {
+    if (!variantLabel) return;
+    const current = values["variations"]?.[index] || {};
+    const productSlug = (values["name"] || "").trim().toLowerCase().replace(/\s+/g, "");
+    // Fill only fields that were never set (undefined/null — i.e. a freshly
+    // generated variation). A field the user cleared to "" is left alone.
+    // Depends on the variations ARRAY identity: any regeneration replaces the
+    // array, so this re-runs even when React batches the intermediate states.
+    if (current.sku == null && productSlug) {
+      setFieldValue(`variations[${index}][sku]`, `${productSlug}_${variantLabel}`);
+    }
+    if (current.name == null) {
+      setFieldValue(`variations[${index}][name]`, variantLabel);
+    }
+  }, [values["name"], variantLabel, values["variations"]]);
+
+  // ── Share images across same-color variations ────────────────────────────────
+  // Photos are per color, not per size: "S / Negro" and "L / Negro" use the
+  // same gallery. This copies this variation's images to every variation with
+  // the same Color value (or to all variations when no Color attribute exists).
+  const colorOf = (i) =>
+    values["variation_options"]?.[i]?.filter(Boolean).find((o) => /col(o|ou)r/i.test(o?.name || ""))?.value;
+  const myColor = colorOf(index);
+  const imageTargets = (values["variations"] || [])
+    .map((_, i) => i)
+    .filter((i) => i !== index && (myColor ? colorOf(i) === myColor : true));
+
+  const copyImagesToSiblings = () => {
+    const source = values["variations"][index];
+    const ids = source?.variation_images_id || [];
+    if (!ids.length) return;
+    const updated = values["variations"].map((v, i) =>
+      imageTargets.includes(i)
+        ? {
+            ...v,
+            variation_images_id: [...ids],
+            variation_images: source.variation_images?.length ? [...source.variation_images] : v.variation_images,
+          }
+        : v
+    );
+    setFieldValue("variations", updated);
+  };
+
   return (
     <div className="shipping-accordion-custom" key={index}>
       <div className="p-3 rule-dropdown d-flex justify-content-between" onClick={() => setActive((prev) => prev !== index ? index : null)}>
@@ -105,6 +165,16 @@ const VariationsForm = ({ values, setFieldValue, newId, index, elem, errors, upd
           />
 
           <FileUploadField multiple={true} name={`variations[${index}][variation_images_id]`} id={`variations[${index}][variation_images_id]`} uniquename={values[`variations`][index]["variation_images"]?.length ? values[`variations`][index]["variation_images"] : undefined} type="file" values={values} setFieldValue={setFieldValue} title="Images" />
+          {values["variations"]?.[index]?.["variation_images_id"]?.length > 0 && imageTargets.length > 0 && (
+            <div className="mb-3 text-end">
+              <button type="button" className="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1" onClick={copyImagesToSiblings}>
+                <RiFileCopyLine />
+                {myColor
+                  ? `${t("CopyImagesToSameColor")} (${myColor} · ${imageTargets.length})`
+                  : `${t("CopyImagesToAllVariations")} (${imageTargets.length})`}
+              </button>
+            </div>
+          )}
 
           {values.product_type == "digital" ? (
             <>

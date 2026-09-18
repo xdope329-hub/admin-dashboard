@@ -6,7 +6,7 @@ import UsageTabContent from "./widgets/UsageTabContent";
 import { CouponTabTitleListData } from "@/data/TabTitleList";
 import { useEffect } from "react";
 
-const CouponTab = ({ buttonName, setActiveTab, values, touched, activeTab, isSubmitting, setFieldValue, errors }) => {
+const CouponTab = ({ buttonName, loading, setActiveTab, values, touched, activeTab, isSubmitting, setFieldValue, errors }) => {
   useEffect(() => {
     let couponErrorTab = CouponTabTitleListData.map((main) => main.inputs.filter((item) => errors[item] && touched[item])).findIndex((innerArray) => Array.isArray(innerArray) && innerArray.some((item) => typeof item == "string"));
 
@@ -25,7 +25,7 @@ const CouponTab = ({ buttonName, setActiveTab, values, touched, activeTab, isSub
       <TabPane tabId="3">
         <UsageTabContent values={values} />
       </TabPane>
-      <FormBtn buttonName={buttonName} />
+      <FormBtn buttonName={buttonName} loading={loading} />
     </TabContent>
   );
 };

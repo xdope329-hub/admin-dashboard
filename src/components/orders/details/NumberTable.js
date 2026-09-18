@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { placeHolderImage } from '@/data/CommonPath';
 
 const NumberTable = ({ data }) => {
-    
+
     const { t } = useTranslation( 'common');
     const { convertCurrency } = useContext(SettingContext)
     return (
@@ -29,6 +29,19 @@ const NumberTable = ({ data }) => {
                             </td>
                             <td>
                                 <h6>{elem?.pivot?.variation ? elem?.pivot?.variation?.name : elem?.name}</h6>
+                                {/* Variante comprada: cada atributo (Color, Talla…) y el SKU,
+                                    tal como quedaron guardados en el pedido. */}
+                                {elem?.variation_attributes?.length > 0 && (
+                                    <div className="order-line-attributes text-muted small">
+                                        {elem.variation_attributes.map((attr, i) => (
+                                            <span key={i} className="me-2"><strong>{attr?.name}:</strong> {attr?.value}</span>
+                                        ))}
+                                    </div>
+                                )}
+                                {elem?.sku && (
+                                    <div className="order-line-sku text-muted small"><strong>{t("Sku")}:</strong> {elem.sku}</div>
+                                )}
+                                {/* Bundle: composición congelada al comprar (producto hijo + variante). */}
                                 {Array.isArray(elem?.bundle_selections) && elem.bundle_selections.length > 0 && (
                                     <ul className="bundle-selections small text-muted mb-0 mt-1 ps-3">
                                         {elem.bundle_selections.map((sel, i) => {

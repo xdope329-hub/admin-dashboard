@@ -58,7 +58,8 @@ const SetupTab = ({ values, setFieldValue, errors, updateId }) => {
       refetchOnWindowFocus: false,
       select: (res) =>
         res?.data?.data
-          .filter((elem) => (updateId ? elem?.id !== Number(updateId) : elem))
+          // Un producto no puede relacionarse consigo mismo (los ids son ObjectId, no números).
+          .filter((elem) => (updateId ? String(elem?.id) !== String(updateId) : elem))
           .map((elem) => {
             return { id: elem.id, name: elem.name, image: elem?.product_thumbnail?.original_url || "/assets/images/placeholder.png", slug: elem?.slug };
           }),
@@ -91,7 +92,8 @@ const SetupTab = ({ values, setFieldValue, errors, updateId }) => {
 
       <SimpleInputField nameList={[{ name: "unit", title: "Unit", placeholder: t("Enter Unit"), helpertext: "*Specify the measurement unit, such as 10 Pieces, 1 KG, 1 Ltr, etc." }]} />
 
-      <MultiSelectField errors={errors} values={values} setFieldValue={setFieldValue} name="tags" data={tagData || []} />
+      {/* Product tags are stored as name strings on the API, so match/store by name */}
+      <MultiSelectField errors={errors} values={values} setFieldValue={setFieldValue} name="tags" getValuesKey="name" data={tagData || []} />
 
       <MultiSelectField errors={errors} values={values} setFieldValue={setFieldValue} name="categories" require="true" data={categoryData || []} />
 

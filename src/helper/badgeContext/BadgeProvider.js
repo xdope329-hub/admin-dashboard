@@ -13,8 +13,11 @@ const BadgeProvider = (props) => {
     const [state, dispatch] = useReducer(settingReducer, { badges: [], notification: "" })
     const [notification, setNotification] = useState("")
     const router = useRouter();
+    // GET /badge responde { data: { product, review, ... } }: hay que
+    // desenvolver ese `data` (antes se leía un nivel arriba y todos los
+    // contadores quedaban undefined, así que ninguna insignia se mostraba).
     const { data, isLoading, refetch } = useCustomQuery([BadgeApi], () => request({ url: BadgeApi },router), {
-        enabled: false, select: (res) => res?.data
+        enabled: false, select: (res) => res?.data?.data ?? res?.data
     });
     useEffect(() => {
         cookies.uat && refetch()
@@ -29,6 +32,8 @@ const BadgeProvider = (props) => {
                     { path: "/store", value: data?.store?.total_in_approved_stores, subKey: ["store", "total_in_approved_stores"] },
                     { path: "/refund", value: data?.refund?.total_pending_refunds, subKey: ["refund", "total_pending_refunds"] },
                     { path: "/withdraw_request", value: data?.withdraw_request?.total_pending_withdraw_requests, subKey: ["withdraw_request", "total_pending_withdraw_requests"] },
+                    // Reseñas esperando moderación.
+                    { path: "/review", value: data?.review?.total_pending_reviews, subKey: ["review", "total_pending_reviews"] },
                 ],
             })
         }

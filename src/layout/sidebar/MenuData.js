@@ -146,6 +146,8 @@ const MENUITEMS = [
     icon: <RiRefund2Line />,
     path: "/review",
     permission: ["review.index"],
+    badgeType: "badge bg-warning text-dark ml-3",
+    badgeValue: 0,
     type: "link",
   },
   {

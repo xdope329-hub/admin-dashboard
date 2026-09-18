@@ -13,7 +13,7 @@ import FileUploadField from "../inputFields/FileUploadField";
 import SimpleInputField from "../inputFields/SimpleInputField";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
 
-const BrandForm = ({ updateId, buttonName }) => {
+const BrandForm = ({ updateId, buttonName, mutate, loading }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
   const { data: oldData, isLoading, refetch } = useCustomQuery([updateId], () => request({ url: BrandAPI + "/" + updateId }, router), { refetchOnMount: false, enabled: false });
@@ -41,8 +41,10 @@ const BrandForm = ({ updateId, buttonName }) => {
           name: nameSchema,
         })}
         onSubmit={(values) => {
-          router.push("/brand");
-          // Please add your update or create logic
+          // Delegate to the page-level mutation (useCreate on /brand/create,
+          // useUpdate on /brand/edit/[id]); its SuccessHandle redirects back
+          // to /brand after the API confirms the save.
+          if (mutate) mutate(values);
         }}
       >
         {({ values, setFieldValue, errors, touched }) => (

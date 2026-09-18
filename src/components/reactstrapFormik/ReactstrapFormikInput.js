@@ -5,7 +5,7 @@ import { FormFeedback, FormGroup, Input, InputGroup, InputGroupText, Label } fro
 import SettingContext from "../../helper/settingContext";
 import { handleModifier } from "../../utils/validation/ModifiedErrorMessage";
 
-const ReactstrapFormikInput = ({ field: { ...fields }, form: { touched, errors }, ...props }) => {
+const ReactstrapFormikInput = ({ field: { ...fields }, form: { touched, errors, setFieldValue }, ...props }) => {
 
   function modifyingValue(value, object) {
     const keys = value.split(/\.|\[|\]/).filter(Boolean);
@@ -66,9 +66,31 @@ const ReactstrapFormikInput = ({ field: { ...fields }, form: { touched, errors }
             <>
               {
                 props.type == "color" ? <div className="color-box">
-                  <Input disabled={props.disable ? props.disable : false} {...fields}  {...props} value={fields.value||''} invalid={Boolean(touched[fields.name] && errors[fields.name])} valid={Boolean(touched[fields.name] && !errors[fields.name])} autoComplete="off" />
+                  {/* Swatch (native picker). Only feed it a complete #rrggbb value —
+                      while the user is typing a partial hex in the text box the
+                      swatch falls back to the last valid value or black. */}
+                  <Input disabled={props.disable ? props.disable : false} {...fields}  {...props} value={/^#[0-9a-fA-F]{6}$/.test(fields.value || "") ? fields.value : "#000000"} invalid={Boolean(touched[fields.name] && errors[fields.name])} valid={Boolean(touched[fields.name] && !errors[fields.name])} autoComplete="off" />
                   {touched[fields.name] && errors[fields.name] ? <FormFeedback>{t(handleModifier(errors[fields.name]))}</FormFeedback> : ""}
-                  <h6>{fields.value}</h6>
+                  {/* Editable hex: type or paste #f6efef (or f6efef / #fff) directly. */}
+                  <Input
+                    type="text"
+                    className="color-hex-text"
+                    placeholder="#000000"
+                    maxLength={7}
+                    value={fields.value || ""}
+                    autoComplete="off"
+                    disabled={props.disable ? props.disable : false}
+                    onChange={(e) => {
+                      let v = e.target.value.trim().toLowerCase().replace(/[^#0-9a-f]/g, "");
+                      if (v && v[0] !== "#") v = "#" + v;
+                      v = "#" + v.slice(1).replace(/#/g, "");
+                      setFieldValue(fields.name, v === "#" ? "" : v);
+                    }}
+                    onBlur={() => {
+                      const m = /^#([0-9a-f]{3})$/.exec(fields.value || "");
+                      if (m) setFieldValue(fields.name, "#" + m[1].split("").map((c) => c + c).join(""));
+                    }}
+                  />
                 </div>
                   :
                   <>

@@ -15,8 +15,12 @@ const client = axios.create({
 export function saveSession(payload = {}) {
   const at = payload.access_token || payload.token;
   const rt = payload.refresh_token;
-  if (at) Cookies.set(ACCESS_COOKIE, at, { path: "/", expires: 7 });
-  if (rt) Cookies.set(REFRESH_COOKIE, rt, { path: "/", expires: 30 });
+  // SameSite=Lax + Secure (en https): los tokens no viajan desde otros
+  // sitios ni en claro.
+  const secure = typeof window !== "undefined" && window.location?.protocol === "https:";
+  const flags = { path: "/", sameSite: "lax", ...(secure ? { secure: true } : {}) };
+  if (at) Cookies.set(ACCESS_COOKIE, at, { ...flags, expires: 7 });
+  if (rt) Cookies.set(REFRESH_COOKIE, rt, { ...flags, expires: 30 });
 }
 export function clearSession() {
   Cookies.remove(ACCESS_COOKIE, { path: "/" });
