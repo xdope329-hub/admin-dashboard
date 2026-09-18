@@ -29,6 +29,20 @@ const NumberTable = ({ data }) => {
                             </td>
                             <td>
                                 <h6>{elem?.pivot?.variation ? elem?.pivot?.variation?.name : elem?.name}</h6>
+                                {Array.isArray(elem?.bundle_selections) && elem.bundle_selections.length > 0 && (
+                                    <ul className="bundle-selections small text-muted mb-0 mt-1 ps-3">
+                                        {elem.bundle_selections.map((sel, i) => {
+                                            const attrs = (sel?.variation_attributes || []).map((a) => `${a.name}: ${a.value}`).join(", ");
+                                            const details = sel?.variation_name || attrs || null;
+                                            return (
+                                                <li key={i}>
+                                                    <strong>{sel?.product_name || "—"}</strong>
+                                                    {details ? ` — ${details}` : ""}
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                )}
                             </td>
                             <td>
                                 <h6>{convertCurrency(elem?.pivot?.single_price)}</h6>
