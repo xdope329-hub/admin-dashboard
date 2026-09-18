@@ -19,13 +19,14 @@ const OtpVerification = () => {
   const { mutate: otpVerification } = useOtpVerification(setShowBoxMessage);
   const { mutate: forgotPassword } = useHandleForgotPassword(setShowBoxMessage);
   const handleChange = (e) => {
-    if (e.target.value.length <= 5 && !isNaN(Number(e.target.value))) {
+    if (e.target.value.length <= 6 && !isNaN(Number(e.target.value))) {
       setOtp(e.target.value);
     }
   };
 
   useEffect(() => {
-    otp && otp.length === 5 && otpVerification({ email: cookies, token: otp });
+    // El API emite códigos de 6 dígitos (antes se enviaba con 5 y nunca validaba).
+    otp && otp.length === 6 && otpVerification({ email: cookies, token: otp });
   }, [otp]);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ const OtpVerification = () => {
             <div className="inner-otp">
               <Input
                 type="text"
-                maxLength="5"
+                maxLength="6"
                 onChange={handleChange}
                 value={otp}
               />

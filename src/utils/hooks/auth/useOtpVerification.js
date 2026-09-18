@@ -10,7 +10,9 @@ const useOtpVerification = (setShowBoxMessage) => {
   return useCustomMutation((data) => request({ url: verifyToken, method: "post", data },router), {
     onSuccess: (responseData, requestData) => {
       if (responseData.status === 200) {
-        Cookies.set('uo', requestData?.token)
+        // El API devuelve un token de un solo uso para /update-password;
+        // el código OTP ya no sirve después de verificarlo.
+        Cookies.set('uo', responseData?.data?.reset_token || requestData?.token)
         router.push("/auth/update-password");
         ToastNotification("success", responseData.data.message);
       } else {

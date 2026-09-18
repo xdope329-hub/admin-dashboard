@@ -8,12 +8,13 @@ import { useTranslation } from "react-i18next";
 import { Card, Col, Row } from "reactstrap";
 import SettingContext from "../../helper/settingContext";
 import request from "../../utils/axiosUtils";
-import { product } from "../../utils/axiosUtils/API";
+import { product, store } from "../../utils/axiosUtils/API";
 import { YupObject, nameSchema } from "../../utils/validation/ValidationSchemas";
 import Loader from "../commonComponent/Loader";
 import AllProductTabs from "./widgets/AllProductTabs";
 import { ProductInitValues, ProductValidationSchema } from "./widgets/ProductObjects";
 import ProductSubmitFunction from "./widgets/ProductSubmitFunction";
+import ValidationErrorNotifier from "./widgets/ValidationErrorNotifier";
 import useCustomQuery from "@/utils/hooks/useCustomQuery";
 
 const ProductForm = ({ updateId, title, buttonName, saveButton, setSaveButton, mutate, loading }) => {
@@ -34,6 +35,10 @@ const ProductForm = ({ updateId, title, buttonName, saveButton, setSaveButton, m
     [oldData, updateId]
   );
   const { role, accountData } = useContext(AccountContext);
+  // Only require a store when the multivendor flag is on AND there is at
+  // least one store to pick — otherwise "Store is required" makes every
+  // product impossible to save on single-vendor deployments.
+  const { data: storeList } = useCustomQuery([store], () => request({ url: store, params: { status: 1 } }, router), { refetchOnWindowFocus: false, select: (data) => data?.data?.data });
 
   if (updateId && oldDataLoading) return <Loader />;
   return (
@@ -41,7 +46,7 @@ const ProductForm = ({ updateId, title, buttonName, saveButton, setSaveButton, m
       initialValues={{ ...watchEvent(oldData, updateId) }}
       validationSchema={YupObject({
         ...ProductValidationSchema,
-        store_id: state?.isMultiVendor && role === "admin" && nameSchema,
+        store_id: state?.isMultiVendor && role === "admin" && storeList?.length > 0 && nameSchema,
       })}
       onSubmit={(values) => {
         if (updateId) {
@@ -53,6 +58,7 @@ const ProductForm = ({ updateId, title, buttonName, saveButton, setSaveButton, m
     >
       {({ values, setFieldValue, errors, touched, isSubmitting, setErrors, setTouched }) => (
         <Form className="theme-form theme-form-2 mega-form vertical-tabs">
+          <ValidationErrorNotifier />
           <Row>
             <Col> 
               <Card>

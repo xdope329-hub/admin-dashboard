@@ -14,6 +14,10 @@ import WalletPointTab from './WalletPointTab'
 import AnalyticsTab from './AnalyticsTab'
 import SMSConfiguration from './SMSConfigurationTab'
 import SeoTab from './SeoTab'
+import WhatsAppTab from './WhatsAppTab'
+import SocialNetworksTab from './SocialNetworksTab'
+import AnnouncementBarTab from './AnnouncementBarTab'
+import CapacityTab from './CapacityTab'
 
 const AllTabs = ({ values, activeTab, setFieldValue, errors, touched }) => {
     return (
@@ -35,6 +39,10 @@ const AllTabs = ({ values, activeTab, setFieldValue, errors, touched }) => {
                     <TabPane tabId="13"><MaintenanceTab values={values} setFieldValue={setFieldValue} errors={errors} /></TabPane>
                     <TabPane tabId="14"><LoaderTab values={values} setFieldValue={setFieldValue} errors={errors} /></TabPane>
                     <TabPane tabId="15"><SeoTab /></TabPane>
+                    <TabPane tabId="16"><WhatsAppTab /></TabPane>
+                    <TabPane tabId="17"><SocialNetworksTab /></TabPane>
+                    <TabPane tabId="18"><AnnouncementBarTab values={values} setFieldValue={setFieldValue} /></TabPane>
+                    <TabPane tabId="19"><CapacityTab /></TabPane>
                 </TabContent>
             </Col>
         </>

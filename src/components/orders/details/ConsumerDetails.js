@@ -9,14 +9,17 @@ const ConsumerDetails = ({ data }) => {
             <CardBody>
                 <div className="title-header" >
                     <div className="d-flex align-items-center">
-                        <h5>{("Consumer Details")}</h5>
+                        <h5>{t("ConsumerDetails")}</h5>
                     </div>
                 </div>
                 <div className="customer-detail tracking-wrapper">
                     <ul>
                         <li>
                             <label>{t("Name")}:</label>
-                            <h4>{data?.consumer?.name}</h4>
+                            <h4>
+                                {data?.consumer?.name}
+                                {data?.consumer?.is_guest && <span className="badge bg-secondary ms-2">{t("Guest")}</span>}
+                            </h4>
                         </li>
                         <li>
                             <label>{t("EmailAddress")}:</label>
@@ -25,7 +28,7 @@ const ConsumerDetails = ({ data }) => {
                         <li>
                             <label>{t("BillingAddress")}:</label>
                             <h4>
-                                {data?.billing_address?.street}
+                                {data?.billing_address?.street}{" "}
                                 {data?.billing_address?.city} {data?.billing_address?.state?.name} {
                                     data?.billing_address?.country?.name}
                                 {data?.billing_address?.pincode} <br />
@@ -36,7 +39,7 @@ const ConsumerDetails = ({ data }) => {
                             <li>
                                 <label>{t("ShippingAddress")}:</label>
                                 <h4>
-                                    {data?.shipping_address?.street}
+                                    {data?.shipping_address?.street}{" "}
                                     {data?.shipping_address?.city} {data?.shipping_address?.state?.name} {
                                         data?.shipping_address?.country?.name}
                                     {data?.shipping_address?.pincode} <br />

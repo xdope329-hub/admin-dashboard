@@ -1,5 +1,26 @@
+/**
+ * Coerce a Date | ISO string | null | "" into a real Date, or null.
+ * react-date-range runs date-fns `format()` on whatever it is given, which
+ * throws "RangeError: Invalid time value" on null/invalid input and takes the
+ * whole page down through the error boundary.
+ */
+export const toValidDate = (value) => {
+  if (value === null || value === undefined || value === "") return null;
+  const d = value instanceof Date ? value : new Date(value);
+  return Number.isNaN(d.getTime()) ? null : d;
+};
+
+/** Always hand react-date-range a range built from real Dates. */
+export const safeDateRange = (start, end, key = "selection") => {
+  const startDate = toValidDate(start) || new Date();
+  const parsedEnd = toValidDate(end);
+  const endDate = parsedEnd && parsedEnd >= startDate ? parsedEnd : startDate;
+  return [{ startDate, endDate, key }];
+};
+
 export const dateFormat = (date, noTime) => {
-  const d = new Date(date);
+  const d = toValidDate(date);
+  if (!d) return "";
   var hours = d.getHours();
   var minutes = d.getMinutes();
   var ampm = hours >= 12 ? 'pm' : 'am';

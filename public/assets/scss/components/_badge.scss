@@ -65,6 +65,76 @@
   }
 }
 
+// Estados logísticos del pedido que faltaban (enviado / en camino).
+.status-shipped {
+  span {
+    color: #7c3aed;
+    background-color: rgba($color: #7c3aed, $alpha: 0.1);
+  }
+}
+
+.status-out_for_delivery,
+.status-out-for-delivery {
+  span {
+    color: #0891b2;
+    background-color: rgba($color: #0891b2, $alpha: 0.1);
+  }
+}
+
+// Estado del PAGO: badges propios, distintos de los del pedido, para que
+// "pagado" nunca se lea como un estado logístico.
+[class^="payment-"],
+[class*=" payment-"] {
+  span {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px dashed currentColor;
+  }
+}
+
+.payment-completed {
+  span {
+    color: #2f8733;
+    background-color: rgba($color: #2f8733, $alpha: 0.08);
+  }
+}
+
+.payment-pending {
+  span {
+    color: #db8827;
+    background-color: rgba($color: #db8827, $alpha: 0.08);
+  }
+}
+
+.payment-rejected,
+.payment-cancelled,
+.payment-failed {
+  span {
+    color: #e22454;
+    background-color: rgba($color: #e22454, $alpha: 0.08);
+  }
+}
+
+.payment-refunded {
+  span {
+    color: #6b7280;
+    background-color: rgba($color: #6b7280, $alpha: 0.1);
+  }
+}
+
+// Listado de pedidos: dos filas de filtros (estado del pedido / pago).
+.order-filter-label {
+  flex: 0 0 auto;
+  margin-right: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
 .status-refund,
 .status-cancelled,
 .status-rejected {
