@@ -86,12 +86,15 @@ export function ProductInitValues(oldData, updateId) {
     sale_starts_at: updateId ? oldData?.sale_starts_at || null : null,
     sale_expired_at: updateId ? oldData?.sale_expired_at || null : null,
     unit: updateId ? oldData?.unit || "" : "",
-    // Tags are stored on the product as plain name strings by the API; older
-    // saves could also leave null entries. Keep the raw string (or the tag
-    // object's name) and drop anything null so the form never crashes.
-    tags: updateId ? oldData?.tags?.filter(Boolean).map((item) => item?.name ?? item?.id ?? item) || [] : [],
-    categories: updateId ? oldData?.categories?.filter(Boolean).map((item) => item?.id ?? item) || [] : [],
-    brand_id : updateId ? oldData?.brand_id?.id ?? oldData?.brand_id ?? '' : '',
+    tags: updateId ? oldData?.tags?.map((item) => item.id) || [] : [],
+    categories: updateId ? oldData?.categories?.map((item) => item.id) || [] : [],
+    brand_id : updateId ? oldData?.brand_id : '',
+    bundle_items: updateId
+      ? (oldData?.bundle_items || []).map((it) => ({
+          product_id: it?.product_id?.id || it?.product_id?._id || it?.product_id,
+          allowed_variation_ids: (it?.allowed_variation_ids || []).map(String),
+        }))
+      : [],
     is_random_related_products: updateId ? Boolean(Number(oldData?.is_random_related_products)) : true,
     // Con "aleatorios" el API devuelve una muestra al azar en related_products;
     // no es la selección del admin, así que el selector arranca vacío.

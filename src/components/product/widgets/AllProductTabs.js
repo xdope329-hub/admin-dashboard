@@ -7,9 +7,23 @@ import ProductImageTab from "../ProductImageTab";
 import SeoTab from "../SeoTab";
 import SetupTab from "../SetupTab";
 import ShippingTaxTab from "../ShippingTaxTab";
+import BundleTab from "../BundleTab";
 import { generateTitleList } from "./TitleList";
 import { useEffect } from "react";
 import VariationsTab from "./variations/VariationsTab";
+
+const TAB_COMPONENTS = {
+  General: GeneralTab,
+  "Product Images": ProductImageTab,
+  Inventory: InventoryTab,
+  Variations: VariationsTab,
+  Bundle: BundleTab,
+  "Digital Product": DigitalTab,
+  Setup: SetupTab,
+  SEO: SeoTab,
+  Shipping: ShippingTaxTab,
+  Status: OptionsTab,
+};
 
 const AllProductTabs = ({ setErrors, setTouched, values, setFieldValue, errors, updateId, activeTab, isSubmitting, setActiveTab, touched }) => {
   useEffect(() => {
@@ -21,101 +35,29 @@ const AllProductTabs = ({ setErrors, setTouched, values, setFieldValue, errors, 
       setActiveTab(String(productTabs + 1));
     }
   }, [isSubmitting]);
+
+  const tabs = generateTitleList(values);
   return (
     <Col xl="7" lg="8">
-      {values.product_type == "physical" && (
-        <TabContent activeTab={activeTab}>
-          <TabPane tabId="1" className="some">
-            <GeneralTab values={values} setFieldValue={setFieldValue} updateId={updateId} />
-          </TabPane>
-          <TabPane tabId="2">
-            <ProductImageTab values={values} setFieldValue={setFieldValue} errors={errors} updateId={updateId} />
-          </TabPane>
-          <TabPane tabId="3">
-            <InventoryTab setErrors={setErrors} setTouched={setTouched} values={values} setFieldValue={setFieldValue} errors={errors} updateId={updateId} touched={touched} />
-          </TabPane>
-
-          {values.type == "classified" && (
-            <TabPane tabId="4">
-              <VariationsTab values={values} setFieldValue={setFieldValue} errors={errors} updateId={updateId} />
+      <TabContent activeTab={activeTab}>
+        {tabs.map((tab, i) => {
+          const Component = TAB_COMPONENTS[tab.title];
+          if (!Component) return null;
+          return (
+            <TabPane key={tab.title} tabId={String(i + 1)}>
+              <Component
+                values={values}
+                setFieldValue={setFieldValue}
+                errors={errors}
+                updateId={updateId}
+                setErrors={setErrors}
+                setTouched={setTouched}
+                touched={touched}
+              />
             </TabPane>
-          )}
-
-          <TabPane tabId={values.type == "classified" ? "5" : "4"}>
-            <SetupTab values={values} setFieldValue={setFieldValue} errors={errors} updateId={updateId} />
-          </TabPane>
-
-          <TabPane tabId={values.type == "classified" ? "6" : "5"}>
-            <SeoTab values={values} setFieldValue={setFieldValue} updateId={updateId} />
-          </TabPane>
-
-          <TabPane tabId={values.type == "classified" ? "7" : "6"}>
-            <ShippingTaxTab values={values} setFieldValue={setFieldValue} updateId={updateId} />
-          </TabPane>
-
-          <TabPane tabId={values.type == "classified" ? "8" : "7"}>
-            <OptionsTab values={values} setFieldValue={setFieldValue} updateId={updateId} />
-          </TabPane>
-        </TabContent>
-      )}
-      {values.product_type == "digital" && (
-        <TabContent activeTab={activeTab}>
-          <TabPane tabId="1" className="some">
-            <GeneralTab values={values} setFieldValue={setFieldValue} updateId={updateId} />
-          </TabPane>
-          <TabPane tabId="2">
-            <ProductImageTab values={values} setFieldValue={setFieldValue} errors={errors} updateId={updateId} />
-          </TabPane>
-          <TabPane tabId="3">
-            <InventoryTab setErrors={setErrors} setTouched={setTouched} values={values} setFieldValue={setFieldValue} errors={errors} updateId={updateId} />
-          </TabPane>
-
-          {values.type == "classified" && (
-            <TabPane tabId="4">
-              <VariationsTab values={values} setFieldValue={setFieldValue} errors={errors} updateId={updateId} />
-            </TabPane>
-          )}
-
-          <TabPane tabId={values.type == "classified" ? "5" : "4"}>
-            <DigitalTab values={values} setFieldValue={setFieldValue} errors={errors} updateId={updateId} />
-          </TabPane>
-
-          <TabPane tabId={values.type == "classified" ? "6" : "5"}>
-            <SetupTab values={values} setFieldValue={setFieldValue} errors={errors} updateId={updateId} />
-          </TabPane>
-          <TabPane tabId={values.type == "classified" ? "7" : "6"}>
-            <SeoTab values={values} setFieldValue={setFieldValue} updateId={updateId} />
-          </TabPane>
-
-          <TabPane tabId={values.type == "classified" ? "8" : "7"}>
-            <OptionsTab values={values} setFieldValue={setFieldValue} updateId={updateId} />
-          </TabPane>
-        </TabContent>
-      )}
-      {values.product_type == "external" && (
-        <TabContent activeTab={activeTab}>
-          <TabPane tabId="1" className="some">
-            <GeneralTab values={values} setFieldValue={setFieldValue} updateId={updateId} />
-          </TabPane>
-          <TabPane tabId="2">
-            <ProductImageTab values={values} setFieldValue={setFieldValue} errors={errors} updateId={updateId} />
-          </TabPane>
-          <TabPane tabId="3">
-            <InventoryTab setErrors={setErrors} setTouched={setTouched} values={values} setFieldValue={setFieldValue} errors={errors} updateId={updateId} />
-          </TabPane>
-
-          <TabPane tabId="4">
-            <SetupTab values={values} setFieldValue={setFieldValue} errors={errors} updateId={updateId} />
-          </TabPane>
-          <TabPane tabId="5">
-            <SeoTab values={values} setFieldValue={setFieldValue} updateId={updateId} />
-          </TabPane>
-
-          <TabPane tabId="6">
-            <OptionsTab values={values} setFieldValue={setFieldValue} updateId={updateId} />
-          </TabPane>
-        </TabContent>
-      )}
+          );
+        })}
+      </TabContent>
     </Col>
   );
 };
